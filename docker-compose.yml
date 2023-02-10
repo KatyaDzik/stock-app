@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+  app:
+    image: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: stock-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - stock-app
+  db:
+    image: mysql:5.7
+    container_name: stock-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: stock
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+      MYSQL_USER: admin
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    depends_on:
+      - app
+    networks:
+      - stock-app
+
+networks:
+  stock-app:
+    driver: bridge
