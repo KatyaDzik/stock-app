@@ -36,7 +36,6 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/reposit
     && rm -rf /var/cache/apk/*
 
 COPY ./docker/php/php.ini /etc/php7/conf.d/50-setting.ini
-#COPY ./docker/php/php-fpm.conf /etc/php7/php-fpm.conf
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN curl -sS https://getcomposer.org/installer | php -- \
@@ -44,8 +43,5 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/local/bin
 
 WORKDIR /var/www
-#EXPOSE 9000
-#COPY ./src/stock /var/www
-#VOLUME /var/www
 
 CMD [ "php", "artisan", "serve" ]

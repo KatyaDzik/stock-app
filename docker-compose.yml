@@ -7,7 +7,7 @@ services:
       dockerfile: docker/php/Dockerfile
     container_name: stock-app
     volumes:
-      - "./src/stock:/var/www"
+      - "./src:/var/www"
     restart: always
     network_mode: host
   db:
@@ -19,5 +19,10 @@ services:
     volumes:
       - "./data/mysql:/var/lib/mysql"
     restart: always
+    environment:
+      MYSQL_DATABASE: stock
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+      MYSQL_USER: admin
     ports:
       - "8001:3306"
