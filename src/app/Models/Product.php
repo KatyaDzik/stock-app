@@ -9,14 +9,18 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'product',
+    ];
+
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasOne(Category::class);
     }
 
     public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(User::class, 'id', 'author_id');
     }
 
     public function stock()
@@ -24,7 +28,7 @@ class Product extends Model
         return $this->belongsToMany(Stock::class, 'product_has_stocks', 'product_id', 'stock_id');
     }
 
-    public function invoice()
+    public function invoices()
     {
         return $this->belongsToMany(Invoice::class, 'product_has_invoices', 'product_id', 'invoice_id');
     }

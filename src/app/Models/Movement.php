@@ -9,6 +9,11 @@ class Movement extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'from',
+        'to'
+    ];
+
     public function invoice()
     {
         return $this->hasOne(Invoice::class);
@@ -16,6 +21,6 @@ class Movement extends Model
 
     public function status()
     {
-        return $this->belongsTo(Status::class);
+        return $this->hasOne(Status::class);
     }
 }

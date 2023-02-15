@@ -9,6 +9,10 @@ class Status extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'status',
+    ];
+
     public function movements()
     {
         return $this->hasMany(Movement::class);

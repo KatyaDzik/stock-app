@@ -3,18 +3,24 @@
 namespace App\Repositories;
 
 use App\Models\Customer;
-use App\Models\Invoice;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 
 class CustomerRepository implements CustomerRepositoryInterface
 {
-    public function all()
+    public function getAll()
     {
         return Customer::all();
     }
 
+    public function invoices($id)
+    {
+        return $this->getById($id)->invoices;
+    }
+
     public function getById($id)
     {
-        return Customer::find($id);
+        $customer = Customer::find($id);
+        $customer->author;
+        return $customer;
     }
 }

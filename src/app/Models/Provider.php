@@ -9,6 +9,10 @@ class Provider extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+    ];
+
     public function invoices()
     {
         return $this->hasMany(Invoice::class);
@@ -16,6 +20,6 @@ class Provider extends Model
 
     public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(User::class, 'id', 'author_id');
     }
 }

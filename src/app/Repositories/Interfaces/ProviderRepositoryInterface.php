@@ -2,14 +2,11 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Models\Invoice;
-
-interface CustomerRepositoryInterface
+interface ProviderRepositoryInterface
 {
-    public function getAll();
+    public function getALL();
 
     public function getById($id);
 
     public function invoices($id);
-
 }

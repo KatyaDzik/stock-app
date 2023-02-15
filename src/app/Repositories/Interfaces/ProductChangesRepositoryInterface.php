@@ -2,9 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-interface CategoryIRepositoryInterface
+interface ProductChangesRepositoryInterface
 {
-    public function all();
-
     public function getById($id);
 }

@@ -9,14 +9,19 @@ class Invoice extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'number',
+        'date'
+    ];
+
     public function provider()
     {
-        return $this->belongsTo(Provider::class);
+        return $this->hasOne(Provider::class);
     }
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->hasOne(Customer::class);
     }
 
     public function movement()

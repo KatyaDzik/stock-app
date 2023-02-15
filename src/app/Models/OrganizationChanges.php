@@ -9,6 +9,10 @@ class OrganizationChanges extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+    ];
+
     protected $table = 'organization_changes';
 
     public function editor()

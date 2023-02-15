@@ -9,6 +9,11 @@ class Stock extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'stock',
+        'address'
+    ];
+
     public function products()
     {
         return $this->belongsToMany(Product::class, 'product_has_stocks', 'stock_id', 'product_id');
