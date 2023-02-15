@@ -4,20 +4,17 @@ namespace App\Repositories;
 
 use App\Models\Stock;
 use App\Repositories\Interfaces\StockRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
+
 
 class StockRepository implements StockRepositoryInterface
 {
-    public function getALL()
+    public function getALL(): Collection
     {
         return Stock::all();
     }
 
-    public function getProducts($id)
-    {
-        return $this->getById($id)->products;
-    }
-
-    public function getById($id)
+    public function getById($id): Stock
     {
         return Stock::find($id);
     }

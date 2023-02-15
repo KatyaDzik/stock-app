@@ -2,11 +2,14 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Models\Provider;
+use Illuminate\Database\Eloquent\Collection;
+
 interface ProviderRepositoryInterface
 {
-    public function getALL();
+    public function getALL(): Collection;
 
-    public function getById($id);
+    public function getById($id): Provider;
 
-    public function invoices($id);
+    public function getProviderByInvoice($id): Provider;
 }

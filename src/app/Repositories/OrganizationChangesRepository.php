@@ -7,7 +7,7 @@ use App\Repositories\Interfaces\OrganizationChangesRepositoryInterface;
 
 class OrganizationChangesRepository implements OrganizationChangesRepositoryInterface
 {
-    public function getById($id)
+    public function getById($id): OrganizationChanges
     {
         return OrganizationChanges::find($id);
     }

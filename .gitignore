@@ -1,3 +1,4 @@
-data/
+data/mysql/
 src/.env
 src/vendor/
+.idea/

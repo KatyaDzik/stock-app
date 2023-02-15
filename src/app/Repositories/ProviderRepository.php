@@ -4,24 +4,27 @@ namespace App\Repositories;
 
 use App\Models\Provider;
 use App\Repositories\Interfaces\ProviderRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
+
 
 class ProviderRepository implements ProviderRepositoryInterface
 {
-    public function getALL()
+    public function getALL(): Collection
     {
         return Provider::all();
     }
 
-    public function invoices($id)
+    public function getById($id): Provider
     {
-        return $this->getById($id)->invoices;
+        return Provider::with('author')->find($id);
     }
 
-    public function getById($id)
+    public function getProviderByInvoice($id): Provider
     {
-        $provider = Provider::find($id);
-        $provider->author();
-        return $provider;
+        return Provider::select('providers.*')
+            ->join('invoices', 'invoices.provider_id', '=', 'providers.id')
+            ->where('invoices.id', '=', $id)
+            ->first();
     }
 
 }

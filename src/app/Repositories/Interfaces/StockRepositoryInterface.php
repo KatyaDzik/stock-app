@@ -2,11 +2,12 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Models\Stock;
+use Illuminate\Database\Eloquent\Collection;
+
 interface StockRepositoryInterface
 {
-    public function getALL();
+    public function getALL(): Collection;
 
-    public function getById($id);
-
-    public function getProducts($id);
+    public function getById($id): Stock;
 }

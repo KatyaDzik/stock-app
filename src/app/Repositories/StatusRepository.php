@@ -4,20 +4,16 @@ namespace App\Repositories;
 
 use App\Models\Status;
 use App\Repositories\Interfaces\StatusRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class StatusRepository implements StatusRepositoryInterface
 {
-    public function getALL()
+    public function getALL(): Collection
     {
         return Status::all();
     }
 
-    public function getMovements($id)
-    {
-        return $this->getById($id)->movements;
-    }
-
-    public function getById($id)
+    public function getById($id): Status
     {
         return Status::find($id);
     }

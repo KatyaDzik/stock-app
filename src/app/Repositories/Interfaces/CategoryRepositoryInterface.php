@@ -2,13 +2,15 @@
 
 namespace App\Repositories\Interfaces;
 
+
+use Illuminate\Database\Eloquent\Collection;
+use App\Models\Category;
+
 interface CategoryRepositoryInterface
 {
-    public function getAll();
+    public function getAll(): Collection;
 
-    public function getById($id);
+    public function getById($id): Category;
 
-    public function getProducts($id);
-
-    public function getSubcategories($id);
+    public function getSubcategories($id): Category;
 }

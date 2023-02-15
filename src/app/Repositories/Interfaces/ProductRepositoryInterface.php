@@ -2,13 +2,19 @@
 
 namespace App\Repositories\Interfaces;
 
+
+use App\Models\Product;
+use Illuminate\Database\Eloquent\Collection;
+
 interface ProductRepositoryInterface
 {
-    public function getAll();
+    public function getAll(): Collection;
 
-    public function getById($id);
+    public function getById($id): Product;
 
-    public function invoices($id);
+    public function getProductsByCategory($id): Collection;
 
-    public function stocks($id);
+    //public function getProductsByInvoice($id): Collection;
+
+    //public function getProductsByStock($id): Collection;
 }

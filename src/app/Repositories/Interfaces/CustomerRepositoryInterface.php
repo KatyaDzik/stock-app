@@ -2,14 +2,15 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Models\Invoice;
+use App\Models\Customer;
+use Illuminate\Database\Eloquent\Collection;
+
 
 interface CustomerRepositoryInterface
 {
-    public function getAll();
+    public function getAll(): Collection;
 
-    public function getById($id);
+    public function getById($id): Customer;
 
-    public function invoices($id);
-
+    public function getCustomerByInvoice($id): Customer;
 }

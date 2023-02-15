@@ -2,11 +2,12 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Models\Status;
+use Illuminate\Database\Eloquent\Collection;
+
 interface StatusRepositoryInterface
 {
-    public function getALL();
+    public function getALL(): Collection;
 
-    public function getById($id);
-
-    public function getMovements($id);
+    public function getById($id): Status;
 }

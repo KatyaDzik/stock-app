@@ -4,20 +4,16 @@ namespace App\Repositories;
 
 use App\Models\Role;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class RoleRepository implements RoleRepositoryInterface
 {
-    public function getALL()
+    public function getALL(): Collection
     {
         return Role::all();
     }
 
-    public function getUsers($id)
-    {
-        return $this->getById($id)->users;
-    }
-
-    public function getById($id)
+    public function getById($id): Role
     {
         return Role::find($id);
     }

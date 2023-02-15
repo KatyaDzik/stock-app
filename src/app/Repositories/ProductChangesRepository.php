@@ -7,7 +7,7 @@ use App\Repositories\Interfaces\ProductChangesRepositoryInterface;
 
 class ProductChangesRepository implements ProductChangesRepositoryInterface
 {
-    public function getById($id)
+    public function getById($id): ProductChanges
     {
         return ProductChanges::find($id);
     }

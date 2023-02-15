@@ -4,30 +4,26 @@ namespace App\Repositories;
 
 use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class ProductRepository implements ProductRepositoryInterface
 {
 
-    public function getAll()
+    public function getAll(): Collection
     {
         return Product::all();
     }
 
-    public function invoices($id)
+    public function getById($id): Product
     {
-        return $this->getById($id)->invoices;
+        return Product::find($id);
     }
 
-    public function getById($id)
+    public function getProductsByCategory($id): Collection
     {
-        $product = Product::find($id);
-        $product->status;
-        $product->author;
-        return $product;
-    }
-
-    public function stocks($id)
-    {
-        return $this->getById($id)->stocks;
+        return Product::select('products.*')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->where('categories.id', '=', $id)
+            ->get();
     }
 }
