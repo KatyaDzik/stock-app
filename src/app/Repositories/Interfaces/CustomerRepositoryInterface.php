@@ -8,9 +8,20 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface CustomerRepositoryInterface
 {
+    /**
+     * @return Collection
+     */
     public function getAll(): Collection;
 
+    /**
+     * @param $id
+     * @return Customer|null
+     */
     public function getById($id): ?Customer;
 
+    /**
+     * @param $id
+     * @return Customer|null
+     */
     public function getCustomerByInvoice($id): ?Customer;
 }

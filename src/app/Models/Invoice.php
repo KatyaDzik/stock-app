@@ -16,23 +16,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $movement_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Customer $customer
- * @property-read \App\Models\Movement $movement
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
- * @property-read int|null $products_count
- * @property-read \App\Models\Provider $provider
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice query()
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCustomerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereMovementId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereNumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereProviderId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 class Invoice extends Model
 {
@@ -43,21 +26,33 @@ class Invoice extends Model
         'date'
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function provider()
     {
         return $this->belongsTo(Provider::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function customer()
     {
         return $this->belongsTo(Customer::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function movement()
     {
         return $this->belongsTo(Movement::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function products()
     {
         return $this->belongsToMany(Product::class, 'product_has_invoices', 'invoice_id', 'product_id');

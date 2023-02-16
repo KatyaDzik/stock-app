@@ -12,16 +12,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Movement> $movements
- * @property-read int|null $movements_count
- * @method static \Illuminate\Database\Eloquent\Builder|Status newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Status newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Status query()
- * @method static \Illuminate\Database\Eloquent\Builder|Status whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Status whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Status whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Status whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 class Status extends Model
 {
@@ -31,6 +21,9 @@ class Status extends Model
         'status',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function movements()
     {
         return $this->hasMany(Movement::class);

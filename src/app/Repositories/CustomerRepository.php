@@ -8,19 +8,29 @@ use Illuminate\Database\Eloquent\Collection;
 
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 
-
 class CustomerRepository implements CustomerRepositoryInterface
 {
+    /**
+     * @return Collection
+     */
     public function getAll(): Collection
     {
         return Customer::all();
     }
 
+    /**
+     * @param $id
+     * @return Customer|null
+     */
     public function getById($id): ?Customer
     {
         return Customer::find($id);
     }
 
+    /**
+     * @param $id
+     * @return Customer|null
+     */
     public function getCustomerByInvoice($id): ?Customer
     {
         return Invoice::find($id)->customer;
