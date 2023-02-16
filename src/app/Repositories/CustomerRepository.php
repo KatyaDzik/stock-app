@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Customer;
+use App\Models\Invoice;
 use Illuminate\Database\Eloquent\Collection;
 
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
@@ -15,16 +16,13 @@ class CustomerRepository implements CustomerRepositoryInterface
         return Customer::all();
     }
 
-    public function getById($id): Customer
+    public function getById($id): ?Customer
     {
-        return ustomer::find($id);
+        return Customer::find($id);
     }
 
-    public function getCustomerByInvoice($id): Customer
+    public function getCustomerByInvoice($id): ?Customer
     {
-        return Customer::select('customers.*')
-            ->join('invoices', 'invoices.customer_id', '=', 'customers.id')
-            ->where('invoices.id', '=', $id)
-            ->first();
+        return Invoice::find($id)->customer;
     }
 }

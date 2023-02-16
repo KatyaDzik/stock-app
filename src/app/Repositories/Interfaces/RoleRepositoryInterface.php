@@ -9,5 +9,5 @@ interface RoleRepositoryInterface
 {
     public function getALL(): Collection;
 
-    public function getById($id): Role;
+    public function getById($id): ?Role;
 }

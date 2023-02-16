@@ -6,5 +6,5 @@ use App\Models\ProductChanges;
 
 interface ProductChangesRepositoryInterface
 {
-    public function getById($id): ProductChanges;
+    public function getById($id): ?ProductChanges;
 }

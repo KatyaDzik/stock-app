@@ -9,5 +9,5 @@ interface StockRepositoryInterface
 {
     public function getALL(): Collection;
 
-    public function getById($id): Stock;
+    public function getById($id): ?Stock;
 }

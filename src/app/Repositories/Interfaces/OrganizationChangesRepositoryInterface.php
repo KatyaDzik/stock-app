@@ -6,5 +6,5 @@ use App\Models\OrganizationChanges;
 
 interface OrganizationChangesRepositoryInterface
 {
-    public function getById($id): OrganizationChanges;
+    public function getById($id): ?OrganizationChanges;
 }

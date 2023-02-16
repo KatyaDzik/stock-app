@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\Provider;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -13,24 +15,18 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         return Invoice::all();
     }
 
-    public function getById($id): Invoice
+    public function getById($id): ?Invoice
     {
         return Invoice::find($id);
     }
 
-    public function getInvoicesByCustomer($id): Collection
+    public function getInvoicesByCustomer($id): ?Invoice
     {
-        return Invoice::select('invoices.*')
-            ->join('customers', 'invoices.customer_id', '=', 'customers.id')
-            ->where('customers.id', '=', $id)
-            ->get();
+        return Customer::find($id)->invoice;
     }
 
-    public function getInvoicesByProvider($id): Collection
+    public function getInvoicesByProvider($id): ?Invoice
     {
-        return Invoice::select('invoices.*')
-            ->join('providers', 'invoices.provider_id', '=', 'provider.id')
-            ->where('providers.id', '=', $id)
-            ->get();
+        return Provider::find($id)->invoice;
     }
 }

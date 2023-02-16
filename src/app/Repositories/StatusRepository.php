@@ -13,7 +13,7 @@ class StatusRepository implements StatusRepositoryInterface
         return Status::all();
     }
 
-    public function getById($id): Status
+    public function getById($id): ?Status
     {
         return Status::find($id);
     }

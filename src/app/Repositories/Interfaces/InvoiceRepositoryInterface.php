@@ -9,9 +9,9 @@ interface InvoiceRepositoryInterface
 {
     public function getAll(): Collection;
 
-    public function getById($id): Invoice;
+    public function getById($id): ?Invoice;
 
-    public function getInvoicesByCustomer($id): Collection;
+    public function getInvoicesByCustomer($id): ?Invoice;
 
-    public function getInvoicesByProvider($id): Collection;
+    public function getInvoicesByProvider($id): ?Invoice;
 }

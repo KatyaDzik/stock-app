@@ -13,12 +13,12 @@ class CategoryRepository implements CategoryRepositoryInterface
         return Category::all();
     }
 
-    public function getById($id): Category
+    public function getById($id): ?Category
     {
-        return Category::find($id);
+        return Category::findOrFail($id);
     }
 
-    public function getSubcategories($id): Category
+    public function getSubcategories($id): ?Category
     {
         return Category::with('subcategories')->find($id);
     }

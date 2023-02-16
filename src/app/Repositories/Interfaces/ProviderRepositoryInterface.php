@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface ProviderRepositoryInterface
 {
-    public function getALL(): Collection;
+    public function getAll(): Collection;
 
-    public function getById($id): Provider;
+    public function getById($id): ?Provider;
 
-    public function getProviderByInvoice($id): Provider;
+    public function getProviderByInvoice($id): ?Provider;
 }

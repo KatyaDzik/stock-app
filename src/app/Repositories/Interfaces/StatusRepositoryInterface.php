@@ -9,5 +9,5 @@ interface StatusRepositoryInterface
 {
     public function getALL(): Collection;
 
-    public function getById($id): Status;
+    public function getById($id): ?Status;
 }

@@ -2,30 +2,26 @@
 
 namespace App\Repositories;
 
+use App\Models\Invoice;
 use App\Models\Movement;
+use App\Models\Status;
 use App\Repositories\Interfaces\MovementRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 class MovementRepository implements MovementRepositoryInterface
 {
-    public function getById($id): Movement
+    public function getById($id): ?Movement
     {
         return Movement::with(‘status’)->find($id);
     }
 
-    public function getMovementByInvoice($id): Movement
+    public function getMovementByInvoice($id): ?Movement
     {
-        return Movement::select('movements.*')
-            ->join('invoices', 'invoices.customer_id', '=', 'movements.id')
-            ->where('invoices.id', '=', $id)
-            ->first();
+        return Invoice::find($id)->movement;
     }
 
     public function getMovementsByStatus($id): Collection
     {
-        return Movement::select('movements.*')
-            ->join('statuses', 'movements.status_id', '=', 'statuses.id')
-            ->where('statuses.id', '=', $id)
-            ->get();
+        return Status::find(id)->movements;
     }
 }

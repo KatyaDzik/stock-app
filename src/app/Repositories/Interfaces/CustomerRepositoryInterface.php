@@ -10,7 +10,7 @@ interface CustomerRepositoryInterface
 {
     public function getAll(): Collection;
 
-    public function getById($id): Customer;
+    public function getById($id): ?Customer;
 
-    public function getCustomerByInvoice($id): Customer;
+    public function getCustomerByInvoice($id): ?Customer;
 }

@@ -14,7 +14,7 @@ class StockRepository implements StockRepositoryInterface
         return Stock::all();
     }
 
-    public function getById($id): Stock
+    public function getById($id): ?Stock
     {
         return Stock::find($id);
     }

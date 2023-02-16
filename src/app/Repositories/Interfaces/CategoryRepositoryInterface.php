@@ -10,7 +10,7 @@ interface CategoryRepositoryInterface
 {
     public function getAll(): Collection;
 
-    public function getById($id): Category;
+    public function getById($id): ?Category;
 
-    public function getSubcategories($id): Category;
+    public function getSubcategories($id): ?Category;
 }

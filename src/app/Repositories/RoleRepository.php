@@ -13,7 +13,7 @@ class RoleRepository implements RoleRepositoryInterface
         return Role::all();
     }
 
-    public function getById($id): Role
+    public function getById($id): ?Role
     {
         return Role::find($id);
     }
