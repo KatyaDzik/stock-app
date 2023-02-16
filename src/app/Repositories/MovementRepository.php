@@ -25,7 +25,9 @@ class MovementRepository implements MovementRepositoryInterface
      */
     public function getMovementByInvoice($id): ?Movement
     {
-        return Invoice::find($id)->movement;
+        return Movement::whereHas('invoice', function ($query) use ($id) {
+            $query->where('id', '=', $id);
+        })->first();
     }
 
     /**
@@ -34,6 +36,6 @@ class MovementRepository implements MovementRepositoryInterface
      */
     public function getMovementsByStatus($id): Collection
     {
-        return Status::find(id)->movements;
+        return Movement::where('status_id', $id)->get();
     }
 }

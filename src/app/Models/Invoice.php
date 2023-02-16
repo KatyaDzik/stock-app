@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * App\Models\Invoice
@@ -26,34 +28,37 @@ class Invoice extends Model
         'date'
     ];
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo|null
      */
-    public function provider()
+    public function provider(): ?BelongsTo
     {
         return $this->belongsTo(Provider::class);
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo|null
      */
-    public function customer()
+    public function customer(): ?BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return Movement|null
      */
-    public function movement()
+    public function movement(): ?BelongsTo
     {
         return $this->belongsTo(Movement::class);
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany|null
      */
-    public function products()
+    public function products(): ?BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_has_invoices', 'invoice_id', 'product_id');
     }

@@ -31,8 +31,10 @@ class CustomerRepository implements CustomerRepositoryInterface
      * @param $id
      * @return Customer|null
      */
-    public function getCustomerByInvoice($id): ?Customer
+    public function getCustomerByInvoice($id): Customer
     {
-        return Invoice::find($id)->customer;
+        return Customer::whereHas('invoices', function ($query) use ($id) {
+            $query->where('id', '=', $id);
+        })->first();
     }
 }

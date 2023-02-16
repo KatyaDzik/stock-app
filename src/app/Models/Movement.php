@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\Movement
@@ -24,18 +26,19 @@ class Movement extends Model
         'to'
     ];
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne|null
      */
-    public function invoice()
+    public function invoice(): ?HasOne
     {
         return $this->hasOne(Invoice::class);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo|null
      */
-    public function status()
+    public function status(): ?BelongsTo
     {
         return $this->belongsTo(Status::class);
     }

@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * App\Models\Product
@@ -21,36 +24,27 @@ class Product extends Model
 
     protected $fillable = [
         'product',
+        'category_id'
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function category()
+    public function category(): ?BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function author()
+    public function author(): ?BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id', 'id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function stocks()
+
+    public function stocks(): ?BelongsToMany
     {
         return $this->belongsToMany(Stock::class, 'product_has_stocks', 'product_id', 'stock_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function invoices()
+
+    public function invoices(): ?BelongsToMany
     {
         return $this->belongsToMany(Invoice::class, 'product_has_invoices', 'product_id', 'invoice_id');
     }

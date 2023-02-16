@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\Category
@@ -23,18 +25,20 @@ class Category extends Model
         'category'
     ];
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany|null
      */
-    public function products()
+    public function products(): ?HasMany
     {
         return $this->hasMany(Product::class);
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo|null
      */
-    public function subcategories()
+    public function subcategories(): ?BelongsTo
     {
         return $this->belongsTo(Category::class, 'parent_id', 'id');
     }

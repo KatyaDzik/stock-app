@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 /**
  * App\Models\Customer
@@ -22,18 +25,20 @@ class Customer extends Model
         'name',
     ];
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany|null
      */
-    public function invoice()
+    public function invoices(): ?HasMany
     {
         return $this->hasMany(Invoice::class);
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo|null
      */
-    public function author()
+    public function author(): ?BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id', 'id');
     }

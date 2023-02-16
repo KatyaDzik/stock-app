@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\ProductChanges
@@ -20,10 +21,11 @@ class ProductChanges extends Model
 
     protected $table = 'product_changes';
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function editor()
+    public function editor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'editor_id', 'id');
     }

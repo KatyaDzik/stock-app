@@ -32,7 +32,9 @@ class ProviderRepository implements ProviderRepositoryInterface
      */
     public function getProviderByInvoice($id): ?Provider
     {
-        return Invoice::find($id)->provider;
+        return Provider::whereHas('invoices', function ($query) use ($id) {
+            $query->where('id', '=', $id);
+        })->first();
     }
 
 }

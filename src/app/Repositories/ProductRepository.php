@@ -35,7 +35,7 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function getProductsByCategory($id): Collection
     {
-        return Category::find($id)->products;
+        return Product::where('category_id', $id)->get;
     }
 
     /**
@@ -44,7 +44,9 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function getProductsByInvoice($id): Collection
     {
-        return Invoice::find($id)->products;
+        return Product::whereHas('invoices', function ($query) use ($id) {
+            $query->where('id', '=', $id);
+        })->first();
     }
 
     /**
@@ -53,6 +55,8 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function getProductsByStock($id): Collection
     {
-        return Stock::find($id)->products;
+        return Product::whereHas('stocks', function ($query) use ($id) {
+            $query->where('id', '=', $id);
+        })->first();
     }
 }

@@ -31,17 +31,17 @@ class InvoiceRepository implements InvoiceRepositoryInterface
      * @param $id
      * @return Invoice|null
      */
-    public function getInvoicesByCustomer($id): ?Invoice
+    public function getInvoicesByCustomer($id): Collection
     {
-        return Customer::find($id)->invoice;
+        return Invoice::where('customer_id', $id)->get();
     }
 
     /**
      * @param $id
      * @return Invoice|null
      */
-    public function getInvoicesByProvider($id): ?Invoice
+    public function getInvoicesByProvider($id): Collection
     {
-        return Provider::find($id)->invoice;
+        return Invoice::where('provider_id', $id)->get();
     }
 }

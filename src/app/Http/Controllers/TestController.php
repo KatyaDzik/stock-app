@@ -7,6 +7,7 @@ use App\Models\OrganizationChanges;
 use App\Repositories\CategoryRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\InvoiceRepository;
+use App\Repositories\MovementRepository;
 use App\Repositories\OrganizationChangesRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\ProviderRepository;
@@ -17,7 +18,7 @@ class TestController extends Controller
 {
     public function index()
     {
-        $repo = new ProductRepository();
-        dump($repo->getProductsByStock(2));
+        $repo = new MovementRepository();
+        dump($repo->getMovementByInvoice(3));
     }
 }

@@ -23,5 +23,5 @@ interface CustomerRepositoryInterface
      * @param $id
      * @return Customer|null
      */
-    public function getCustomerByInvoice($id): ?Customer;
+    public function getCustomerByInvoice($id): Customer;
 }
