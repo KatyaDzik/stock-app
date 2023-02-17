@@ -7,8 +7,8 @@ use App\Models\OrganizationChanges;
 interface OrganizationChangesRepositoryInterface
 {
     /**
-     * @param $id
+     * @param int $id
      * @return OrganizationChanges|null
      */
-    public function getById($id): ?OrganizationChanges;
+    public function getById(int $id): ?OrganizationChanges;
 }

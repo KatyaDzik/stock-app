@@ -12,21 +12,22 @@ interface InvoiceRepositoryInterface
      */
     public function getAll(): Collection;
 
-    /**
-     * @param $id
-     * @return Invoice|null
-     */
-    public function getById($id): ?Invoice;
 
     /**
-     * @param $id
+     * @param int $id
      * @return Invoice|null
      */
-    public function getInvoicesByCustomer($id): Collection;
+    public function getById(int $id): ?Invoice;
 
     /**
-     * @param $id
-     * @return Invoice|null
+     * @param int $id
+     * @return Collection
      */
-    public function getInvoicesByProvider($id): Collection;
+    public function getInvoicesByCustomer(int $id): Collection;
+
+    /**
+     * @param int $id
+     * @return Collection
+     */
+    public function getInvoicesByProvider(int $id): Collection;
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Movement;
 use App\Models\OrganizationChanges;
 use App\Repositories\CategoryRepository;
 use App\Repositories\CustomerRepository;
@@ -18,7 +19,7 @@ class TestController extends Controller
 {
     public function index()
     {
-        $repo = new MovementRepository();
-        dump($repo->getMovementByInvoice(3));
+        $repo = new ProductRepository();
+        dump($repo->getProductsByCategory(4));
     }
 }

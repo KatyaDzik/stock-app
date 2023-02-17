@@ -56,9 +56,9 @@ class Invoice extends Model
 
 
     /**
-     * @return BelongsToMany|null
+     * @return BelongsToMany
      */
-    public function products(): ?BelongsToMany
+    public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_has_invoices', 'invoice_id', 'product_id');
     }

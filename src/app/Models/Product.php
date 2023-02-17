@@ -24,27 +24,36 @@ class Product extends Model
 
     protected $fillable = [
         'product',
-        'category_id'
     ];
 
+    /**
+     * @return BelongsTo|null
+     */
     public function category(): ?BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * @return BelongsTo|null
+     */
     public function author(): ?BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id', 'id');
     }
 
-
-    public function stocks(): ?BelongsToMany
+    /**
+     * @return BelongsToMany
+     */
+    public function stocks(): BelongsToMany
     {
         return $this->belongsToMany(Stock::class, 'product_has_stocks', 'product_id', 'stock_id');
     }
 
-
-    public function invoices(): ?BelongsToMany
+    /**
+     * @return BelongsToMany
+     */
+    public function invoices(): BelongsToMany
     {
         return $this->belongsToMany(Invoice::class, 'product_has_invoices', 'product_id', 'invoice_id');
     }

@@ -17,20 +17,20 @@ class CategoryRepository implements CategoryRepositoryInterface
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Category|null
      */
-    public function getById($id): ?Category
+    public function getById(int $id): ?Category
     {
-        return Category::findOrFail($id);
+        return Category::find($id);
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Category|null
      */
-    public function getSubcategories($id): ?Category
+    public function getSubcategories(int $id): ?Collection
     {
-        return Category::with('subcategories')->find($id);
+        return Category::where('parent_id', $id)->find($id);
     }
 }

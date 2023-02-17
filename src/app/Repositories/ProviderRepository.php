@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Invoice;
 use App\Models\Provider;
 use App\Repositories\Interfaces\ProviderRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -18,19 +17,19 @@ class ProviderRepository implements ProviderRepositoryInterface
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Provider|null
      */
-    public function getById($id): ?Provider
+    public function getById(int $id): ?Provider
     {
         return Provider::with('author')->find($id);
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Provider|null
      */
-    public function getProviderByInvoice($id): ?Provider
+    public function getProviderByInvoice(int $id): ?Provider
     {
         return Provider::whereHas('invoices', function ($query) use ($id) {
             $query->where('id', '=', $id);

@@ -7,21 +7,22 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface MovementRepositoryInterface
 {
-    /**
-     * @param $id
-     * @return Movement|null
-     */
-    public function getById($id): ?Movement;
 
     /**
-     * @param $id
+     * @param int $id
      * @return Movement|null
      */
-    public function getMovementByInvoice($id): ?Movement;
+    public function getById(int $id): ?Movement;
 
     /**
-     * @param $id
+     * @param int $id
+     * @return Movement|null
+     */
+    public function getMovementByInvoice(int $id): ?Movement;
+
+    /**
+     * @param int $id
      * @return Collection
      */
-    public function getMovementsByStatus($id): Collection;
+    public function getMovementsByStatus(int $id): Collection;
 }

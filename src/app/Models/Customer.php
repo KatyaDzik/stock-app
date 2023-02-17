@@ -27,9 +27,9 @@ class Customer extends Model
 
 
     /**
-     * @return HasMany|null
+     * @return HasMany
      */
-    public function invoices(): ?HasMany
+    public function invoices(): HasMany
     {
         return $this->hasMany(Invoice::class);
     }

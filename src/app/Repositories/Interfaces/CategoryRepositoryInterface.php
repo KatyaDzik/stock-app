@@ -13,15 +13,17 @@ interface CategoryRepositoryInterface
      */
     public function getAll(): Collection;
 
-    /**
-     * @param $id
-     * @return Category|null
-     */
-    public function getById($id): ?Category;
 
     /**
-     * @param $id
+     * @param int $id
      * @return Category|null
      */
-    public function getSubcategories($id): ?Category;
+    public function getById(int $id): ?Category;
+
+
+    /**
+     * @param int $id
+     * @return Category|null
+     */
+    public function getSubcategories(int $id): ?Collection;
 }

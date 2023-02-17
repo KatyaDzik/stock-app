@@ -13,14 +13,14 @@ interface ProviderRepositoryInterface
     public function getAll(): Collection;
 
     /**
-     * @param $id
+     * @param int $id
      * @return Provider|null
      */
-    public function getById($id): ?Provider;
+    public function getById(int $id): ?Provider;
 
     /**
-     * @param $id
+     * @param int $id
      * @return Provider|null
      */
-    public function getProviderByInvoice($id): ?Provider;
+    public function getProviderByInvoice(int $id): ?Provider;
 }

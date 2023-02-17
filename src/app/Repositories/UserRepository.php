@@ -17,10 +17,10 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return User|null
      */
-    public function getById($id): ?User
+    public function getById(int $id): ?User
     {
         return User::find($id);
     }

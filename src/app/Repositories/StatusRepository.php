@@ -17,10 +17,10 @@ class StatusRepository implements StatusRepositoryInterface
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Status|null
      */
-    public function getById($id): ?Status
+    public function getById(int $id): ?Status
     {
         return Status::find($id);
     }

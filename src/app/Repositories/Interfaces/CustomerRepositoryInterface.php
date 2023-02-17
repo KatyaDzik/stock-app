@@ -6,6 +6,9 @@ use App\Models\Customer;
 use Illuminate\Database\Eloquent\Collection;
 
 
+/**
+ *
+ */
 interface CustomerRepositoryInterface
 {
     /**
@@ -13,15 +16,17 @@ interface CustomerRepositoryInterface
      */
     public function getAll(): Collection;
 
-    /**
-     * @param $id
-     * @return Customer|null
-     */
-    public function getById($id): ?Customer;
 
     /**
-     * @param $id
+     * @param int $id
      * @return Customer|null
      */
-    public function getCustomerByInvoice($id): Customer;
+    public function getById(int $id): ?Customer;
+
+
+    /**
+     * @param int $id
+     * @return Customer|null
+     */
+    public function getCustomerByInvoice(int $id): ?Customer;
 }

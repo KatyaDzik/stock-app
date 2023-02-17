@@ -8,10 +8,10 @@ use App\Repositories\Interfaces\OrganizationChangesRepositoryInterface;
 class OrganizationChangesRepository implements OrganizationChangesRepositoryInterface
 {
     /**
-     * @param $id
+     * @param int $id
      * @return OrganizationChanges|null
      */
-    public function getById($id): ?OrganizationChanges
+    public function getById(int $id): ?OrganizationChanges
     {
         return OrganizationChanges::find($id);
     }

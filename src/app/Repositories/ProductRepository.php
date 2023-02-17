@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\Stock;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 class ProductRepository implements ProductRepositoryInterface
@@ -21,42 +22,42 @@ class ProductRepository implements ProductRepositoryInterface
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Product|null
      */
-    public function getById($id): ?Product
+    public function getById(int $id): ?Product
     {
         return Product::find($id);
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Collection
      */
-    public function getProductsByCategory($id): Collection
+    public function getProductsByCategory(int $id): Collection
     {
-        return Product::where('category_id', $id)->get;
+        return Product::where('category_id', $id)->get();
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Collection
      */
-    public function getProductsByInvoice($id): Collection
+    public function getProductsByInvoice(int $id): Collection
     {
         return Product::whereHas('invoices', function ($query) use ($id) {
             $query->where('id', '=', $id);
-        })->first();
+        })->get();
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Collection
      */
-    public function getProductsByStock($id): Collection
+    public function getProductsByStock(int $id): Collection
     {
-        return Product::whereHas('stocks', function ($query) use ($id) {
+        return Product::whereHas('stocks', function (Builder $query) use ($id) {
             $query->where('id', '=', $id);
-        })->first();
+        })->get();
     }
 }

@@ -12,9 +12,10 @@ interface UserRepositoryInterface
      */
     public function getALL(): Collection;
 
+
     /**
-     * @param $id
+     * @param int $id
      * @return User|null
      */
-    public function getById($id): ?User;
+    public function getById(int $id): ?User;
 }

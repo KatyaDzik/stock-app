@@ -17,10 +17,10 @@ class RoleRepository implements RoleRepositoryInterface
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Role|null
      */
-    public function getById($id): ?Role
+    public function getById(int $id): ?Role
     {
         return Role::find($id);
     }

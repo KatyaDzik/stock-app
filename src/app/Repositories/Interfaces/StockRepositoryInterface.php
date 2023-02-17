@@ -12,9 +12,10 @@ interface StockRepositoryInterface
      */
     public function getALL(): Collection;
 
+
     /**
-     * @param $id
+     * @param int $id
      * @return Stock|null
      */
-    public function getById($id): ?Stock;
+    public function getById(int $id): ?Stock;
 }

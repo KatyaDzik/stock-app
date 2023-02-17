@@ -17,10 +17,10 @@ class StockRepository implements StockRepositoryInterface
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return Stock|null
      */
-    public function getById($id): ?Stock
+    public function getById(int $id): ?Stock
     {
         return Stock::find($id);
     }

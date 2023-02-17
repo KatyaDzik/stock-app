@@ -14,26 +14,26 @@ interface ProductRepositoryInterface
     public function getAll(): Collection;
 
     /**
-     * @param $id
+     * @param int $id
      * @return Product|null
      */
-    public function getById($id): ?Product;
+    public function getById(int $id): ?Product;
 
     /**
-     * @param $id
+     * @param int $id
      * @return Collection
      */
-    public function getProductsByCategory($id): Collection;
+    public function getProductsByCategory(int $id): Collection;
 
     /**
-     * @param $id
+     * @param int $id
      * @return Collection
      */
-    public function getProductsByInvoice($id): Collection;
+    public function getProductsByInvoice(int $id): Collection;
 
     /**
-     * @param $id
+     * @param int $id
      * @return Collection
      */
-    public function getProductsByStock($id): Collection;
+    public function getProductsByStock(int $id): Collection;
 }

@@ -23,9 +23,9 @@ class ProductChanges extends Model
 
 
     /**
-     * @return BelongsTo
+     * @return BelongsTo|null
      */
-    public function editor(): BelongsTo
+    public function editor(): ?BelongsTo
     {
         return $this->belongsTo(User::class, 'editor_id', 'id');
     }
