@@ -19,6 +19,12 @@ class ProductChanges extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'product',
+        'product_id',
+        'editor_id'
+    ];
+
     protected $table = 'product_changes';
 
 

@@ -19,8 +19,9 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->bigInteger('role_id')->unsigned();
-            $table->foreign('role_id')->references('id')->on('roles');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -31,6 +32,8 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::table('users', function (Blueprint $table){
+            $table->dropSoftDeletes();
+        });
     }
 }

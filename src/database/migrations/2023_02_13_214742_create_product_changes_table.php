@@ -16,9 +16,9 @@ class CreateProductChangesTable extends Migration
         Schema::create('product_changes', function (Blueprint $table) {
             $table->string('product');
             $table->bigInteger('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->bigInteger('editor_id')->unsigned();
-            $table->foreign('editor_id')->references('id')->on('users');
+            $table->foreign('editor_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

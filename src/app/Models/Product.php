@@ -24,10 +24,12 @@ class Product extends Model
 
     protected $fillable = [
         'product',
+        'category_id',
+        'author_id'
     ];
 
     /**
-     * @return BelongsTo|null
+     * @return BelongsTo|nullmake:request
      */
     public function category(): ?BelongsTo
     {

@@ -17,3 +17,19 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('categories', \App\Http\Controllers\CategoryController::class)->only([
+    'store', 'show', 'update', 'destroy'
+]);
+
+Route::resource('users', \App\Http\Controllers\UserController::class)->only([
+    'store', 'show', 'update', 'destroy'
+]);
+
+Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
+    'store', 'show', 'update', 'destroy'
+])->middleware('auth:sanctum');
+
+Route::post('/users/login', [\App\Http\Controllers\UserController::class, 'login']);
+
+Route::post('/users/logout', [\App\Http\Controllers\UserController::class, 'logout'])->middleware('auth:sanctum');

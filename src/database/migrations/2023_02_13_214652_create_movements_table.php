@@ -18,8 +18,9 @@ class CreateMovementsTable extends Migration
             $table->string('from');
             $table->string('to');
             $table->bigInteger('status_id')->unsigned();
-            $table->foreign('status_id')->references('id')->on('statuses');
+            $table->foreign('status_id')->references('id')->on('statuses')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -30,6 +31,8 @@ class CreateMovementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('movements');
+        Schema::table('movements', function (Blueprint $table){
+            $table->dropSoftDeletes();
+        });
     }
 }

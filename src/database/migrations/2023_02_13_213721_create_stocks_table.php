@@ -18,6 +18,7 @@ class CreateStocksTable extends Migration
             $table->string('stock');
             $table->string('address');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +29,8 @@ class CreateStocksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stocks');
+        Schema::table('stocks', function (Blueprint $table){
+            $table->dropSoftDeletes();
+        });
     }
 }

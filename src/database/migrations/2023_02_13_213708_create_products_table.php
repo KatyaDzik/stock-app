@@ -17,10 +17,11 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('product');
             $table->bigInteger('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->bigInteger('author_id')->unsigned();
-            $table->foreign('author_id')->references('id')->on('users');
+            $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -31,6 +32,8 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::table('products', function (Blueprint $table){
+            $table->dropSoftDeletes();
+        });
     }
 }

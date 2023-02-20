@@ -18,3 +18,13 @@ Route::get('/', function () {
 });
 
 Route::get('/test', [App\Http\Controllers\TestController::class, 'index']);
+
+
+Route::resource('users', \App\Http\Controllers\UserController::class)->only([
+    'store', 'show', 'update', 'destroy'
+]);
+
+Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
+    'store', 'show', 'update', 'destroy'
+]);
+

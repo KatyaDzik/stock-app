@@ -20,6 +20,6 @@ class TestController extends Controller
     public function index()
     {
         $repo = new ProductRepository();
-        dump($repo->getProductsByCategory(4));
+        dump($repo->getProductsByStock(1));
     }
 }

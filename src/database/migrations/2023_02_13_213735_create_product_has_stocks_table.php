@@ -17,9 +17,9 @@ class CreateProductHasStocksTable extends Migration
             $table->id();
             $table->integer('count')->unsigned();
             $table->bigInteger('stock_id')->unsigned();
-            $table->foreign('stock_id')->references('id')->on('stocks');
+            $table->foreign('stock_id')->references('id')->on('stocks')->onDelete('cascade');
             $table->bigInteger('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
         });
     }

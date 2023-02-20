@@ -15,4 +15,13 @@ class ProductChangesRepository implements ProductChangesRepositoryInterface
     {
         return ProductChanges::find($id);
     }
+
+    public function save(array $data)
+    {
+        $productChange = new ProductChanges();
+        $productChange->fill($data);
+        $productChange->save();
+
+        return $productChange;
+    }
 }

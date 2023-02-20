@@ -3,10 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Repositories\Interfaces\PostRepositoryInteface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Hash;
 
-class UserRepository implements UserRepositoryInterface
+class UserRepository implements UserRepositoryInterface, PostRepositoryInteface
 {
     /**
      * @return Collection
@@ -23,6 +25,67 @@ class UserRepository implements UserRepositoryInterface
     public function getById(int $id): ?User
     {
         return User::find($id);
+    }
+
+    /**
+     * @param array $data
+     * @param int $id
+     * @return User|null
+     */
+    public function update(array $data, int $id): ?User
+    {
+        $user = User::find($id);
+
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
+        $user->fill($data)->save();
+
+        return $user;
+    }
+
+    /**
+     * @param array $data
+     * @return User|null
+     */
+    public function save(array $data): ?User
+    {
+        $user = new User();
+        $data['password'] = Hash::make($data['password']);
+        $user->fill($data)->save();
+        $user->save();
+
+        return $user;
+    }
+
+    /**
+     * @param int $id
+     * @return User|null
+     * @throws \Exception
+     */
+    public function delete(int $id): ?User
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            throw new \Exception('Unable to delete post data');
+        }
+
+        $user->delete();
+
+        return $user;
+    }
+
+
+    /**
+     * @param string $name
+     * @return User|null
+     */
+    public function getByName(string $name): ?User
+    {
+        $user = User::where('name', $name)->first();
+        return $user;
     }
 
 }

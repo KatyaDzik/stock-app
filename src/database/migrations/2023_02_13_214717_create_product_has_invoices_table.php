@@ -19,9 +19,9 @@ class CreateProductHasInvoicesTable extends Migration
             $table->decimal('price', $precision = 9, $scale = 5);
             $table->integer('nds')->unsigned();
             $table->bigInteger('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->bigInteger('invoice_id')->unsigned();
-            $table->foreign('invoice_id')->references('id')->on('invoices');
+            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
             $table->timestamps();
         });
     }

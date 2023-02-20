@@ -17,6 +17,7 @@ class CreateStatusesTable extends Migration
             $table->id();
             $table->string('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +28,8 @@ class CreateStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('statuses');
+        Schema::table('statuses', function (Blueprint $table){
+            $table->dropSoftDeletes();
+        });
     }
 }

@@ -18,7 +18,7 @@ class CreateOrganizationChangesTable extends Migration
             $table->string('name');
             $table->bigInteger('organization_id')->unsigned();
             $table->bigInteger('editor_id')->unsigned();
-            $table->foreign('editor_id')->references('id')->on('users');
+            $table->foreign('editor_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

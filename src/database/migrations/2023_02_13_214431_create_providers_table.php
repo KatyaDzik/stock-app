@@ -17,8 +17,9 @@ class CreateProvidersTable extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('author_id')->unsigned();
-            $table->foreign('author_id')->references('id')->on('users');
+            $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,6 +30,8 @@ class CreateProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('providers');
+        Schema::table('providers', function (Blueprint $table){
+            $table->dropSoftDeletes();
+        });
     }
 }
