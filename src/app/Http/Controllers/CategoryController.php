@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\CategoryDto;
+use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\CategoryUpdateRequest;
+use App\Http\Resources\CategoryResource;
 use App\Services\CategoryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -10,35 +14,31 @@ class CategoryController extends Controller
 {
     private $service;
 
-    public function __construct()
+    public function __construct(CategoryService $service)
     {
-        $this->service = new CategoryService();
+        $this->service = $service;
     }
-
 
     /**
      * @param Request $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(CategoryRequest $request): JsonResponse
     {
-        $data = $request->only([
-            'category',
-            'parent_id'
-        ]);
+        $validated = $request->validated();
 
-        $result = ['status' => 200];
+        $data = new CategoryDto(
+            $request->input('category'),
+            $request->input('parent_id')
+        );
 
         try {
-            $request['data'] = $this->service->create($data);
+            $category = $this->service->create($data);
         } catch (\Exception $e) {
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
-            ];
+            throw \Exception($e->getMessage());
         }
 
-        return response()->json($result, $result['status']);
+        return response()->json(['category' => new CategoryResource($category)], 200);
     }
 
 
@@ -48,20 +48,13 @@ class CategoryController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $category = $this->service->read($id);
-        if (!$category) {
-            $result = [
-                'status' => 500,
-                'error' => 'not found'
-            ];
-        } else {
-            $result = [
-                'status' => 200,
-                'data' => $category
-            ];
+        try {
+            $category = $this->service->read($id);
+        } catch (\Exception $e) {
+            throw \Exception($e->getMessage());
         }
 
-        return response()->json($result, $result['status']);
+        return response()->json(['category' => new CategoryResource($category)], 200);
     }
 
 
@@ -70,25 +63,22 @@ class CategoryController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(CategoryUpdateRequest $request, int $id): JsonResponse
     {
-        $data = $request->only([
-            'category',
-            'parent_id'
-        ]);
+        $validated = $request->validated();
 
-        $result = ['status' => 200];
+        $data = new CategoryDto(
+            $request->input('category'),
+            $request->input('parent_id')
+        );
 
         try {
-            $request['data'] = $this->service->update($data, $id);
+            $category = $this->service->update($data, $id);
         } catch (\Exception $e) {
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
-            ];
+            throw \Exception($e->getMessage());
         }
 
-        return response()->json($result, $result['status']);
+        return response()->json(['category' => new CategoryResource($category)], 200);
     }
 
 
@@ -98,17 +88,12 @@ class CategoryController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        $result = ['status' => 200];
-
         try {
-            $request['data'] = $this->service->delete($id);
+            $category = $this->service->delete($id);
         } catch (\Exception $e) {
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
-            ];
+            throw \Exception($e->getMessage());
         }
 
-        return response()->json($result, $result['status']);
+        return response()->json('deleted', 200);
     }
 }

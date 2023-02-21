@@ -2,37 +2,32 @@
 
 namespace App\Services;
 
+use App\Dto\CategoryDto;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
+use App\Services\PostServiceInterface\CategoryServiceInterface;
 use App\Services\PostServiceInterface\PostServiceInterface;
 use Illuminate\Support\Facades\Validator;
 
-class CategoryService implements PostServiceInterface
+class CategoryService implements CategoryServiceInterface
 {
     private $repository;
 
-    public function __construct()
+    /**
+     * @param CategoryRepository $repository
+     */
+    public function __construct(CategoryRepository $repository)
     {
-        $this->repository = new CategoryRepository();
+        $this->repository = $repository;
     }
 
 
     /**
-     * @param array $data
+     * @param CategoryDto $data
      * @return Category|null
-     * @throws \Exception
      */
-    public function create(array $data): ?Category
+    public function create(CategoryDto $data): ?Category
     {
-        $validator = Validator::make($data, [
-            'category' => ['required', 'string', 'min:2', 'max:255'],
-            'parent_id' => ['exists:categories,id']
-        ]);
-
-        if ($validator->fails()) {
-            throw new \Exception($validator->errors());
-        }
-
         $result = $this->repository->save($data);
 
         return $result;
@@ -50,24 +45,13 @@ class CategoryService implements PostServiceInterface
         return $category;
     }
 
-
     /**
-     * @param array $data
+     * @param CategoryDto $data
      * @param int $id
      * @return Category|null
-     * @throws \Exception
      */
-    public function update(array $data, int $id): ?Category
+    public function update(CategoryDto $data, int $id): ?Category
     {
-        $validator = Validator::make($data, [
-            'category' => ['required', 'string', 'min:2', 'max:255'],
-            'parent_id' => ['exists:categories,id']
-        ]);
-
-        if ($validator->fails()) {
-            throw new \Exception($validator->errors());
-        }
-
         $result = $this->repository->update($data, $id);
 
         return $result;
@@ -76,10 +60,10 @@ class CategoryService implements PostServiceInterface
 
     /**
      * @param int $id
-     * @return Category|null
+     * @return bool
      * @throws \Exception
      */
-    public function delete(int $id): ?Category
+    public function delete(int $id): bool
     {
         $result = $this->repository->delete($id);
 

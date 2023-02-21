@@ -2,13 +2,14 @@
 
 namespace App\Repositories;
 
+use App\Dto\CategoryDto;
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Repositories\Interfaces\PostRepositoryInteface;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
-class CategoryRepository implements CategoryRepositoryInterface, PostRepositoryInteface
+class CategoryRepository implements CategoryRepositoryInterface
 {
     /**
      * @return Collection
@@ -36,47 +37,49 @@ class CategoryRepository implements CategoryRepositoryInterface, PostRepositoryI
         return Category::where('parent_id', $id)->find($id);
     }
 
+
     /**
-     * @param array $data
+     * @param CategoryDto $data
      * @param int $id
      * @return Category|null
      */
-    public function update(array $data, int $id): ?Category
+    public function update(CategoryDto $data, int $id): ?Category
     {
         $category = Category::find($id);
-        $category->fill($data)->save();
-
-        return $category;
-    }
-
-    /**
-     * @param array $data
-     * @return Category|null
-     */
-    public function save(array $data): ?Category
-    {
-        $category = new Category();
-        $category->fill($data);
+        if ($data->getCategory()) {
+            $category->category = $data->getCategory();
+        }
+        if ($data->getParent()) {
+            $category->parent_id = $data->getParent();
+        }
         $category->save();
 
-        return $category;
+        return $category->fresh();
+    }
+
+
+    /**
+     * @param CategoryDto $data
+     * @return Category|null
+     */
+    public function save(CategoryDto $data): ?Category
+    {
+        $category = new Category();
+        $category->category = $data->getCategory();
+        $category->parent_id = $data->getParent();
+        $category->save();
+
+        return $category->fresh();
     }
 
 
     /**
      * @param int $id
-     * @return Category|null
-     * @throws Exception
+     * @return bool|null
      */
-    public function delete(int $id): ?Category
+    public function delete(int $id): ?bool
     {
-        $category = Category::find($id);
-
-        if (!$category) {
-            throw new \Exception('Unable to delete post data');
-        }
-
-        $category->delete();
+        $category = Category::find($id)->delete();
 
         return $category;
     }

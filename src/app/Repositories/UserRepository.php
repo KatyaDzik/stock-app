@@ -2,13 +2,14 @@
 
 namespace App\Repositories;
 
+use App\Dto\UserDto;
 use App\Models\User;
 use App\Repositories\Interfaces\PostRepositoryInteface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 
-class UserRepository implements UserRepositoryInterface, PostRepositoryInteface
+class UserRepository implements UserRepositoryInterface
 {
     /**
      * @return Collection
@@ -49,11 +50,12 @@ class UserRepository implements UserRepositoryInterface, PostRepositoryInteface
      * @param array $data
      * @return User|null
      */
-    public function save(array $data): ?User
+    public function save(UserDto $data): ?User
     {
         $user = new User();
-        $data['password'] = Hash::make($data['password']);
-        $user->fill($data)->save();
+        $user->name = $data->getName();
+        $user->role_id = $data->getRole();
+        $user->password = Hash::make($data->getPassword());
         $user->save();
 
         return $user;
