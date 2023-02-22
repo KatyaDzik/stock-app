@@ -2,11 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\Category;
-use App\Models\Invoice;
+use App\Dto\ProductDto;
 use App\Models\Product;
-use App\Models\Stock;
-use App\Repositories\Interfaces\PostRepositoryInteface;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,7 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 /**
  *
  */
-class ProductRepository implements ProductRepositoryInterface, PostRepositoryInteface
+class ProductRepository implements ProductRepositoryInterface
 {
 
     /**
@@ -67,46 +64,45 @@ class ProductRepository implements ProductRepositoryInterface, PostRepositoryInt
 
 
     /**
-     * @param array $data
      * @param int $id
+     * @param ProductDto $dto
      * @return Product|null
      */
-    public function update(array $data, int $id): ?Product
+    public function update(int $id, ProductDto $dto): ?Product
     {
         $product = Product::find($id);
-        $product->fill($data);
-        $product->save();
+        $product->fill([
+            'product' => $dto->getProduct(),
+            'category_id' => $dto->getCategory(),
+        ])->update();
 
         return $product;
     }
 
+
     /**
-     * @param array $data
+     * @param ProductDto $dto
      * @return Product|null
      */
-    public function save(array $data): ?Product
+    public function save(ProductDto $dto): ?Product
     {
         $product = new Product();
-        $product->fill($data);
-        $product->save();
+        $product->fill([
+            'product' => $dto->getProduct(),
+            'category_id' => $dto->getCategory(),
+            'author_id' => $dto->getAuthor()
+        ])->save();
 
         return $product;
     }
 
     /**
      * @param int $id
-     * @return Product|null
-     * @throws \Exception
+     * @return bool
      */
-    public function delete(int $id): ?Product
+    public function delete(int $id): bool
     {
-        $product = Product::find($id);
-
-        if (!$product) {
-            throw new \Exception('Unable to delete post data');
-        }
-
-        $product->delete();
+        $product = Product::where('id', $id)->delete();
 
         return $product;
     }

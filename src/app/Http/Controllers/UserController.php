@@ -2,144 +2,86 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\UserDto;
+use App\Http\Requests\UserUpdateRequest;
+use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     private $service;
 
-    public function __construct()
-    {
-        $this->service = new UserService();
-    }
-
-
     /**
-     * @param Request $request
-     * @return JsonResponse
+     * @param UserService $service
      */
-    public function store(Request $request): JsonResponse
+    public function __construct(UserService $service)
     {
-        $data = $request->only([
-            'name',
-            'role_id',
-            'password',
-            'password_confirmed'
-        ]);
-
-        $result = ['status' => 200];
-
-        try {
-            $request['data'] = $this->service->create($data);
-        } catch (\Exception $e) {
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
-            ];
-        }
-
-        return response()->json($result, $result['status']);
+        $this->service = $service;
     }
-
 
     /**
      * @param int $id
      * @return JsonResponse
+     * @throws \Exception
      */
     public function show(int $id): JsonResponse
     {
-        $user = $this->service->read($id);
-        if (!$user) {
-            $result = [
-                'status' => 500,
-                'error' => 'not found'
-            ];
-        } else {
-            $result = [
-                'status' => 200,
-                'data' => $user
-            ];
+        try {
+            $user = $this->service->read($id);
+
+            if ($user) {
+                $result['user'] = new UserResource($user);
+            } else {
+                $result = 'not found';
+            }
+
+        } catch (\Exception $e) {
+            throw new \Exception('here' . $e->getMessage());
         }
 
-        return response()->json($result, $result['status']);
+        return response()->json($result, 200);
     }
 
-
     /**
-     * @param Request $request
+     * @param UserUpdateRequest $request
      * @param int $id
      * @return JsonResponse
+     * @throws \Exception
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(int $id, UserUpdateRequest $request): JsonResponse
     {
-        $data = $request->only([
-            'name',
-            'role_id',
-            'password',
-            'password_confirmed'
-        ]);
+        $validated = $request->validated();
 
-        $result = ['status' => 200];
+        $data = new UserDto(
+            $request->input('name'),
+            $request->input('login'),
+            $request->input('role_id'),
+            $request->input('password')
+        );
 
         try {
-            $request['data'] = $this->service->update($data, $id);
+            $user = $this->service->update($id, $data);
         } catch (\Exception $e) {
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
-            ];
+            throw new \Exception($e->getMessage());
         }
 
-        return response()->json($result, $result['status']);
+        return response()->json(['user' => new UserResource($user)], 200);
     }
-
 
     /**
      * @param int $id
      * @return JsonResponse
+     * @throws \Exception
      */
     public function destroy(int $id): JsonResponse
     {
-        $result = ['status' => 200];
-
         try {
-            $request['data'] = $this->service->delete($id);
+            $user = $this->service->delete($id);
         } catch (\Exception $e) {
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
-            ];
+            throw new \Exception($e->getMessage());
         }
 
-        return response()->json($result, $result['status']);
-    }
-
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function login(Request $request): JsonResponse
-    {
-        $data = $request->only([
-            'name',
-            'password',
-        ]);
-
-        $result = $this->service->login($data);
-
-        return $result;
-    }
-
-    /**
-     * @return JsonResponse
-     */
-    public function logout(): JsonResponse
-    {
-        auth()->user()->currentAccessToken()->delete();
-
-        return response()->json([ 'message' => 'Успешный выход']);
+        return response()->json('deleted', 200);
     }
 }

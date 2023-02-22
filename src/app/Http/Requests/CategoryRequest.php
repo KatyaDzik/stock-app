@@ -25,7 +25,7 @@ class CategoryRequest extends FormRequest
     {
         return [
             'category' => ['required', 'string', 'min:2', 'max:255'],
-            'parent_id' => ['exists:categories,id']
+            'parent_id' => ['nullable', 'exists:categories,id']
         ];
     }
 }

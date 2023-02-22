@@ -33,7 +33,7 @@ interface CategoryRepositoryInterface
      * @param int $id
      * @return Category|null
      */
-    public function update(CategoryDto $data, int $id): ?Category;
+    public function update(int $id, array $data): ?Category;
 
     /**
      * @param CategoryDto $data

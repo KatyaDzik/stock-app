@@ -4,8 +4,8 @@ namespace App\Dto;
 
 final class CategoryDto
 {
-    private $category;
-    private $parent_id;
+    private string $category;
+    private ?int $parent_id;
 
 
     /**

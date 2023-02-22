@@ -23,13 +23,18 @@ Route::resource('categories', \App\Http\Controllers\CategoryController::class)->
 ]);
 
 Route::resource('users', \App\Http\Controllers\UserController::class)->only([
-    'store', 'show', 'update', 'destroy'
+    'show', 'update', 'destroy'
 ]);
+
+Route::get('/test', [App\Http\Controllers\TestController::class, 'index']);
+
 
 Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
     'store', 'show', 'update', 'destroy'
 ])->middleware('auth:sanctum');
 
-Route::post('/users/login', [\App\Http\Controllers\UserController::class, 'login']);
+Route::post('/users/register', [\App\Http\Controllers\AuthController::class, 'register']);
 
-Route::post('/users/logout', [\App\Http\Controllers\UserController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('/users/login', [\App\Http\Controllers\AuthController::class, 'login']);
+
+Route::post('/users/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->middleware('auth:sanctum');

@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use App\Services\PostServiceInterface\CategoryServiceInterface;
 use App\Services\PostServiceInterface\PostServiceInterface;
-use Illuminate\Support\Facades\Validator;
 
 class CategoryService implements CategoryServiceInterface
 {
@@ -45,16 +44,38 @@ class CategoryService implements CategoryServiceInterface
         return $category;
     }
 
+
     /**
-     * @param CategoryDto $data
      * @param int $id
+     * @param CategoryDto $data
      * @return Category|null
      */
-    public function update(CategoryDto $data, int $id): ?Category
+    public function update(int $id, CategoryDto $data): ?Category
     {
-        $result = $this->repository->update($data, $id);
+        $category = $this->repository->getById($id);
 
-        return $result;
+        $array_for_update = $this->checkFieldforUpdate($category, $data);
+
+        if (!empty($array_for_update)) {
+            $category = $this->repository->update($id, $array_for_update);
+        }
+
+        return $category;
+    }
+
+    public function checkFieldforUpdate(Category $category, CategoryDto $dto)
+    {
+        $data = [];
+
+        if ($category->category != $dto->getCategory()) {
+            $data['category'] = $dto->getCategory();
+        }
+
+        if ($category->parent_id != $dto->getParent()) {
+            $data['parent_id'] = $dto->getParent();
+        }
+
+        return $data;
     }
 
 

@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Dto\UserDto;
 use App\Models\User;
-use App\Repositories\Interfaces\PostRepositoryInteface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
@@ -33,15 +32,16 @@ class UserRepository implements UserRepositoryInterface
      * @param int $id
      * @return User|null
      */
-    public function update(array $data, int $id): ?User
+    public function update(int $id, UserDto $data): ?User
     {
         $user = User::find($id);
 
-        if (isset($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
-
-        $user->fill($data)->save();
+        $user->fill([
+            'name' => $data->getName(),
+            'login' => $data->getLogin(),
+            'role_id' => $data->getRole(),
+            'password' => Hash::make($data->getPassword())
+        ])->update();
 
         return $user;
     }
@@ -53,10 +53,12 @@ class UserRepository implements UserRepositoryInterface
     public function save(UserDto $data): ?User
     {
         $user = new User();
-        $user->name = $data->getName();
-        $user->role_id = $data->getRole();
-        $user->password = Hash::make($data->getPassword());
-        $user->save();
+        $user->fill([
+            'name' => $data->getName(),
+            'login' => $data->getLogin(),
+            'role_id' => $data->getRole(),
+            'password' => Hash::make($data->getPassword())
+        ])->save();
 
         return $user;
     }
@@ -66,28 +68,22 @@ class UserRepository implements UserRepositoryInterface
      * @return User|null
      * @throws \Exception
      */
-    public function delete(int $id): ?User
+    public function delete(int $id): bool
     {
-        $user = User::find($id);
-
-        if (!$user) {
-            throw new \Exception('Unable to delete post data');
-        }
-
-        $user->delete();
+        $user = User::where('id', $id)->delete();;
 
         return $user;
     }
 
 
     /**
-     * @param string $name
+     * @param string $login
      * @return User|null
      */
-    public function getByName(string $name): ?User
+    public function getByLogin(string $login): ?User
     {
-        $user = User::where('name', $name)->first();
+        $user = User::where('login', $login)->first();
+
         return $user;
     }
-
 }

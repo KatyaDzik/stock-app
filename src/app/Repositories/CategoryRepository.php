@@ -6,7 +6,6 @@ use App\Dto\CategoryDto;
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Repositories\Interfaces\PostRepositoryInteface;
-use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
 class CategoryRepository implements CategoryRepositoryInterface
@@ -34,7 +33,7 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function getSubcategories(int $id): ?Collection
     {
-        return Category::where('parent_id', $id)->find($id);
+        return Category::where('parent_id', $id)->get();
     }
 
 
@@ -43,16 +42,10 @@ class CategoryRepository implements CategoryRepositoryInterface
      * @param int $id
      * @return Category|null
      */
-    public function update(CategoryDto $data, int $id): ?Category
+    public function update(int $id, array $data): ?Category
     {
-        $category = Category::find($id);
-        if ($data->getCategory()) {
-            $category->category = $data->getCategory();
-        }
-        if ($data->getParent()) {
-            $category->parent_id = $data->getParent();
-        }
-        $category->save();
+        $category = Category::find($id)->fill($data);
+        $category->update();
 
         return $category->fresh();
     }
@@ -79,7 +72,7 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function delete(int $id): ?bool
     {
-        $category = Category::find($id)->delete();
+        $category = Category::where('id', $id)->delete();;
 
         return $category;
     }

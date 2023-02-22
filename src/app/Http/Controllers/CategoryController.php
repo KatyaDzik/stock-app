@@ -14,6 +14,9 @@ class CategoryController extends Controller
 {
     private $service;
 
+    /**
+     * @param CategoryService $service
+     */
     public function __construct(CategoryService $service)
     {
         $this->service = $service;
@@ -35,7 +38,7 @@ class CategoryController extends Controller
         try {
             $category = $this->service->create($data);
         } catch (\Exception $e) {
-            throw \Exception($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
 
         return response()->json(['category' => new CategoryResource($category)], 200);
@@ -51,7 +54,7 @@ class CategoryController extends Controller
         try {
             $category = $this->service->read($id);
         } catch (\Exception $e) {
-            throw \Exception($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
 
         return response()->json(['category' => new CategoryResource($category)], 200);
@@ -63,7 +66,7 @@ class CategoryController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function update(CategoryUpdateRequest $request, int $id): JsonResponse
+    public function update(int $id, CategoryRequest $request): JsonResponse
     {
         $validated = $request->validated();
 
@@ -73,9 +76,9 @@ class CategoryController extends Controller
         );
 
         try {
-            $category = $this->service->update($data, $id);
+            $category = $this->service->update($id, $data);
         } catch (\Exception $e) {
-            throw \Exception($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
 
         return response()->json(['category' => new CategoryResource($category)], 200);
@@ -91,7 +94,7 @@ class CategoryController extends Controller
         try {
             $category = $this->service->delete($id);
         } catch (\Exception $e) {
-            throw \Exception($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
 
         return response()->json('deleted', 200);

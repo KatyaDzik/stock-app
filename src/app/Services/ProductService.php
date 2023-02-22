@@ -2,41 +2,33 @@
 
 namespace App\Services;
 
+use App\Dto\ProductDto;
 use App\Models\Product;
 use App\Repositories\ProductChangesRepository;
 use App\Repositories\ProductRepository;
-use App\Services\PostServiceInterface\PostServiceInterface;
-use Illuminate\Support\Facades\Validator;
+use App\Services\PostServiceInterface\ProductServiceInterface;
 use Illuminate\Support\Facades\DB;
 
-class ProductService implements PostServiceInterface
+class ProductService implements ProductServiceInterface
 {
     private $repository;
 
-    public function __construct()
+    /**
+     * @param ProductRepository $repository
+     */
+    public function __construct(ProductRepository $repository)
     {
-        $this->repository = new ProductRepository();
+        $this->repository = $repository;
     }
 
 
     /**
-     * @param array $data
+     * @param ProductDto $dto
      * @return Product|null
-     * @throws \Exception
      */
-    public function create(array $data): ?Product
+    public function create(ProductDto $dto): ?Product
     {
-        $validator = Validator::make($data, [
-            'product' => ['required', 'string', 'min:2', 'max:255'],
-            'category_id' => ['required', 'exists:categories,id'],
-            'author_id' => ['required', 'exists:users,id']
-        ]);
-
-        if ($validator->fails()) {
-            throw new \Exception($validator->errors());
-        }
-
-        $result = $this->repository->save($data);
+        $result = $this->repository->save($dto);
 
         return $result;
     }
@@ -60,23 +52,13 @@ class ProductService implements PostServiceInterface
      * @return Product|null
      * @throws \Exception
      */
-    public function update(array $data, int $id): ?Product
+    public function update(int $id, ProductDto $dto): ?Product
     {
-        $validator = Validator::make($data, [
-            'product' => ['string', 'min:2', 'max:255'],
-            'category_id' => ['exists:categories,id'],
-            'editor_id' => ['required', 'exists:users,id']
-        ]);
-
-        if ($validator->fails()) {
-            throw new \Exception($validator->errors());
-        }
-
         $product = $this->repository->getById($id);
         $data_product_change = [
             'product' => $product->product,
             'product_id' => $product->id,
-            'editor_id' => $data ['editor_id']
+            'editor_id' => $dto->getAuthor()
         ];
 
         $product_change_repository = new ProductChangesRepository();
@@ -85,7 +67,7 @@ class ProductService implements PostServiceInterface
             DB::beginTransaction();
 
             $product_change_repository->save($data_product_change);
-            $result = $this->repository->update($data, $id);
+            $result = $this->repository->update($id, $dto);
 
             DB::commit();
         } catch (\Exception $e) {
@@ -99,10 +81,9 @@ class ProductService implements PostServiceInterface
 
     /**
      * @param int $id
-     * @return Product|null
-     * @throws \Exception
+     * @return bool
      */
-    public function delete(int $id): ?Product
+    public function delete(int $id): bool
     {
         $result = $this->repository->delete($id);
 

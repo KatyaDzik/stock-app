@@ -2,50 +2,21 @@
 
 namespace App\Services;
 
+use App\Dto\UserDto;
 use App\Models\User;
 use App\Repositories\UserRepository;
-use App\Services\PostServiceInterface\PostServiceInterface;
-use Illuminate\Http\Request;
+use App\Services\PostServiceInterface\UserServiceInterface;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 
 
-class UserService implements PostServiceInterface, UserServiceInterface
+class UserService implements UserServiceInterface
 {
-    private $repository;
-
-    public function __construct()
+    public function __construct(UserRepository $repository)
     {
-        $this->repository = new UserRepository();
+        $this->repository = $repository;
     }
-
-
-    /**
-     * @param array $data
-     * @return User|null
-     * @throws \Exception
-     */
-    public function create(array $data): ?User
-    {
-        $validator = Validator::make($data, [
-            'name' => ['required', 'string', 'min:2', 'max:255'],
-            'role_id' => ['required', 'exists:roles,id'],
-            'password' => ['required', 'min:4', 'max:255'],
-            'password_confirmed' => ['required', 'same:password'],
-        ]);
-
-        if ($validator->fails()) {
-            throw new \Exception($validator->errors());
-        }
-
-        $result = $this->repository->save($data);
-
-        return $result;
-    }
-
 
     /**
      * @param int $id
@@ -65,31 +36,20 @@ class UserService implements PostServiceInterface, UserServiceInterface
      * @return User|null
      * @throws \Exception
      */
-    public function update(array $data, int $id): ?User
+    public function update(int $id, UserDto $dto): ?User
     {
-        $validator = Validator::make($data, [
-            'name' => ['string', 'min:2', 'max:255'],
-            'role_id' => ['exists:roles,id'],
-            'password' => ['min:4', 'max:255'],
-            'password_confirmed' => ['same:password'],
-        ]);
+        $user = $this->repository->update($id, $dto);
 
-        if ($validator->fails()) {
-            throw new \Exception($validator->errors());
-        }
-
-        $result = $this->repository->update($data, $id);
-
-        return $result;
+        return $user;
     }
 
 
     /**
      * @param int $id
-     * @return User|null
+     * @return bool
      * @throws \Exception
      */
-    public function delete(int $id): ?User
+    public function delete(int $id): bool
     {
         $result = $this->repository->delete($id);
 

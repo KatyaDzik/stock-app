@@ -19,12 +19,13 @@ interface CategoryServiceInterface
      */
     public function read(int $id): ?Category;
 
+
     /**
-     * @param CategoryDto $data
      * @param int $id
+     * @param CategoryDto $data
      * @return Category|null
      */
-    public function update(CategoryDto $data, int $id): ?Category;
+    public function update(int $id, CategoryDto $data): ?Category;
 
     /**
      * @param int $id
