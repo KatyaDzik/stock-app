@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Dto\CategoryDto;
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
-use App\Repositories\Interfaces\PostRepositoryInteface;
 use Illuminate\Database\Eloquent\Collection;
 
 class CategoryRepository implements CategoryRepositoryInterface
@@ -38,8 +37,8 @@ class CategoryRepository implements CategoryRepositoryInterface
 
 
     /**
-     * @param CategoryDto $data
      * @param int $id
+     * @param array $data
      * @return Category|null
      */
     public function update(int $id, array $data): ?Category
@@ -58,7 +57,7 @@ class CategoryRepository implements CategoryRepositoryInterface
     public function save(CategoryDto $data): ?Category
     {
         $category = new Category();
-        $category->category = $data->getCategory();
+        $category->name = $data->getName();
         $category->parent_id = $data->getParent();
         $category->save();
 
@@ -72,7 +71,7 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function delete(int $id): ?bool
     {
-        $category = Category::where('id', $id)->delete();;
+        $category = Category::where('id', $id)->delete();
 
         return $category;
     }

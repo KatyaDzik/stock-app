@@ -29,8 +29,8 @@ interface CategoryRepositoryInterface
     public function getSubcategories(int $id): ?Collection;
 
     /**
-     * @param CategoryDto $data
      * @param int $id
+     * @param array $data
      * @return Category|null
      */
     public function update(int $id, array $data): ?Category;

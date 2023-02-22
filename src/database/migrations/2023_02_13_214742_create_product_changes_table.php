@@ -14,7 +14,7 @@ class CreateProductChangesTable extends Migration
     public function up()
     {
         Schema::create('product_changes', function (Blueprint $table) {
-            $table->string('product');
+            $table->string('name');
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->bigInteger('editor_id')->unsigned();

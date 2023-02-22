@@ -28,8 +28,8 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * @param array $data
      * @param int $id
+     * @param UserDto $data
      * @return User|null
      */
     public function update(int $id, UserDto $data): ?User
@@ -47,7 +47,7 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * @param array $data
+     * @param UserDto $data
      * @return User|null
      */
     public function save(UserDto $data): ?User
@@ -65,14 +65,11 @@ class UserRepository implements UserRepositoryInterface
 
     /**
      * @param int $id
-     * @return User|null
-     * @throws \Exception
+     * @return bool
      */
     public function delete(int $id): bool
     {
-        $user = User::where('id', $id)->delete();;
-
-        return $user;
+        return User::where('id', $id)->delete();
     }
 
 
@@ -82,8 +79,6 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getByLogin(string $login): ?User
     {
-        $user = User::where('login', $login)->first();
-
-        return $user;
+        return User::where('login', $login)->first();
     }
 }

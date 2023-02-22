@@ -22,15 +22,15 @@ interface UserRepositoryInterface
 
 
     /**
-     * @param array $data
      * @param int $id
+     * @param UserDto $data
      * @return User|null
      */
     public function update(int $id, UserDto $data): ?User;
 
 
     /**
-     * @param array $data
+     * @param UserDto $data
      * @return User|null
      */
     public function save(UserDto $data): ?User;

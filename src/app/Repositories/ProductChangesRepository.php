@@ -16,7 +16,7 @@ class ProductChangesRepository implements ProductChangesRepositoryInterface
         return ProductChanges::find($id);
     }
 
-    public function save(array $data)
+    public function save(array $data): ?ProductChanges
     {
         $productChange = new ProductChanges();
         $productChange->fill($data);

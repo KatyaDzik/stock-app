@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Dto\CategoryDto;
 use App\Http\Requests\CategoryRequest;
-use App\Http\Requests\CategoryUpdateRequest;
 use App\Http\Resources\CategoryResource;
 use App\Services\CategoryService;
 use Illuminate\Http\JsonResponse;
@@ -12,7 +11,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    private $service;
+    private CategoryService $service;
 
     /**
      * @param CategoryService $service
@@ -22,16 +21,13 @@ class CategoryController extends Controller
         $this->service = $service;
     }
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
+
     public function store(CategoryRequest $request): JsonResponse
     {
         $validated = $request->validated();
 
         $data = new CategoryDto(
-            $request->input('category'),
+            $request->input('name'),
             $request->input('parent_id')
         );
 
@@ -48,6 +44,7 @@ class CategoryController extends Controller
     /**
      * @param int $id
      * @return JsonResponse
+     * @throws \Exception
      */
     public function show(int $id): JsonResponse
     {
@@ -65,13 +62,14 @@ class CategoryController extends Controller
      * @param Request $request
      * @param int $id
      * @return JsonResponse
+     * @throws \Exception
      */
     public function update(int $id, CategoryRequest $request): JsonResponse
     {
         $validated = $request->validated();
 
         $data = new CategoryDto(
-            $request->input('category'),
+            $request->input('name'),
             $request->input('parent_id')
         );
 
@@ -88,6 +86,7 @@ class CategoryController extends Controller
     /**
      * @param int $id
      * @return JsonResponse
+     * @throws \Exception
      */
     public function destroy(int $id): JsonResponse
     {

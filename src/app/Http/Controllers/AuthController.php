@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-    private $service;
+    private AuthService $service;
 
     /**
      * @param AuthService $service
@@ -61,7 +61,7 @@ class AuthController extends Controller
 
         $result = $this->service->login($data);
 
-        return $result;
+        return response()->json($result);
     }
 
 

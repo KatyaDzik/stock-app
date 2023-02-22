@@ -6,11 +6,10 @@ use App\Dto\CategoryDto;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use App\Services\PostServiceInterface\CategoryServiceInterface;
-use App\Services\PostServiceInterface\PostServiceInterface;
 
 class CategoryService implements CategoryServiceInterface
 {
-    private $repository;
+    private CategoryRepository $repository;
 
     /**
      * @param CategoryRepository $repository
@@ -27,9 +26,7 @@ class CategoryService implements CategoryServiceInterface
      */
     public function create(CategoryDto $data): ?Category
     {
-        $result = $this->repository->save($data);
-
-        return $result;
+        return $this->repository->save($data);
     }
 
 
@@ -39,9 +36,7 @@ class CategoryService implements CategoryServiceInterface
      */
     public function read(int $id): ?Category
     {
-        $category = $this->repository->getById($id);
-
-        return $category;
+        return $this->repository->getById($id);
     }
 
 
@@ -54,7 +49,7 @@ class CategoryService implements CategoryServiceInterface
     {
         $category = $this->repository->getById($id);
 
-        $array_for_update = $this->checkFieldforUpdate($category, $data);
+        $array_for_update = $this->checkFieldForUpdate($category, $data);
 
         if (!empty($array_for_update)) {
             $category = $this->repository->update($id, $array_for_update);
@@ -63,12 +58,17 @@ class CategoryService implements CategoryServiceInterface
         return $category;
     }
 
-    public function checkFieldforUpdate(Category $category, CategoryDto $dto)
+    /**
+     * @param Category $category
+     * @param CategoryDto $dto
+     * @return array
+     */
+    public function checkFieldForUpdate(Category $category, CategoryDto $dto): array
     {
         $data = [];
 
-        if ($category->category !== $dto->getCategory()) {
-            $data['category'] = $dto->getCategory();
+        if ($category->name !== $dto->getName()) {
+            $data['name'] = $dto->getName();
         }
 
         if ($category->parent_id !== $dto->getParent()) {
@@ -86,8 +86,6 @@ class CategoryService implements CategoryServiceInterface
      */
     public function delete(int $id): bool
     {
-        $result = $this->repository->delete($id);
-
-        return $result;
+        return $this->repository->delete($id);
     }
 }

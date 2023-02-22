@@ -4,7 +4,6 @@ namespace App\Services\PostServiceInterface;
 
 use App\Dto\UserDto;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 
 interface UserServiceInterface
 {
@@ -16,8 +15,8 @@ interface UserServiceInterface
 
 
     /**
-     * @param array $data
      * @param int $id
+     * @param UserDto $dto
      * @return User|null
      * @throws \Exception
      */
@@ -29,11 +28,4 @@ interface UserServiceInterface
      * @throws \Exception
      */
     public function delete(int $id): bool;
-
-
-    /**
-     * @param array $data
-     * @return JsonResponse
-     */
-    public function login(array $data): JsonResponse;
 }

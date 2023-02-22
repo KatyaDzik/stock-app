@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
-    private $service;
+    private UserService $service;
 
     /**
      * @param UserService $service

@@ -15,7 +15,7 @@ class CreateStocksTable extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->string('stock');
+            $table->string('name');
             $table->string('address');
             $table->timestamps();
             $table->softDeletes();

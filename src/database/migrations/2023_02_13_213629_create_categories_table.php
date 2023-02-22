@@ -15,7 +15,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('category');
+            $table->string('name');
             $table->bigInteger('parent_id')->unsigned()->nullable(true);;
             $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
@@ -30,7 +30,7 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('categories', function (Blueprint $table){
+        Schema::table('categories', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
     }

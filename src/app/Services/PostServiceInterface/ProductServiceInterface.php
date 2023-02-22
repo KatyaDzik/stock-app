@@ -4,7 +4,6 @@ namespace App\Services\PostServiceInterface;
 
 use App\Dto\ProductDto;
 use App\Models\Product;
-use App\Repositories\ProductChangesRepository;
 
 interface ProductServiceInterface
 {
@@ -22,8 +21,8 @@ interface ProductServiceInterface
     public function read(int $id): ?Product;
 
     /**
-     * @param array $data
      * @param int $id
+     * @param ProductDto $dto
      * @return Product|null
      * @throws \Exception
      */

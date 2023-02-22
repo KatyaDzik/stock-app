@@ -4,26 +4,26 @@ namespace App\Dto;
 
 final class CategoryDto
 {
-    private string $category;
+    private string $name;
     private ?int $parent_id;
 
 
     /**
-     * @param string $category
+     * @param string $name
      * @param int|null $parent_id
      */
-    public function __construct(string $category, ?int $parent_id)
+    public function __construct(string $name, ?int $parent_id)
     {
-        $this->category = $category;
+        $this->name = $name;
         $this->parent_id = $parent_id;
     }
 
     /**
      * @return string
      */
-    public function getCategory(): string
+    public function getName(): string
     {
-        return $this->category;
+        return $this->name;
     }
 
     /**

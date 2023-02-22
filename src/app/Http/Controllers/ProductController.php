@@ -7,7 +7,6 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -21,16 +20,18 @@ class ProductController extends Controller
         $this->service = $service;
     }
 
+
     /**
-     * @param Request $request
+     * @param ProductRequest $request
      * @return JsonResponse
+     * @throws \Exception
      */
     public function store(ProductRequest $request): JsonResponse
     {
         $validated = $request->validated();
 
         $data = new ProductDto(
-            $request->input('product'),
+            $request->input('name'),
             $request->input('category_id'),
             auth()->user()->id
         );
@@ -48,6 +49,7 @@ class ProductController extends Controller
     /**
      * @param int $id
      * @return JsonResponse
+     * @throws \Exception
      */
     public function show(int $id): JsonResponse
     {
@@ -62,16 +64,17 @@ class ProductController extends Controller
 
 
     /**
-     * @param Request $request
      * @param int $id
+     * @param ProductRequest $request
      * @return JsonResponse
+     * @throws \Exception
      */
     public function update(int $id, ProductRequest $request): JsonResponse
     {
         $validated = $request->validated();
 
         $data = new ProductDto(
-            $request->input('product'),
+            $request->input('name'),
             $request->input('category_id'),
             auth()->user()->id
         );
@@ -89,6 +92,7 @@ class ProductController extends Controller
     /**
      * @param int $id
      * @return JsonResponse
+     * @throws \Exception
      */
     public function destroy(int $id): JsonResponse
     {

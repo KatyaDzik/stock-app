@@ -19,18 +19,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::resource('categories', \App\Http\Controllers\CategoryController::class)->only([
-    'store', 'show', 'update', 'destroy'
+    'store',
+    'show',
+    'update',
+    'destroy'
 ]);
 
 Route::resource('users', \App\Http\Controllers\UserController::class)->only([
-    'show', 'update', 'destroy'
+    'show',
+    'update',
+    'destroy'
 ]);
 
 Route::get('/test', [App\Http\Controllers\TestController::class, 'index']);
 
 
 Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
-    'store', 'show', 'update', 'destroy'
+    'store',
+    'show',
+    'update',
+    'destroy'
 ])->middleware('auth:sanctum');
 
 Route::post('/users/register', [\App\Http\Controllers\AuthController::class, 'register']);

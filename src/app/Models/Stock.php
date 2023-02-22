@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * App\Models\Stock
  *
  * @property int $id
- * @property string $stock
+ * @property string $name
  * @property string $address
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -20,7 +20,7 @@ class Stock extends Model
     use HasFactory;
 
     protected $fillable = [
-        'stock',
+        'name',
         'address'
     ];
 

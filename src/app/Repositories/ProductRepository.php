@@ -72,7 +72,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $product = Product::find($id);
         $product->fill([
-            'product' => $dto->getProduct(),
+            'name' => $dto->getName(),
             'category_id' => $dto->getCategory(),
         ])->update();
 
@@ -88,7 +88,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $product = new Product();
         $product->fill([
-            'product' => $dto->getProduct(),
+            'name' => $dto->getName(),
             'category_id' => $dto->getCategory(),
             'author_id' => $dto->getAuthor()
         ])->save();
@@ -102,8 +102,6 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function delete(int $id): bool
     {
-        $product = Product::where('id', $id)->delete();
-
-        return $product;
+        return Product::where('id', $id)->delete();
     }
 }

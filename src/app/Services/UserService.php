@@ -6,13 +6,15 @@ use App\Dto\UserDto;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\PostServiceInterface\UserServiceInterface;
-use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Hash;
 
 
 class UserService implements UserServiceInterface
 {
+    private UserRepository $repository;
+
+    /**
+     * @param UserRepository $repository
+     */
     public function __construct(UserRepository $repository)
     {
         $this->repository = $repository;
@@ -24,23 +26,18 @@ class UserService implements UserServiceInterface
      */
     public function read(int $id): ?User
     {
-        $user = $this->repository->getById($id);
-
-        return $user;
+        return $this->repository->getById($id);
     }
 
 
     /**
-     * @param array $data
      * @param int $id
+     * @param UserDto $dto
      * @return User|null
-     * @throws \Exception
      */
     public function update(int $id, UserDto $dto): ?User
     {
-        $user = $this->repository->update($id, $dto);
-
-        return $user;
+        return $this->repository->update($id, $dto);
     }
 
 
@@ -51,25 +48,6 @@ class UserService implements UserServiceInterface
      */
     public function delete(int $id): bool
     {
-        $result = $this->repository->delete($id);
-
-        return $result;
-    }
-
-
-    /**
-     * @param array $data
-     * @return JsonResponse
-     */
-    public function login(array $data): JsonResponse
-    {
-        $user = $this->repository->getByName($data['name']);
-
-        if (Hash::check($data['password'], $user->password)) {
-            $success['jwt'] = $user->createToken('token')->plainTextToken;
-            return response()->json(['jwt' => $success['jwt']]);
-        } else {
-            return response()->json(['errors' => 'Неправильный логин или пароль'], Response::HTTP_UNAUTHORIZED);
-        }
+        return $this->repository->delete($id);
     }
 }

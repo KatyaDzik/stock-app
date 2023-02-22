@@ -16,7 +16,7 @@ interface AuthServiceInterface
 
     /**
      * @param LoginDto $dto
-     * @return JsonResponse
+     * @return array
      */
-    public function login(LoginDto $dto): JsonResponse;
+    public function login(LoginDto $dto): array;
 }

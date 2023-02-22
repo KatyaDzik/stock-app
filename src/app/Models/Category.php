@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\Category
  *
  * @property int $id
- * @property string $category
+ * @property string $name
  * @property int|null $parent_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -24,7 +24,7 @@ class Category extends Model
 
     protected $fillable = [
         'id',
-        'category',
+        'name',
         'parent_id'
     ];
 

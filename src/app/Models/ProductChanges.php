@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * App\Models\ProductChanges
  *
- * @property string $product
+ * @property string $name
  * @property int $product_id
  * @property int $editor_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -20,7 +20,7 @@ class ProductChanges extends Model
     use HasFactory;
 
     protected $fillable = [
-        'product',
+        'name',
         'product_id',
         'editor_id'
     ];

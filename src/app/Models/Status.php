@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * App\Models\Status
  *
  * @property int $id
- * @property string $status
+ * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  */
@@ -19,7 +19,7 @@ class Status extends Model
     use HasFactory;
 
     protected $fillable = [
-        'status',
+        'name',
     ];
 
 

@@ -4,14 +4,12 @@ namespace App\Services;
 
 use App\Dto\ProductDto;
 use App\Models\Product;
-use App\Repositories\ProductChangesRepository;
 use App\Repositories\ProductRepository;
 use App\Services\PostServiceInterface\ProductServiceInterface;
-use Illuminate\Support\Facades\DB;
 
 class ProductService implements ProductServiceInterface
 {
-    private $repository;
+    private ProductRepository $repository;
 
     /**
      * @param ProductRepository $repository
@@ -28,9 +26,7 @@ class ProductService implements ProductServiceInterface
      */
     public function create(ProductDto $dto): ?Product
     {
-        $result = $this->repository->save($dto);
-
-        return $result;
+        return $this->repository->save($dto);
     }
 
 
@@ -40,23 +36,18 @@ class ProductService implements ProductServiceInterface
      */
     public function read(int $id): ?Product
     {
-        $product = $this->repository->getById($id);
-
-        return $product;
+        return $this->repository->getById($id);
     }
 
 
     /**
-     * @param array $data
      * @param int $id
+     * @param ProductDto $dto
      * @return Product|null
-     * @throws \Exception
      */
     public function update(int $id, ProductDto $dto): ?Product
     {
-        $result = $this->repository->update($id, $dto);
-
-        return $result;
+        return $this->repository->update($id, $dto);
     }
 
 
@@ -66,8 +57,6 @@ class ProductService implements ProductServiceInterface
      */
     public function delete(int $id): bool
     {
-        $result = $this->repository->delete($id);
-
-        return $result;
+        return $this->repository->delete($id);
     }
 }

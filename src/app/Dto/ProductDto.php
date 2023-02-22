@@ -4,18 +4,18 @@ namespace App\Dto;
 
 class ProductDto
 {
-    private string $product;
+    private string $name;
     private int $category_id;
     private int $author_id;
 
     /**
-     * @param string $product
+     * @param string $name
      * @param int $category_id
      * @param int $author_id
      */
-    public function __construct(string $product, int $category_id, int $author_id)
+    public function __construct(string $name, int $category_id, int $author_id)
     {
-        $this->product = $product;
+        $this->name = $name;
         $this->category_id = $category_id;
         $this->author_id = $author_id;
     }
@@ -23,9 +23,9 @@ class ProductDto
     /**
      * @return string
      */
-    public function getProduct(): string
+    public function getName(): string
     {
-        return $this->product;
+        return $this->name;
     }
 
     /**

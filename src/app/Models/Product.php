@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\Product
  *
  * @property int $id
- * @property string $product
+ * @property string $name
  * @property int $category_id
  * @property int $author_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -24,7 +24,7 @@ class Product extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'product',
+        'name',
         'category_id',
         'author_id'
     ];
