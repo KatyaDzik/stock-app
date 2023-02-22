@@ -4,6 +4,7 @@ namespace App\Services\PostServiceInterface;
 
 use App\Dto\ProductDto;
 use App\Models\Product;
+use App\Repositories\ProductChangesRepository;
 
 interface ProductServiceInterface
 {

@@ -67,11 +67,11 @@ class CategoryService implements CategoryServiceInterface
     {
         $data = [];
 
-        if ($category->category != $dto->getCategory()) {
+        if ($category->category !== $dto->getCategory()) {
             $data['category'] = $dto->getCategory();
         }
 
-        if ($category->parent_id != $dto->getParent()) {
+        if ($category->parent_id !== $dto->getParent()) {
             $data['parent_id'] = $dto->getParent();
         }
 

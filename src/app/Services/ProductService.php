@@ -54,26 +54,7 @@ class ProductService implements ProductServiceInterface
      */
     public function update(int $id, ProductDto $dto): ?Product
     {
-        $product = $this->repository->getById($id);
-        $data_product_change = [
-            'product' => $product->product,
-            'product_id' => $product->id,
-            'editor_id' => $dto->getAuthor()
-        ];
-
-        $product_change_repository = new ProductChangesRepository();
-
-        try {
-            DB::beginTransaction();
-
-            $product_change_repository->save($data_product_change);
-            $result = $this->repository->update($id, $dto);
-
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw new \Exception('not updated ' . $e);
-        }
+        $result = $this->repository->update($id, $dto);
 
         return $result;
     }
