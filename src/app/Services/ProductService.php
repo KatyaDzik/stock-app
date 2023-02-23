@@ -3,10 +3,18 @@
 namespace App\Services;
 
 use App\Dto\ProductDto;
-use App\Models\Product;
+use App\Exceptions\ModelNotCreatedException;
+use App\Exceptions\ModelNotDeletedException;
+use App\Exceptions\ModelNotFoundException;
+use App\Exceptions\ModelNotUpdatedException;
+use App\Http\Resources\ProductResource;
 use App\Repositories\ProductRepository;
-use App\Services\PostServiceInterface\ProductServiceInterface;
+use App\Services\Interfaces\ProductServiceInterface;
 
+/**
+ * Class ProductService
+ * @package App\Services
+ */
 class ProductService implements ProductServiceInterface
 {
     private ProductRepository $repository;
@@ -22,41 +30,62 @@ class ProductService implements ProductServiceInterface
 
     /**
      * @param ProductDto $dto
-     * @return Product|null
+     * @return array
      */
-    public function create(ProductDto $dto): ?Product
+    public function create(ProductDto $dto): array
     {
-        return $this->repository->save($dto);
+        try {
+            $product = $this->repository->save($dto);
+            return ['product' => new ProductResource($product)];
+        } catch (\Exception $e) {
+            throw new ModelNotCreatedException();
+        }
     }
 
 
     /**
      * @param int $id
-     * @return Product|null
+     * @return array
      */
-    public function read(int $id): ?Product
+    public function read(int $id): array
     {
-        return $this->repository->getById($id);
+        try {
+            $product = $this->repository->getById($id);
+            return ['product' => new ProductResource($product)];
+        } catch (\Exception $e) {
+            throw new ModelNotFoundException();
+        }
     }
 
 
     /**
      * @param int $id
      * @param ProductDto $dto
-     * @return Product|null
+     * @return array
      */
-    public function update(int $id, ProductDto $dto): ?Product
+    public function update(int $id, ProductDto $dto): array
     {
-        return $this->repository->update($id, $dto);
+        try {
+            $product = $this->repository->update($id, $dto);
+            return ['product' => new ProductResource($product)];
+        } catch (\Exception $e) {
+            throw new ModelNotUpdatedException();
+        }
     }
 
 
     /**
      * @param int $id
-     * @return bool
+     * @return array
+     * @throws \Exception
      */
-    public function delete(int $id): bool
+    public function delete(int $id): array
     {
-        return $this->repository->delete($id);
+        try {
+            $this->repository->delete($id);
+            return ['success' => 'deleted'];
+        } catch (\Exception $e) {
+            throw new ModelNotDeletedException();
+        }
     }
 }

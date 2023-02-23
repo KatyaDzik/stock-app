@@ -9,6 +9,10 @@ use App\Http\Requests\UserRequest;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * Class AuthController
+ * @package App\Http\Controllers
+ */
 class AuthController extends Controller
 {
     private AuthService $service;
@@ -25,7 +29,6 @@ class AuthController extends Controller
     /**
      * @param UserRequest $request
      * @return JsonResponse
-     * @throws \Exception
      */
     public function register(UserRequest $request): JsonResponse
     {
@@ -38,13 +41,9 @@ class AuthController extends Controller
             $request->input('password')
         );
 
-        try {
-            $user = $this->service->register($data);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
+        $result = $this->service->register($data);
 
-        return response()->json('registration completed successfully', 200);
+        return response()->json($result, 200);
     }
 
 
@@ -71,12 +70,8 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        try {
-            auth()->user()->currentAccessToken()->delete();
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
+        $result = $this->service->logout();
 
-        return response()->json(['message' => 'Успешный выход']);
+        return response()->json($result);
     }
 }

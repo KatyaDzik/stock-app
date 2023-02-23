@@ -8,6 +8,10 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Class UserRepository
+ * @package App\Repositories
+ */
 class UserRepository implements UserRepositoryInterface
 {
     /**
@@ -24,7 +28,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getById(int $id): ?User
     {
-        return User::find($id);
+        return User::findOrFail($id);
     }
 
     /**
@@ -34,16 +38,14 @@ class UserRepository implements UserRepositoryInterface
      */
     public function update(int $id, UserDto $data): ?User
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
-        $user->fill([
+        return $user->update([
             'name' => $data->getName(),
             'login' => $data->getLogin(),
             'role_id' => $data->getRole(),
             'password' => Hash::make($data->getPassword())
-        ])->update();
-
-        return $user;
+        ]);
     }
 
     /**
@@ -52,15 +54,12 @@ class UserRepository implements UserRepositoryInterface
      */
     public function save(UserDto $data): ?User
     {
-        $user = new User();
-        $user->fill([
+        return User::create([
             'name' => $data->getName(),
             'login' => $data->getLogin(),
             'role_id' => $data->getRole(),
             'password' => Hash::make($data->getPassword())
-        ])->save();
-
-        return $user;
+        ]);
     }
 
     /**
@@ -69,7 +68,8 @@ class UserRepository implements UserRepositoryInterface
      */
     public function delete(int $id): bool
     {
-        return User::where('id', $id)->delete();
+        $user = User::findOrFail($id);
+        return $user->delete();
     }
 
 
@@ -79,6 +79,6 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getByLogin(string $login): ?User
     {
-        return User::where('login', $login)->first();
+        return User::where('login', $login)->firstOrFail();
     }
 }

@@ -3,11 +3,18 @@
 namespace App\Services;
 
 use App\Dto\UserDto;
-use App\Models\User;
+use App\Exceptions\ModelNotDeletedException;
+use App\Exceptions\ModelNotFoundException;
+use App\Exceptions\ModelNotUpdatedException;
+use App\Http\Resources\UserResource;
 use App\Repositories\UserRepository;
-use App\Services\PostServiceInterface\UserServiceInterface;
+use App\Services\Interfaces\UserServiceInterface;
 
 
+/**
+ * Class UserService
+ * @package App\Services
+ */
 class UserService implements UserServiceInterface
 {
     private UserRepository $repository;
@@ -22,32 +29,46 @@ class UserService implements UserServiceInterface
 
     /**
      * @param int $id
-     * @return User|null
+     * @return array
      */
-    public function read(int $id): ?User
+    public function read(int $id): array
     {
-        return $this->repository->getById($id);
+        try {
+            $user = $this->repository->getById($id);
+            return ['user' => new UserResource($user)];
+        } catch (\Exception $e) {
+            throw new ModelNotFoundException();
+        }
     }
 
 
     /**
      * @param int $id
      * @param UserDto $dto
-     * @return User|null
+     * @return array
      */
-    public function update(int $id, UserDto $dto): ?User
+    public function update(int $id, UserDto $dto): array
     {
-        return $this->repository->update($id, $dto);
+        try {
+            $user = $this->repository->update($id, $dto);
+            return ['user' => new UserResource($user)];
+        } catch (\Exception $e) {
+            throw new ModelNotUpdatedException();
+        }
     }
 
 
     /**
      * @param int $id
-     * @return bool
-     * @throws \Exception
+     * @return array
      */
-    public function delete(int $id): bool
+    public function delete(int $id): array
     {
-        return $this->repository->delete($id);
+        try {
+            $this->repository->delete($id);
+            return ['success' => 'deleted'];
+        } catch (\Exception $e) {
+            throw new ModelNotDeletedException();
+        }
     }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Dto\UserDto;
 use App\Http\Requests\UserUpdateRequest;
-use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 
@@ -27,18 +26,7 @@ class UserController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        try {
-            $user = $this->service->read($id);
-
-            if ($user) {
-                $result['user'] = new UserResource($user);
-            } else {
-                $result = 'not found';
-            }
-
-        } catch (\Exception $e) {
-            throw new \Exception('here' . $e->getMessage());
-        }
+        $result = $this->service->read($id);
 
         return response()->json($result, 200);
     }
@@ -60,13 +48,9 @@ class UserController extends Controller
             $request->input('password')
         );
 
-        try {
-            $user = $this->service->update($id, $data);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
+        $result = $this->service->update($id, $data);
 
-        return response()->json(['user' => new UserResource($user)], 200);
+        return response()->json($result, 200);
     }
 
     /**
@@ -76,11 +60,7 @@ class UserController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        try {
-            $user = $this->service->delete($id);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
+        $result = $this->service->delete($id);
 
         return response()->json('deleted', 200);
     }

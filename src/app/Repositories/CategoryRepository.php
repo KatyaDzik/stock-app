@@ -7,6 +7,10 @@ use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class CategoryRepository
+ * @package App\Repositories
+ */
 class CategoryRepository implements CategoryRepositoryInterface
 {
     /**
@@ -23,7 +27,7 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function getById(int $id): ?Category
     {
-        return Category::find($id);
+        return Category::findOrFail($id);
     }
 
     /**
@@ -43,10 +47,9 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function update(int $id, array $data): ?Category
     {
-        $category = Category::find($id)->fill($data);
-        $category->update();
+        $category = Category::findOrFail($id);
 
-        return $category->fresh();
+        return $category->update($data);
     }
 
 
@@ -56,12 +59,10 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function save(CategoryDto $data): ?Category
     {
-        $category = new Category();
-        $category->name = $data->getName();
-        $category->parent_id = $data->getParent();
-        $category->save();
-
-        return $category->fresh();
+        return Category::create([
+            'name' => $data->getName(),
+            'parent_id' => $data->getParent()
+        ]);
     }
 
 
@@ -71,8 +72,8 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function delete(int $id): ?bool
     {
-        $category = Category::where('id', $id)->delete();
+        $category = Category::findOrFail();
 
-        return $category;
+        return $category->delete();;
     }
 }

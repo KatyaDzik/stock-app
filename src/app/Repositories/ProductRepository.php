@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- *
+ * Class ProductRepository
+ * @package App\Repositories
  */
 class ProductRepository implements ProductRepositoryInterface
 {
@@ -28,7 +29,7 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function getById(int $id): ?Product
     {
-        return Product::find($id);
+        return Product::findOrFail($id);
     }
 
     /**
@@ -70,13 +71,12 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function update(int $id, ProductDto $dto): ?Product
     {
-        $product = Product::find($id);
-        $product->fill([
-            'name' => $dto->getName(),
-            'category_id' => $dto->getCategory(),
-        ])->update();
+        $product = Product::findOrFail($id);
 
-        return $product;
+        return $product->update([
+            'name' => $dto->getName(),
+            'category_id' => $dto->getCategory()
+        ]);
     }
 
 
@@ -86,14 +86,11 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function save(ProductDto $dto): ?Product
     {
-        $product = new Product();
-        $product->fill([
+        return Product::create([
             'name' => $dto->getName(),
             'category_id' => $dto->getCategory(),
             'author_id' => $dto->getAuthor()
-        ])->save();
-
-        return $product;
+        ]);
     }
 
     /**
@@ -102,6 +99,7 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function delete(int $id): bool
     {
-        return Product::where('id', $id)->delete();
+        $product = Product::findOrFail($id);
+        return $product->delete();
     }
 }

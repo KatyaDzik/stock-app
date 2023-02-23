@@ -3,10 +3,19 @@
 namespace App\Services;
 
 use App\Dto\CategoryDto;
+use App\Exceptions\ModelNotCreatedException;
+use App\Exceptions\ModelNotDeletedException;
+use App\Exceptions\ModelNotFoundException;
+use App\Exceptions\ModelNotUpdatedException;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
-use App\Services\PostServiceInterface\CategoryServiceInterface;
+use App\Services\Interfaces\CategoryServiceInterface;
 
+/**
+ * Class CategoryService
+ * @package App\Services
+ */
 class CategoryService implements CategoryServiceInterface
 {
     private CategoryRepository $repository;
@@ -22,40 +31,54 @@ class CategoryService implements CategoryServiceInterface
 
     /**
      * @param CategoryDto $data
-     * @return Category|null
+     * @return array
      */
-    public function create(CategoryDto $data): ?Category
+    public function create(CategoryDto $data): array
     {
-        return $this->repository->save($data);
+        try {
+            $category = $this->repository->save($data);
+            return ['category' => new CategoryResource($category)];
+        } catch (\Exception $e) {
+            throw new ModelNotCreatedException();
+        }
     }
 
 
     /**
      * @param int $id
-     * @return Category|null
+     * @return array
      */
-    public function read(int $id): ?Category
+    public function read(int $id): array
     {
-        return $this->repository->getById($id);
+        try {
+            $category = $this->repository->getById($id);
+            return ['category' => new CategoryResource($category)];
+        } catch (\Exception $e) {
+            throw new ModelNotFoundException();
+        }
     }
 
 
     /**
      * @param int $id
      * @param CategoryDto $data
-     * @return Category|null
+     * @return array
      */
-    public function update(int $id, CategoryDto $data): ?Category
+    public function update(int $id, CategoryDto $data): array
     {
         $category = $this->repository->getById($id);
 
         $array_for_update = $this->checkFieldForUpdate($category, $data);
 
         if (!empty($array_for_update)) {
-            $category = $this->repository->update($id, $array_for_update);
+            try {
+                $category = $this->repository->update($id, $data);
+            } catch (\Exception $e) {
+                throw new ModelNotUpdatedException();
+            }
         }
 
-        return $category;
+        return ['category' => new CategoryResource($category)];
     }
 
     /**
@@ -81,11 +104,16 @@ class CategoryService implements CategoryServiceInterface
 
     /**
      * @param int $id
-     * @return bool
+     * @return array
      * @throws \Exception
      */
-    public function delete(int $id): bool
+    public function delete(int $id): array
     {
-        return $this->repository->delete($id);
+        try {
+            $this->repository->delete($id);
+            return ['success' => 'deleted'];
+        } catch (\Exception $e) {
+            throw new ModelNotDeletedException();
+        }
     }
 }

@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Dto\ProductDto;
 use App\Http\Requests\ProductRequest;
-use App\Http\Resources\ProductResource;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * Class ProductController
+ * @package App\Http\Controllers
+ */
 class ProductController extends Controller
 {
-    private $service;
+    private ProductService $service;
 
     /**
      * @param ProductService $service
@@ -36,13 +39,9 @@ class ProductController extends Controller
             auth()->user()->id
         );
 
-        try {
-            $product = $this->service->create($data);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
+        $result = $this->service->create($data);
 
-        return response()->json(['category' => new ProductResource($product)], 200);
+        return response()->json($result, 200);
     }
 
 
@@ -53,13 +52,9 @@ class ProductController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        try {
-            $product = $this->service->read($id);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
+        $result = $this->service->read($id);
 
-        return response()->json(['category' => new ProductResource($product)], 200);
+        return response()->json($result, 200);
     }
 
 
@@ -79,13 +74,9 @@ class ProductController extends Controller
             auth()->user()->id
         );
 
-        try {
-            $product = $this->service->update($id, $data);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
+        $result = $this->service->update($id, $data);
 
-        return response()->json(['product' => new ProductResource($product)], 200);
+        return response()->json($result, 200);
     }
 
 
@@ -96,11 +87,7 @@ class ProductController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        try {
-            $product = $this->service->delete($id);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
+        $result = $this->service->delete($id);
 
         return response()->json('deleted', 200);
     }

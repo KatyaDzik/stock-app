@@ -4,11 +4,18 @@ namespace App\Services;
 
 use App\Dto\LoginDto;
 use App\Dto\UserDto;
+use App\Exceptions\InvalidCredentialsException;
+use App\Exceptions\LogoutException;
+use App\Exceptions\ModelNotCreatedException;
 use App\Models\User;
 use App\Repositories\UserRepository;
-use App\Services\PostServiceInterface\AuthServiceInterface;
+use App\Services\Interfaces\AuthServiceInterface;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Class AuthService
+ * @package App\Services
+ */
 class AuthService implements AuthServiceInterface
 {
     private UserRepository $repository;
@@ -25,9 +32,14 @@ class AuthService implements AuthServiceInterface
      * @param UserDto $dto
      * @return User|null
      */
-    public function register(UserDto $dto): ?User
+    public function register(UserDto $dto): array
     {
-        return $this->repository->save($dto);
+        try {
+            $this->repository->save($dto);
+            return ['success' => 'регистрация прошла успешно'];
+        } catch (\Exception $exception) {
+            throw new ModelNotCreatedException();
+        }
     }
 
     /**
@@ -41,7 +53,20 @@ class AuthService implements AuthServiceInterface
         if (Hash::check($dto->getPassword(), $user->password)) {
             return ['jwt' => $user->createToken('token')->plainTextToken];
         } else {
-            return ['errors' => 'Неправильный логин или пароль'];
+            throw new InvalidCredentialsException();
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function logout(): array
+    {
+        try {
+            auth()->user()->currentAccessToken()->delete();
+            return ['message' => 'Успешный выход'];
+        } catch (\Exception $exception) {
+            throw new LogoutException();
         }
     }
 }
