@@ -25,7 +25,7 @@ final class ModelNotCreatedException extends HttpException
         array $headers = [],
         ?int $code = 0
     ) {
-        parent::__construct(Response::HTTP_INTERNAL_SERVER_ERROR, $message, $previous, $headers, $code);
+        parent::__construct(Response::HTTP_BAD_REQUEST, $message, $previous, $headers, $code);
     }
 
 
