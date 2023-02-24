@@ -19,6 +19,7 @@ interface ProductRepositoryInterface
      * @return Product|null
      */
     public function getById(int $id): ?Product;
+
     /**
      * @param int $id
      * @return Collection
@@ -36,7 +37,6 @@ interface ProductRepositoryInterface
      * @return Collection
      */
     public function getProductsByStock(int $id): Collection;
-
 
     /**
      * @param int $id

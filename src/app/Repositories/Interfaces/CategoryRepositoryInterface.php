@@ -14,13 +14,11 @@ interface CategoryRepositoryInterface
      */
     public function getAll(): Collection;
 
-
     /**
      * @param int $id
      * @return Category|null
      */
     public function getById(int $id): ?Category;
-
 
     /**
      * @param int $id
@@ -40,7 +38,6 @@ interface CategoryRepositoryInterface
      * @return Category|null
      */
     public function save(CategoryDto $data): ?Category;
-
 
     /**
      * @param int $id

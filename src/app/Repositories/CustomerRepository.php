@@ -6,6 +6,10 @@ use App\Models\Customer;
 use Illuminate\Database\Eloquent\Collection;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 
+/**
+ * Class CustomerRepository
+ * @package App\Repositories
+ */
 class CustomerRepository implements CustomerRepositoryInterface
 {
     /**
@@ -24,7 +28,6 @@ class CustomerRepository implements CustomerRepositoryInterface
     {
         return Customer::find($id);
     }
-
 
     /**
      * @param int $id

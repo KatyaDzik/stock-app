@@ -7,7 +7,7 @@ use App\Exceptions\ModelNotCreatedException;
 use App\Exceptions\ModelNotDeletedException;
 use App\Exceptions\ModelNotFoundException;
 use App\Exceptions\ModelNotUpdatedException;
-use App\Http\Resources\ProductResource;
+use App\Models\Product;
 use App\Repositories\ProductRepository;
 use App\Services\Interfaces\ProductServiceInterface;
 
@@ -27,52 +27,45 @@ class ProductService implements ProductServiceInterface
         $this->repository = $repository;
     }
 
-
     /**
      * @param ProductDto $dto
-     * @return array
+     * @return Product
      */
-    public function create(ProductDto $dto): array
+    public function create(ProductDto $dto): Product
     {
         try {
-            $product = $this->repository->save($dto);
-            return ['product' => new ProductResource($product)];
+            return $this->repository->save($dto);
         } catch (\Exception $e) {
             throw new ModelNotCreatedException();
         }
     }
 
-
     /**
      * @param int $id
-     * @return array
+     * @return Product
      */
-    public function read(int $id): array
+    public function read(int $id): Product
     {
         try {
-            $product = $this->repository->getById($id);
-            return ['product' => new ProductResource($product)];
+            return $this->repository->getById($id);
         } catch (\Exception $e) {
             throw new ModelNotFoundException();
         }
     }
 
-
     /**
      * @param int $id
      * @param ProductDto $dto
-     * @return array
+     * @return Product
      */
-    public function update(int $id, ProductDto $dto): array
+    public function update(int $id, ProductDto $dto): Product
     {
         try {
-            $product = $this->repository->update($id, $dto);
-            return ['product' => new ProductResource($product)];
+            return $this->repository->update($id, $dto);
         } catch (\Exception $e) {
             throw new ModelNotUpdatedException();
         }
     }
-
 
     /**
      * @param int $id

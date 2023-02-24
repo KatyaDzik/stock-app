@@ -7,7 +7,6 @@ use App\Http\Requests\CategoryRequest;
 use App\Services\CategoryService;
 use Illuminate\Http\JsonResponse;
 
-
 /**
  * Class CategoryController
  * @package App\Http\Controllers
@@ -24,14 +23,13 @@ class CategoryController extends Controller
         $this->service = $service;
     }
 
-
     /**
      * @param CategoryRequest $request
      * @return JsonResponse
      */
     public function store(CategoryRequest $request): JsonResponse
     {
-        $validated = $request->validated();
+        $request->validated();
 
         $data = new CategoryDto(
             $request->input('name'),
@@ -40,9 +38,8 @@ class CategoryController extends Controller
 
         $result = $this->service->create($data);
 
-        return response()->json($result, 200);
+        return response()->json($result);
     }
-
 
     /**
      * @param int $id
@@ -55,7 +52,6 @@ class CategoryController extends Controller
         return response()->json($result, 200);
     }
 
-
     /**
      * @param int $id
      * @param CategoryRequest $request
@@ -63,7 +59,7 @@ class CategoryController extends Controller
      */
     public function update(int $id, CategoryRequest $request): JsonResponse
     {
-        $validated = $request->validated();
+        $request->validated();
 
         $data = new CategoryDto(
             $request->input('name'),
@@ -75,7 +71,6 @@ class CategoryController extends Controller
         return response()->json($result, 200);
     }
 
-
     /**
      * @param int $id
      * @return JsonResponse
@@ -83,7 +78,7 @@ class CategoryController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        $result = $this->service->delete($id);
+        $this->service->delete($id);
 
         return response()->json('deleted', 200);
     }

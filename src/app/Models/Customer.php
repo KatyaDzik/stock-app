@@ -25,7 +25,6 @@ class Customer extends Model
         'name',
     ];
 
-
     /**
      * @return HasMany
      */
@@ -33,7 +32,6 @@ class Customer extends Model
     {
         return $this->hasMany(Invoice::class);
     }
-
 
     /**
      * @return BelongsTo|null

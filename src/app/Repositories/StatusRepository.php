@@ -6,6 +6,10 @@ use App\Models\Status;
 use App\Repositories\Interfaces\StatusRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class StatusRepository
+ * @package App\Repositories
+ */
 class StatusRepository implements StatusRepositoryInterface
 {
     /**
@@ -24,5 +28,4 @@ class StatusRepository implements StatusRepositoryInterface
     {
         return Status::find($id);
     }
-
 }

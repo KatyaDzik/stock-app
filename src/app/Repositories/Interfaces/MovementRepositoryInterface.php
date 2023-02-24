@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface MovementRepositoryInterface
 {
-
     /**
      * @param int $id
      * @return Movement|null

@@ -3,29 +3,28 @@
 namespace App\Services\Interfaces;
 
 use App\Dto\ProductDto;
+use App\Models\Product;
 
 interface ProductServiceInterface
 {
     /**
      * @param ProductDto $dto
-     * @return array
+     * @return Product
      */
-    public function create(ProductDto $dto): array;
-
+    public function create(ProductDto $dto): Product;
 
     /**
      * @param int $id
-     * @return array
+     * @return Product
      */
-    public function read(int $id): array;
+    public function read(int $id): Product;
 
     /**
      * @param int $id
      * @param ProductDto $dto
-     * @return array
+     * @return Product
      */
-    public function update(int $id, ProductDto $dto): array;
-
+    public function update(int $id, ProductDto $dto): Product;
 
     /**
      * @param int $id

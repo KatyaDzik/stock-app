@@ -39,7 +39,7 @@ class UserController extends Controller
      */
     public function update(int $id, UserUpdateRequest $request): JsonResponse
     {
-        $validated = $request->validated();
+        $request->validated();
 
         $data = new UserDto(
             $request->input('name'),
@@ -60,7 +60,7 @@ class UserController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        $result = $this->service->delete($id);
+        $this->service->delete($id);
 
         return response()->json('deleted', 200);
     }

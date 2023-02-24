@@ -12,7 +12,6 @@ interface InvoiceRepositoryInterface
      */
     public function getAll(): Collection;
 
-
     /**
      * @param int $id
      * @return Invoice|null

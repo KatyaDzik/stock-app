@@ -3,28 +3,28 @@
 namespace App\Services\Interfaces;
 
 use App\Dto\CategoryDto;
+use App\Models\Category;
 
 interface CategoryServiceInterface
 {
     /**
      * @param CategoryDto $data
-     * @return array
+     * @return Category
      */
-    public function create(CategoryDto $data): array;
+    public function create(CategoryDto $data): Category;
 
     /**
      * @param int $id
-     * @return array
+     * @return Category
      */
-    public function read(int $id): array;
-
+    public function read(int $id): Category;
 
     /**
      * @param int $id
      * @param CategoryDto $data
-     * @return array
+     * @return Category
      */
-    public function update(int $id, CategoryDto $data): array;
+    public function update(int $id, CategoryDto $data): Category;
 
     /**
      * @param int $id

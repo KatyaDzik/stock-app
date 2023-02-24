@@ -6,6 +6,10 @@ use App\Models\Invoice;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class InvoiceRepository
+ * @package App\Repositories
+ */
 class InvoiceRepository implements InvoiceRepositoryInterface
 {
     /**

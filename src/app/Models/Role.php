@@ -21,8 +21,7 @@ class Role extends Model
     protected $fillable = [
         'name',
     ];
-
-
+    
     /**
      * @return HasMany
      */

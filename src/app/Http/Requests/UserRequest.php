@@ -25,10 +25,15 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:2', 'max:255'],
-            'login' => ['required', 'string', 'min:2', 'max:255'],
+            'login' => ['required', 'string', 'min:2', 'max:255', 'unique:users,login'],
             'role_id' => ['required', 'exists:roles,id'],
             'password' => ['required', 'min:4', 'max:255'],
             'password_confirmed' => ['required', 'same:password'],
         ];
+    }
+
+    public function response()
+    {
+
     }
 }

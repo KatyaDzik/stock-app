@@ -13,13 +13,11 @@ interface UserRepositoryInterface
      */
     public function getALL(): Collection;
 
-
     /**
      * @param int $id
      * @return User|null
      */
     public function getById(int $id): ?User;
-
 
     /**
      * @param int $id
@@ -28,20 +26,17 @@ interface UserRepositoryInterface
      */
     public function update(int $id, UserDto $data): ?User;
 
-
     /**
      * @param UserDto $data
      * @return User|null
      */
     public function save(UserDto $data): ?User;
 
-
     /**
      * @param int $id
      * @return bool
      */
     public function delete(int $id): bool;
-
 
     /**
      * @param string $login

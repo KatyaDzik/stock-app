@@ -19,7 +19,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Category extends Model
 {
-
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
@@ -28,7 +27,6 @@ class Category extends Model
         'parent_id'
     ];
 
-
     /**
      * @return HasMany
      */
@@ -36,7 +34,6 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
-
 
     /**
      * @return BelongsTo|null

@@ -39,7 +39,6 @@ class CategoryRepository implements CategoryRepositoryInterface
         return Category::where('parent_id', $id)->get();
     }
 
-
     /**
      * @param int $id
      * @param array $data
@@ -51,7 +50,6 @@ class CategoryRepository implements CategoryRepositoryInterface
 
         return $category->update($data);
     }
-
 
     /**
      * @param CategoryDto $data
@@ -65,7 +63,6 @@ class CategoryRepository implements CategoryRepositoryInterface
         ]);
     }
 
-
     /**
      * @param int $id
      * @return bool|null
@@ -74,6 +71,6 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         $category = Category::findOrFail();
 
-        return $category->delete();;
+        return $category->delete();
     }
 }

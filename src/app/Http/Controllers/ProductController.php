@@ -23,7 +23,6 @@ class ProductController extends Controller
         $this->service = $service;
     }
 
-
     /**
      * @param ProductRequest $request
      * @return JsonResponse
@@ -31,19 +30,18 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request): JsonResponse
     {
-        $validated = $request->validated();
+        $request->validated();
 
         $data = new ProductDto(
             $request->input('name'),
             $request->input('category_id'),
-            auth()->user()->id
+            auth('web')->user()->id
         );
 
         $result = $this->service->create($data);
 
         return response()->json($result, 200);
     }
-
 
     /**
      * @param int $id
@@ -57,7 +55,6 @@ class ProductController extends Controller
         return response()->json($result, 200);
     }
 
-
     /**
      * @param int $id
      * @param ProductRequest $request
@@ -66,19 +63,18 @@ class ProductController extends Controller
      */
     public function update(int $id, ProductRequest $request): JsonResponse
     {
-        $validated = $request->validated();
+        $request->validated();
 
         $data = new ProductDto(
             $request->input('name'),
             $request->input('category_id'),
-            auth()->user()->id
+            auth('web')->user()->id
         );
 
         $result = $this->service->update($id, $data);
 
         return response()->json($result, 200);
     }
-
 
     /**
      * @param int $id
@@ -87,7 +83,7 @@ class ProductController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        $result = $this->service->delete($id);
+        $this->service->delete($id);
 
         return response()->json('deleted', 200);
     }

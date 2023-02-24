@@ -22,7 +22,6 @@ class Status extends Model
         'name',
     ];
 
-
     /**
      * @return HasMany
      */

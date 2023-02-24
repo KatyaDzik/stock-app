@@ -27,7 +27,6 @@ class ProductChanges extends Model
 
     protected $table = 'product_changes';
 
-
     /**
      * @return BelongsTo|null
      */

@@ -13,18 +13,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//Route::get('/test', [App\Http\Controllers\TestController::class, 'index']);
+//
+//
+//Route::resource('users', \App\Http\Controllers\UserController::class)->only([
+//    'show', 'update', 'destroy'
+//]);
+//
+//Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
+//    'store', 'show', 'update', 'destroy'
+//]);
+Route::middleware(["guest:web", "guest:admin"])->group(function () {
+    Route::get('/login', function () {
+        return view('login');
+    })->name('login-page');
+    Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
 });
 
-Route::get('/test', [App\Http\Controllers\TestController::class, 'index']);
+Route::middleware("auth:web")->group(function () {
+    Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+    Route::get('/home', function () {
+        return view('home');
+    })->name('home');
+});
 
-
-Route::resource('users', \App\Http\Controllers\UserController::class)->only([
-    'store', 'show', 'update', 'destroy'
-]);
-
-Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
-    'store', 'show', 'update', 'destroy'
-]);
 

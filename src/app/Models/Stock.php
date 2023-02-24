@@ -24,7 +24,6 @@ class Stock extends Model
         'address'
     ];
 
-
     /**
      * @return BelongsToMany
      */

@@ -6,6 +6,10 @@ use App\Models\Provider;
 use App\Repositories\Interfaces\ProviderRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class ProviderRepository
+ * @package App\Repositories
+ */
 class ProviderRepository implements ProviderRepositoryInterface
 {
     /**
@@ -35,5 +39,4 @@ class ProviderRepository implements ProviderRepositoryInterface
             $query->where('id', '=', $id);
         })->first();
     }
-
 }

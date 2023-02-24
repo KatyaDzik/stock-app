@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class ProductRepository implements ProductRepositoryInterface
 {
-
     /**
      * @return Collection
      */
@@ -63,7 +62,6 @@ class ProductRepository implements ProductRepositoryInterface
         })->get();
     }
 
-
     /**
      * @param int $id
      * @param ProductDto $dto
@@ -78,7 +76,6 @@ class ProductRepository implements ProductRepositoryInterface
             'category_id' => $dto->getCategory()
         ]);
     }
-
 
     /**
      * @param ProductDto $dto

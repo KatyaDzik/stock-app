@@ -12,7 +12,6 @@ interface StockRepositoryInterface
      */
     public function getALL(): Collection;
 
-
     /**
      * @param int $id
      * @return Stock|null

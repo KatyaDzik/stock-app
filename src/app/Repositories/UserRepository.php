@@ -72,7 +72,6 @@ class UserRepository implements UserRepositoryInterface
         return $user->delete();
     }
 
-
     /**
      * @param string $login
      * @return User|null

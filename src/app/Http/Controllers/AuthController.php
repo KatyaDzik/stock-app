@@ -25,14 +25,13 @@ class AuthController extends Controller
         $this->service = $service;
     }
 
-
     /**
      * @param UserRequest $request
      * @return JsonResponse
      */
     public function register(UserRequest $request): JsonResponse
     {
-        $validated = $request->validated();
+        $request->validated();
 
         $data = new UserDto(
             $request->input('name'),
@@ -43,9 +42,8 @@ class AuthController extends Controller
 
         $result = $this->service->register($data);
 
-        return response()->json($result, 200);
+        return response()->json($result);
     }
-
 
     /**
      * @param LoginRequest $request
@@ -53,6 +51,8 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
+        $request->validated();
+
         $data = new LoginDto(
             $request->input('login'),
             $request->input('password')
@@ -63,10 +63,8 @@ class AuthController extends Controller
         return response()->json($result);
     }
 
-
     /**
      * @return JsonResponse
-     * @throws \Exception
      */
     public function logout(): JsonResponse
     {

@@ -6,6 +6,10 @@ use App\Models\Movement;
 use App\Repositories\Interfaces\MovementRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class MovementRepository
+ * @package App\Repositories
+ */
 class MovementRepository implements MovementRepositoryInterface
 {
     /**
@@ -14,7 +18,7 @@ class MovementRepository implements MovementRepositoryInterface
      */
     public function getById(int $id): ?Movement
     {
-        return Movement::with(‘status’)->find($id);
+        return Movement::with('status')->find($id);
     }
 
     /**

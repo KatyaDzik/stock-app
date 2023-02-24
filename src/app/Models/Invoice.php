@@ -28,7 +28,6 @@ class Invoice extends Model
         'date'
     ];
 
-
     /**
      * @return BelongsTo|null
      */
@@ -36,7 +35,6 @@ class Invoice extends Model
     {
         return $this->belongsTo(Provider::class);
     }
-
 
     /**
      * @return BelongsTo|null
@@ -53,7 +51,6 @@ class Invoice extends Model
     {
         return $this->belongsTo(Movement::class);
     }
-
 
     /**
      * @return BelongsToMany

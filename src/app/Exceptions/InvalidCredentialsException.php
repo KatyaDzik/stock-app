@@ -2,15 +2,13 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class InvalidCredentialsException
  * @package App\Exceptions
  */
-final class InvalidCredentialsException extends HttpException
+final class InvalidCredentialsException extends RenderedHttpException
 {
     /**
      * @param null|string $message
@@ -25,15 +23,5 @@ final class InvalidCredentialsException extends HttpException
         ?int $code = 0
     ) {
         parent::__construct(Response::HTTP_BAD_REQUEST, $message, $previous, $headers, $code);
-    }
-
-    /**
-     * @return JsonResponse
-     */
-    public function render(): JsonResponse
-    {
-        return response()->json([
-            'error' => $this->getMessage()
-        ], $this->getStatusCode());
     }
 }

@@ -6,6 +6,10 @@ use App\Models\Role;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class RoleRepository
+ * @package App\Repositories
+ */
 class RoleRepository implements RoleRepositoryInterface
 {
     /**
@@ -24,5 +28,4 @@ class RoleRepository implements RoleRepositoryInterface
     {
         return Role::find($id);
     }
-
 }

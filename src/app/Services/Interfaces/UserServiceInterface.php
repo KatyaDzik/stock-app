@@ -3,22 +3,22 @@
 namespace App\Services\Interfaces;
 
 use App\Dto\UserDto;
+use App\Models\User;
 
 interface UserServiceInterface
 {
     /**
      * @param int $id
-     * @return array
+     * @return User
      */
-    public function read(int $id): array;
-
+    public function read(int $id): User;
 
     /**
      * @param int $id
      * @param UserDto $dto
-     * @return array
+     * @return User
      */
-    public function update(int $id, UserDto $dto): array;
+    public function update(int $id, UserDto $dto): User;
 
     /**
      * @param int $id

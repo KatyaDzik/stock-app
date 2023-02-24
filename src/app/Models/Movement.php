@@ -26,7 +26,6 @@ class Movement extends Model
         'to'
     ];
 
-
     /**
      * @return HasOne|null
      */
@@ -34,7 +33,6 @@ class Movement extends Model
     {
         return $this->hasOne(Invoice::class);
     }
-
 
     /**
      * @return BelongsTo|null

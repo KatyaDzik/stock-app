@@ -6,7 +6,7 @@ use App\Dto\UserDto;
 use App\Exceptions\ModelNotDeletedException;
 use App\Exceptions\ModelNotFoundException;
 use App\Exceptions\ModelNotUpdatedException;
-use App\Http\Resources\UserResource;
+use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\Interfaces\UserServiceInterface;
 
@@ -29,34 +29,30 @@ class UserService implements UserServiceInterface
 
     /**
      * @param int $id
-     * @return array
+     * @return User
      */
-    public function read(int $id): array
+    public function read(int $id): User
     {
         try {
-            $user = $this->repository->getById($id);
-            return ['user' => new UserResource($user)];
+            return $this->repository->getById($id);
         } catch (\Exception $e) {
             throw new ModelNotFoundException();
         }
     }
 
-
     /**
      * @param int $id
      * @param UserDto $dto
-     * @return array
+     * @return User
      */
-    public function update(int $id, UserDto $dto): array
+    public function update(int $id, UserDto $dto): User
     {
         try {
-            $user = $this->repository->update($id, $dto);
-            return ['user' => new UserResource($user)];
+            return $this->repository->update($id, $dto);
         } catch (\Exception $e) {
             throw new ModelNotUpdatedException();
         }
     }
-
 
     /**
      * @param int $id

@@ -24,7 +24,6 @@ class Provider extends Model
         'name',
     ];
 
-
     /**
      * @return HasMany
      */

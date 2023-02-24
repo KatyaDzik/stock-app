@@ -6,6 +6,10 @@ use App\Models\Stock;
 use App\Repositories\Interfaces\StockRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class StockRepository
+ * @package App\Repositories
+ */
 class StockRepository implements StockRepositoryInterface
 {
     /**

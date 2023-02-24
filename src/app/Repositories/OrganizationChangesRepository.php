@@ -5,6 +5,10 @@ namespace App\Repositories;
 use App\Models\OrganizationChanges;
 use App\Repositories\Interfaces\OrganizationChangesRepositoryInterface;
 
+/**
+ * Class OrganizationChangesRepository
+ * @package App\Repositories
+ */
 class OrganizationChangesRepository implements OrganizationChangesRepositoryInterface
 {
     /**

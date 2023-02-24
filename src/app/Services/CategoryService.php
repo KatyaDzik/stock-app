@@ -7,7 +7,6 @@ use App\Exceptions\ModelNotCreatedException;
 use App\Exceptions\ModelNotDeletedException;
 use App\Exceptions\ModelNotFoundException;
 use App\Exceptions\ModelNotUpdatedException;
-use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use App\Services\Interfaces\CategoryServiceInterface;
@@ -28,43 +27,38 @@ class CategoryService implements CategoryServiceInterface
         $this->repository = $repository;
     }
 
-
     /**
      * @param CategoryDto $data
-     * @return array
+     * @return Category
      */
-    public function create(CategoryDto $data): array
+    public function create(CategoryDto $data): Category
     {
         try {
-            $category = $this->repository->save($data);
-            return ['category' => new CategoryResource($category)];
+            return $this->repository->save($data);
         } catch (\Exception $e) {
             throw new ModelNotCreatedException();
         }
     }
 
-
     /**
      * @param int $id
-     * @return array
+     * @return Category
      */
-    public function read(int $id): array
+    public function read(int $id): Category
     {
         try {
-            $category = $this->repository->getById($id);
-            return ['category' => new CategoryResource($category)];
+            return $this->repository->getById($id);
         } catch (\Exception $e) {
             throw new ModelNotFoundException();
         }
     }
 
-
     /**
      * @param int $id
      * @param CategoryDto $data
-     * @return array
+     * @return Category
      */
-    public function update(int $id, CategoryDto $data): array
+    public function update(int $id, CategoryDto $data): Category
     {
         $category = $this->repository->getById($id);
 
@@ -72,13 +66,13 @@ class CategoryService implements CategoryServiceInterface
 
         if (!empty($array_for_update)) {
             try {
-                $category = $this->repository->update($id, $data);
+                $category = $this->repository->update($id, $array_for_update);
             } catch (\Exception $e) {
                 throw new ModelNotUpdatedException();
             }
         }
 
-        return ['category' => new CategoryResource($category)];
+        return $category;
     }
 
     /**
@@ -100,7 +94,6 @@ class CategoryService implements CategoryServiceInterface
 
         return $data;
     }
-
 
     /**
      * @param int $id
