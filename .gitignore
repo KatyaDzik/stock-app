@@ -2,3 +2,4 @@ data/mysql/
 src/.env
 src/vendor/
 .idea/
+src/node_modules/
