@@ -15,7 +15,7 @@ class StatusRepository implements StatusRepositoryInterface
     /**
      * @return Collection
      */
-    public function getALL(): Collection
+    public function getAll(): Collection
     {
         return Status::all();
     }

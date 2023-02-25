@@ -1,2 +1,63 @@
 @import '~bootstrap';
 @import 'assets/login.css';
+
+.btn-exit{
+    background: rgba(255,255,255, 0);
+    border: none;
+    margin: 0 0 0 20px;
+}
+
+button.btn-exit:hover
+{
+    background-color: rgba(255,255,255, 0.08);
+    box-shadow: 0px 0px 49px 2px rgba(255, 255, 255, 0.3);
+}
+
+.mymodal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0px;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+}
+
+.modal-content{
+    background-color: #ffffff;
+    padding: 30px;
+    width: 50%;
+    border-radius: 5px;
+    margin: 0 auto;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+.btn-icon{
+    border: 0 ;
+    background-color: #fff;
+}
+
+.btn-icon:hover {
+    background-color: rgba(34, 60, 80, 0.2);
+    border-radius: 5px;
+}
+
+.required-field {
+    color: red;
+}
+
+.form-group {
+    padding: 10px;
+}
+
+.modal-footer
+{
+    padding: 10px;
+}

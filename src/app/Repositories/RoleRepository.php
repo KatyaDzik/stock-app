@@ -15,7 +15,7 @@ class RoleRepository implements RoleRepositoryInterface
     /**
      * @return Collection
      */
-    public function getALL(): Collection
+    public function getAll(): Collection
     {
         return Role::all();
     }

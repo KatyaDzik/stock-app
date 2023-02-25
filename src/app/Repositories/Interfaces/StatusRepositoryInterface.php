@@ -10,7 +10,7 @@ interface StatusRepositoryInterface
     /**
      * @return Collection
      */
-    public function getALL(): Collection;
+    public function getAll(): Collection;
 
     /**
      * @param int $id

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Repositories;
 
 use App\Dto\UserDto;
@@ -17,9 +16,9 @@ class UserRepository implements UserRepositoryInterface
     /**
      * @return Collection
      */
-    public function getALL(): Collection
+    public function getAll(): Collection
     {
-        return User::all();
+        return User::with('role')->get();
     }
 
     /**

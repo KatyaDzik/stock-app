@@ -15,7 +15,7 @@ class StockRepository implements StockRepositoryInterface
     /**
      * @return Collection
      */
-    public function getALL(): Collection
+    public function getAll(): Collection
     {
         return Stock::all();
     }

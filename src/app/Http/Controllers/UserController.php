@@ -6,6 +6,7 @@ use App\Dto\UserDto;
 use App\Http\Requests\UserUpdateRequest;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
@@ -63,5 +64,12 @@ class UserController extends Controller
         $this->service->delete($id);
 
         return response()->json('deleted', 200);
+    }
+
+    public function getAll(): View
+    {
+        $users = $this->service->getAll();
+
+        return view('admin/main-admin-panel', compact('users'));
     }
 }

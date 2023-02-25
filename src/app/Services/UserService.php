@@ -9,6 +9,7 @@ use App\Exceptions\ModelNotUpdatedException;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\Interfaces\UserServiceInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 
 /**
@@ -66,5 +67,10 @@ class UserService implements UserServiceInterface
         } catch (\Exception $e) {
             throw new ModelNotDeletedException();
         }
+    }
+
+    public function getAll(): Collection
+    {
+        return $this->repository->getAll();
     }
 }
