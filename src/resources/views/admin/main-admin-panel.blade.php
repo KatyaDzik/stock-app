@@ -31,7 +31,7 @@
                         <td>{{$el->name}}</td>
                         <td>{{$el->login}}</td>
                         <td>{{$el->role->name}}</td>
-                        <td><a href="/">
+                        <td><a href="{{route('admin-read-user', $el->id)}}">
                                 <button class="btn btn-warning">Просмотр</button>
                             </a></td>
                     </tr>

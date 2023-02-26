@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dto\LoginDto;
 use App\Http\Requests\AdminLoginRequest;
 use App\Services\AdminAuthService;
+use App\Services\Interfaces\AdminAuthServiceInterface;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -13,7 +14,7 @@ use Illuminate\Http\JsonResponse;
  */
 class AdminAuthController extends Controller
 {
-    private AdminAuthService $service;
+    private AdminAuthServiceInterface $service;
 
     /**
      * @param AdminAuthService $service

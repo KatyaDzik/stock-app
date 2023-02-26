@@ -33,8 +33,6 @@ Route::middleware(["guest:web", "guest:admin"])->group(function () {
 Route::middleware("auth:web")->group(function () {
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
     Route::get('/home', function () {
-        return view('home');
+        return view('user/home');
     })->name('home');
 });
-
-

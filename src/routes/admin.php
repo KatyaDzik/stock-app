@@ -17,8 +17,8 @@ Route::middleware("auth:admin")->group(function () {
     Route::get('/settings', function () {
         return view('admin/settings');
     })->name('settings');
-    Route::post('/create/user', [\App\Http\Controllers\AuthController::class, 'register'])->name('create-user');
+    Route::post('/user', [\App\Http\Controllers\AuthController::class, 'register'])->name('create-user');
+    Route::get('/user/{id}', [\App\Http\Controllers\UserController::class, 'show'])->name('read-user');
+    Route::put('/user/{id}/permissions',
+        [\App\Http\Controllers\UserController::class, 'changePermissions'])->name('update-user-permissions');
 });
-
-
-

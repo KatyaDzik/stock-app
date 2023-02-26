@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Dto\PermissionsToUpdateDto;
 use App\Dto\UserDto;
 use App\Exceptions\ModelNotDeletedException;
 use App\Exceptions\ModelNotFoundException;
@@ -55,6 +56,11 @@ class UserService implements UserServiceInterface
         }
     }
 
+    public function getAll(): Collection
+    {
+        return $this->repository->getAll();
+    }
+
     /**
      * @param int $id
      * @return array
@@ -69,8 +75,17 @@ class UserService implements UserServiceInterface
         }
     }
 
-    public function getAll(): Collection
+    /**
+     * @param int $id
+     * @param PermissionsToUpdateDto $dto
+     * @return User
+     */
+    public function updatePermissions(int $id, PermissionsToUpdateDto $dto): User
     {
-        return $this->repository->getAll();
+        try {
+            return $this->repository->updatePermissions($id, $dto->getPermissions());
+        } catch (\Exception $e) {
+            throw new ModelNotUpdatedException();
+        }
     }
 }

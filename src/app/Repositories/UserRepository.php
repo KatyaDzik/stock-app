@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Dto\UserDto;
@@ -27,7 +28,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getById(int $id): ?User
     {
-        return User::findOrFail($id);
+        return User::with(['role', 'permissions'])->findOrFail($id);
     }
 
     /**
@@ -78,5 +79,18 @@ class UserRepository implements UserRepositoryInterface
     public function getByLogin(string $login): ?User
     {
         return User::where('login', $login)->firstOrFail();
+    }
+
+    /**
+     * @param int $id
+     * @param array $permissions
+     * @return User
+     */
+    public function updatePermissions(int $id, array $permissions): User
+    {
+        $user = User::findOrFail($id);
+        $user->permissions()->sync($permissions);
+
+        return $user;
     }
 }
