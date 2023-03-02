@@ -16,6 +16,8 @@ class CreateProductHasStocksTable extends Migration
         Schema::create('product_has_stocks', function (Blueprint $table) {
             $table->id();
             $table->integer('count')->unsigned();
+            $table->decimal('price', $precision = 9, $scale = 5);
+            $table->integer('nds')->unsigned();
             $table->bigInteger('stock_id')->unsigned();
             $table->foreign('stock_id')->references('id')->on('stocks')->onDelete('cascade');
             $table->bigInteger('product_id')->unsigned();

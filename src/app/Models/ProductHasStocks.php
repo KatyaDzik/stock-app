@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class ReceiptOfProducts
+ * Class ProductHasStocks
  * @package App\Models
  */
-class ReceiptOfProducts extends Model
+class ProductHasStocks extends Model
 {
     use HasFactory;
 
@@ -19,9 +19,10 @@ class ReceiptOfProducts extends Model
         'price',
         'nds',
         'product_id',
+        'stock_id'
     ];
 
-    protected $table = 'product_has_invoices';
+    protected $table = 'product_has_stocks';
 
     /**
      * @return null|BelongsTo
@@ -29,5 +30,13 @@ class ReceiptOfProducts extends Model
     public function product(): ?BelongsTo
     {
         return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    /**
+     * @return null|BelongsTo
+     */
+    public function stock(): ?BelongsTo
+    {
+        return $this->belongsTo(Stock::class, 'stock_id');
     }
 }
