@@ -60,40 +60,13 @@ class CategoryService implements CategoryServiceInterface
      */
     public function update(int $id, CategoryDto $data): Category
     {
-        $category = $this->repository->getById($id);
-
-        $array_for_update = $this->checkFieldForUpdate($category, $data);
-
-        if (!empty($array_for_update)) {
-            try {
-                $category = $this->repository->update($id, $array_for_update);
-            } catch (\Exception $e) {
-                throw new ModelNotUpdatedException();
-            }
+        try {
+            return $this->repository->update($id, $data);
+        } catch (\Exception $e) {
+            throw new ModelNotUpdatedException();
         }
-
-        return $category;
     }
 
-    /**
-     * @param Category $category
-     * @param CategoryDto $dto
-     * @return array
-     */
-    public function checkFieldForUpdate(Category $category, CategoryDto $dto): array
-    {
-        $data = [];
-
-        if ($category->name !== $dto->getName()) {
-            $data['name'] = $dto->getName();
-        }
-
-        if ($category->parent_id !== $dto->getParent()) {
-            $data['parent_id'] = $dto->getParent();
-        }
-
-        return $data;
-    }
 
     /**
      * @param int $id
@@ -104,6 +77,7 @@ class CategoryService implements CategoryServiceInterface
     {
         try {
             $this->repository->delete($id);
+
             return ['success' => 'deleted'];
         } catch (\Exception $e) {
             throw new ModelNotDeletedException();

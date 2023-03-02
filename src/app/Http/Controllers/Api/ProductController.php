@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Dto\ProductDto;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
@@ -44,16 +45,16 @@ class ProductController extends Controller
         return response()->json($result);
     }
 
-
     /**
      * @param int $id
-     * @return View
+     * @return JsonResponse
+     * @throws \Exception
      */
-    public function show(int $id): View
+    public function show(int $id): JsonResponse
     {
         $product = $this->service->read($id);
 
-        return view('user/product-profile', compact('product'));
+        return response()->json($product);
     }
 
     /**
@@ -86,7 +87,7 @@ class ProductController extends Controller
     {
         $this->service->delete($id);
 
-        return response()->json('deleted');
+        return response()->json('deleted', 200);
     }
 
     /**
@@ -94,7 +95,7 @@ class ProductController extends Controller
      */
     public function getAll(): View
     {
-        $products = $this->service->getAllPaginate(5);
+        $products = $this->service->getAll();
 
         return view('user/products', compact('products'));
     }

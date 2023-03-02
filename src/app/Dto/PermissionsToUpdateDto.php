@@ -25,7 +25,7 @@ class PermissionsToUpdateDto
     /**
      * @return array
      */
-    public function getPermissions()
+    public function getPermissions(): array
     {
         return $this->permissions;
     }

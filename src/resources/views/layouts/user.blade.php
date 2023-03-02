@@ -11,7 +11,7 @@
 </head>
 <body>
 <main
-    style="display: flex; flex-wrap: nowrap; height:  100vh; max-height: 100vh; overflow-x: auto; overflow-y: hidden; background-color: rgba(0, 0, 0, .1);">
+    style="display: flex; flex-wrap: nowrap; height: auto; min-height: 100vh; overflow-x: auto; overflow-y: hidden; background-color: rgba(0, 0, 0, .1);">
     <div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 280px; background: #4c6db5">
         <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
             <span class="fs-4">Привет,  {{auth()->user()->name}}</span>
@@ -36,7 +36,7 @@
             </li>
             @canany(['actions on products', 'admin-panel'])
             <li class="nav-item">
-                <a href="{{route('admin-settings')}}"
+                <a href="{{route('products')}}"
                    class="{{ str_contains(request()->url(), 'products') ? 'my-active-nav-link' : '' }} nav-link text-white">
                     Продукты
                 </a>
@@ -66,8 +66,6 @@
 <script>
     document.querySelectorAll('.btn-open-modal').forEach(w => {
         w.addEventListener('click', _ => {
-            console.log('jnhg');
-            console.log(w.value);
             document.getElementById(w.value).style.display = "block";
         })
     })

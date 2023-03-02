@@ -2,38 +2,37 @@
 
 namespace App\Services;
 
-use App\Dto\ProductDto;
+use App\Dto\CustomerDto;
 use App\Exceptions\ModelNotCreatedException;
 use App\Exceptions\ModelNotDeletedException;
 use App\Exceptions\ModelNotFoundException;
 use App\Exceptions\ModelNotUpdatedException;
-use App\Models\Product;
-use App\Repositories\ProductRepository;
-use App\Services\Interfaces\ProductServiceInterface;
+use App\Models\Customer;
+use App\Repositories\CustomerRepository;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
- * Class ProductService
+ * Class CustomerService
  * @package App\Services
  */
-class ProductService implements ProductServiceInterface
+class CustomerService
 {
-    private ProductRepository $repository;
+    private CustomerRepository $repository;
+
 
     /**
-     * @param ProductRepository $repository
+     * @param CustomerRepository $repository
      */
-    public function __construct(ProductRepository $repository)
+    public function __construct(CustomerRepository $repository)
     {
         $this->repository = $repository;
     }
 
     /**
-     * @param ProductDto $dto
-     * @return Product
+     * @param CustomerDto $dto
+     * @return Customer
      */
-    public function create(ProductDto $dto): Product
+    public function create(CustomerDto $dto): Customer
     {
         try {
             return $this->repository->save($dto);
@@ -44,9 +43,9 @@ class ProductService implements ProductServiceInterface
 
     /**
      * @param int $id
-     * @return Product
+     * @return Customer
      */
-    public function read(int $id): Product
+    public function read(int $id): Customer
     {
         try {
             return $this->repository->getById($id);
@@ -57,10 +56,10 @@ class ProductService implements ProductServiceInterface
 
     /**
      * @param int $id
-     * @param ProductDto $dto
-     * @return Product
+     * @param CustomerDto $dto
+     * @return Customer
      */
-    public function update(int $id, ProductDto $dto): Product
+    public function update(int $id, CustomerDto $dto): Customer
     {
         try {
             return $this->repository->update($id, $dto);
@@ -71,8 +70,7 @@ class ProductService implements ProductServiceInterface
 
     /**
      * @param int $id
-     * @return array
-     * @throws \Exception
+     * @return string[]
      */
     public function delete(int $id): array
     {
@@ -90,14 +88,5 @@ class ProductService implements ProductServiceInterface
     public function getAll(): Collection
     {
         return $this->repository->getAll();
-    }
-
-    /**
-     * @param $count
-     * @return LengthAwarePaginator
-     */
-    public function getAllPaginate($count): LengthAwarePaginator
-    {
-        return $this->repository->getAllPaginate($count);
     }
 }

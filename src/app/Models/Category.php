@@ -35,11 +35,12 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+
     /**
-     * @return BelongsTo|null
+     * @return null|HasMany
      */
-    public function subcategories(): ?BelongsTo
+    public function subcategories(): ?HasMany
     {
-        return $this->belongsTo(Category::class, 'parent_id', 'id');
+        return $this->hasMany(Category::class, 'parent_id', 'id');
     }
 }

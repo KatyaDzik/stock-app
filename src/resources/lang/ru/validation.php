@@ -162,6 +162,7 @@ return [
         'login' => 'логин',
         'name' => 'имя',
         'password' => 'пароль',
-        'password_confirmed' => 'повторить пароль'
+        'password_confirmed' => 'повторить пароль',
+        'category_id' => 'категория'
     ],
 ];

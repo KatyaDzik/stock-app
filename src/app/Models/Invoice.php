@@ -25,7 +25,10 @@ class Invoice extends Model
 
     protected $fillable = [
         'number',
-        'date'
+        'date',
+        'provider_id',
+        'customer_id',
+        'movement_id'
     ];
 
     /**

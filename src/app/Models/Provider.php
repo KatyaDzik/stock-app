@@ -22,6 +22,7 @@ class Provider extends Model
 
     protected $fillable = [
         'name',
+        'author_id'
     ];
 
     /**

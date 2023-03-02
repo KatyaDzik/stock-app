@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class ProductRepository
@@ -22,13 +23,18 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::all();
     }
 
+    public function getAllPaginate($count): LengthAwarePaginator
+    {
+        return Product::paginate($count);
+    }
+
     /**
      * @param int $id
      * @return Product|null
      */
     public function getById(int $id): ?Product
     {
-        return Product::findOrFail($id);
+        return Product::with(['category', 'author', 'stocks', 'invoices'])->findOrFail($id);
     }
 
     /**

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Dto\LoginDto;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminLoginRequest;
 use App\Services\AdminAuthService;
 use App\Services\Interfaces\AdminAuthServiceInterface;

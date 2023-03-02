@@ -35,4 +35,38 @@ Route::middleware("auth:web")->group(function () {
     Route::get('/home', function () {
         return view('user/home');
     })->name('home');
+//    Route::get('/product/{id}', [\App\Http\Controllers\ProductController::class, 'show']);
+    Route::get('/products', [\App\Http\Controllers\ProductController::class, 'getAll'])->name('products');
+    Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
+        'store',
+        'show',
+        'update',
+        'destroy'
+    ]);
 });
+//Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
+//    'store',
+//    'show',
+//    'update',
+//    'destroy'
+//]);
+//Route::get('/create', function () {
+//    \App\Models\ProductHasInvoices::create([
+//        'count' => 600,
+//        'price' => 14.00,
+//        'nds' => 0.2,
+//        'product_id' => 1,
+//        'invoice_id' => 1
+//
+//    ]);
+//
+//    \App\Models\ProductHasInvoices::create([
+//        'count' => 200,
+//        'price' => 8.00,
+//        'nds' => 0.2,
+//        'product_id' => 7,
+//        'invoice_id' => 1
+//    ]);
+//});
+
+Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'getOne']);

@@ -23,7 +23,8 @@ class Movement extends Model
 
     protected $fillable = [
         'from',
-        'to'
+        'to',
+        'status_id'
     ];
 
     /**

@@ -28,10 +28,10 @@ interface CategoryRepositoryInterface
 
     /**
      * @param int $id
-     * @param array $data
+     * @param CategoryDto $data
      * @return Category|null
      */
-    public function update(int $id, array $data): ?Category;
+    public function update(int $id, CategoryDto $data): ?Category;
 
     /**
      * @param CategoryDto $data

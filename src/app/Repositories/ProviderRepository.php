@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Dto\ProviderDto;
 use App\Models\Provider;
 use App\Repositories\Interfaces\ProviderRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -26,7 +27,7 @@ class ProviderRepository implements ProviderRepositoryInterface
      */
     public function getById(int $id): ?Provider
     {
-        return Provider::with('author')->find($id);
+        return Provider::with('author')->findOrFail($id);
     }
 
     /**
@@ -38,5 +39,43 @@ class ProviderRepository implements ProviderRepositoryInterface
         return Provider::whereHas('invoices', function ($query) use ($id) {
             $query->where('id', '=', $id);
         })->first();
+    }
+
+    /**
+     * @param ProviderDto $dto
+     * @return Provider
+     */
+    public function save(ProviderDto $dto): Provider
+    {
+        return Provider::create([
+            'name' => $dto->getName(),
+            'author_id' => $dto->getAuthor()
+        ]);
+    }
+
+    /**
+     * @param int $id
+     * @return null|bool
+     */
+    public function delete(int $id): ?bool
+    {
+        $provider = Provider::findOrFail();
+
+        return $provider->delete();
+    }
+
+    /**
+     * @param int $id
+     * @param ProviderDto $dto
+     * @return Provider
+     */
+    public function update(int $id, ProviderDto $dto): Provider
+    {
+        $provider = Provider::findOrFail($id);
+
+        return $provider->update([
+            'name' => $dto->getName(),
+            'author_id' => $dto->getAuthor()
+        ]);
     }
 }

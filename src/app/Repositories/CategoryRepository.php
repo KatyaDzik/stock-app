@@ -21,6 +21,11 @@ class CategoryRepository implements CategoryRepositoryInterface
         return Category::all();
     }
 
+    public function getMainCategories(): Collection
+    {
+        return Category::with('subcategories')->where('parent_id', null)->get();
+    }
+
     /**
      * @param int $id
      * @return Category|null
@@ -36,19 +41,22 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function getSubcategories(int $id): ?Collection
     {
-        return Category::where('parent_id', $id)->get();
+        return Category::with('subcategories')->where('parent_id', $id);
     }
 
     /**
      * @param int $id
-     * @param array $data
+     * @param CategoryDto $data
      * @return Category|null
      */
-    public function update(int $id, array $data): ?Category
+    public function update(int $id, CategoryDto $data): ?Category
     {
         $category = Category::findOrFail($id);
 
-        return $category->update($data);
+        return $category->update([
+            'name' => $data->getName(),
+            'parent_id' => $data->getParent()
+        ]);
     }
 
     /**

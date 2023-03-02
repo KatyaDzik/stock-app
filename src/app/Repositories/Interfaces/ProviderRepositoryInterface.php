@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Dto\ProviderDto;
 use App\Models\Provider;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -23,4 +24,23 @@ interface ProviderRepositoryInterface
      * @return Provider|null
      */
     public function getProviderByInvoice(int $id): ?Provider;
+
+    /**
+     * @param ProviderDto $dto
+     * @return Provider
+     */
+    public function save(ProviderDto $dto): Provider;
+
+    /**
+     * @param int $id
+     * @return null|bool
+     */
+    public function delete(int $id): ?bool;
+
+    /**
+     * @param int $id
+     * @param ProviderDto $dto
+     * @return Provider
+     */
+    public function update(int $id, ProviderDto $dto): Provider;
 }

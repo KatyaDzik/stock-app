@@ -1,7 +1,7 @@
 @extends('layouts.user')
 
 @section('doc-title')
-    Админ панель
+    Главная
 @endsection
 
 @section('page-title')

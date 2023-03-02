@@ -39,7 +39,7 @@ Route::resource('products', \App\Http\Controllers\ProductController::class)->onl
     'show',
     'update',
     'destroy'
-])->middleware('auth:sanctum');
+]);
 
 Route::post('/users/register', [\App\Http\Controllers\AuthController::class, 'register']);
 

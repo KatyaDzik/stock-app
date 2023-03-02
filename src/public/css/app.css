@@ -10898,3 +10898,30 @@ button.btn-exit:hover {
     background-color: #36a346 !important;
 }
 
+ul.categories li {
+    border: 1px solid black;
+}
+
+.dropdown-toggle {
+    padding: 0;
+}
+
+ul.dropdown {
+    display: none;
+    margin-top: 5px;
+    padding: 5px 5px 0 0;
+    position: absolute;
+    background: white;
+    left: 50px;
+}
+
+ul.dropdown li {
+    list-style-type: none;
+}
+
+ul.dropdown li a {
+    text-decoration: none;
+    padding: 0em 1em;
+    display: block;
+}
+
