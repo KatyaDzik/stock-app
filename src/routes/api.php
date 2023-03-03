@@ -31,8 +31,6 @@ Route::resource('users', \App\Http\Controllers\UserController::class)->only([
     'destroy'
 ]);
 
-Route::get('/test', [App\Http\Controllers\TestController::class, 'index']);
-
 
 Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
     'store',

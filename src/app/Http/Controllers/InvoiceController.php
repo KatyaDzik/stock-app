@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dto\InvoiceDto;
-use App\Dto\ProductToInvoiceDto;
 use App\Http\Requests\InvoiceRequest;
-use App\Http\Requests\ProductToInvoiceRequest;
 use App\Services\InvoiceService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
@@ -36,6 +34,10 @@ class InvoiceController extends Controller
         return view('user/invoices', compact('invoices'));
     }
 
+    /**
+     * @param InvoiceRequest $request
+     * @return JsonResponse
+     */
     public function store(InvoiceRequest $request): JsonResponse
     {
         $request->validated();
@@ -101,24 +103,5 @@ class InvoiceController extends Controller
         $this->service->delete($id);
 
         return response()->json('deleted');
-    }
-
-    /**
-     * @param ProductToInvoiceRequest $request
-     * @return JsonResponse
-     */
-    public function addProduct(ProductToInvoiceRequest $request): JsonResponse
-    {
-        $data = new ProductToInvoiceDto(
-            $request->input('count'),
-            $request->input('price'),
-            $request->input('nds'),
-            $request->input('product_id'),
-            $request->input('invoice_id'),
-        );
-
-        $this->service->addProduct($data);
-
-        return response()->json('product added');
     }
 }

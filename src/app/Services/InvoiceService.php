@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Dto\InvoiceDto;
-use App\Dto\ProductToInvoiceDto;
 use App\Exceptions\ModelNotCreatedException;
 use App\Exceptions\ModelNotDeletedException;
 use App\Exceptions\ModelNotFoundException;
@@ -88,21 +87,6 @@ class InvoiceService
             return ['success' => 'deleted'];
         } catch (\Exception $e) {
             throw new ModelNotDeletedException();
-        }
-    }
-
-    /**
-     * @param ProductToInvoiceDto $dto
-     * @return array
-     * @throws \Exception
-     */
-    public function addProduct(ProductToInvoiceDto $dto): array
-    {
-        try {
-            $this->repository->addProduct($dto);
-            return ['success' => 'added'];
-        } catch (\Exception $e) {
-            throw new \Exception();
         }
     }
 }

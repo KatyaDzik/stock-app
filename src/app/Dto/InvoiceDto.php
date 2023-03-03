@@ -12,16 +12,17 @@ class InvoiceDto
     private int $provider_id, $customer_id, $type_id, $status_id;
 
     /**
-     * @param $number
-     * @param $date
-     * @param $from
-     * @param $to
-     * @param $provider_id
-     * @param $customer_id
-     * @param $type_id
-     * @param $status_id
+     * @param string $number
+     * @param string $date
+     * @param string $from
+     * @param string $to
+     * @param int $provider_id
+     * @param int $customer_id
+     * @param int $type_id
+     * @param int $status_id
      */
-    public function __construct($number, $date, $from, $to, $provider_id, $customer_id, $type_id, $status_id)
+    public function __construct(string $number, string $date, string $from, string $to,
+        int $provider_id, int $customer_id, int $type_id, int $status_id)
     {
         $this->number = $number;
         $this->date = $date;

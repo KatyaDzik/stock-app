@@ -14,7 +14,7 @@ class ProductToInvoiceDto
     /**
      * @param int $count
      * @param float $price
-     * @param float $nds
+     * @param int $nds
      * @param int $product_id
      * @param int $invoice_id
      */
@@ -44,7 +44,7 @@ class ProductToInvoiceDto
     }
 
     /**
-     * @return float
+     * @return int
      */
     public function getNds(): int
     {

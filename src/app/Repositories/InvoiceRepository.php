@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Dto\InvoiceDto;
-use App\Dto\ProductToInvoiceDto;
 use App\Models\Invoice;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -107,19 +106,5 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         $product = Invoice::findOrFail($id);
 
         return $product->delete();
-    }
-
-    /**
-     * @param ProductToInvoiceDto $dto
-     * @return Invoice
-     */
-    public function addProduct(ProductToInvoiceDto $dto): Invoice
-    {
-        $invoice = Invoice::findOrFail($dto->getInvoice());
-
-        $invoice->products()->attach($dto->getProduct(),
-            ['count' => $dto->getCount(), 'price' => $dto->getPrice(), 'nds' => $dto->getNds()]);
-
-        return $invoice;
     }
 }

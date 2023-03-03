@@ -13,16 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/test', [App\Http\Controllers\TestController::class, 'index']);
-//
-//
-//Route::resource('users', \App\Http\Controllers\UserController::class)->only([
-//    'show', 'update', 'destroy'
-//]);
-//
-//Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
-//    'store', 'show', 'update', 'destroy'
-//]);
 Route::middleware(["guest:web", "guest:admin"])->group(function () {
     Route::get('/login', function () {
         return view('login');
@@ -35,7 +25,7 @@ Route::middleware("auth:web")->group(function () {
     Route::get('/home', function () {
         return view('user/home');
     })->name('home');
-//    Route::get('/product/{id}', [\App\Http\Controllers\ProductController::class, 'show']);
+
     Route::get('/products', [\App\Http\Controllers\ProductController::class, 'getAll'])->name('products');
     Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
         'store',
@@ -43,6 +33,8 @@ Route::middleware("auth:web")->group(function () {
         'update',
         'destroy'
     ]);
+
+    Route::get('/invoices', [\App\Http\Controllers\InvoiceController::class, 'getAll'])->name('invoices');
     Route::resource('/invoices', \App\Http\Controllers\InvoiceController::class)->only([
         'store',
         'show',
@@ -50,8 +42,12 @@ Route::middleware("auth:web")->group(function () {
         'destroy'
     ]);
 
-    Route::get('/invoices', [\App\Http\Controllers\InvoiceController::class, 'getAll'])->name('invoices');
-    Route::post('/add/product/to/invoice', [\App\Http\Controllers\InvoiceController::class, 'addProduct'])->name('add.product.to.invoice');
+    Route::delete('/product/has/invoices/{id}',
+        [\App\Http\Controllers\ProductHasInvoicesController::class, 'destroy'])->name('delete.product.from.invoice');
+    Route::post('/product/has/invoices',
+        [\App\Http\Controllers\ProductHasInvoicesController::class, 'store'])->name('add.product.to.invoice');
+    Route::put('/product/has/invoices/{id}',
+        [\App\Http\Controllers\ProductHasInvoicesController::class, 'update'])->name('update.product.from.invoice');
 
 });
 Route::get('/create', function () {
@@ -74,5 +70,3 @@ Route::get('/create', function () {
 //        'invoice_id' => 1
 //    ]);
 //});
-
-Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'getOne']);
