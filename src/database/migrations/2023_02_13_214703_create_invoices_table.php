@@ -17,12 +17,16 @@ class CreateInvoicesTable extends Migration
             $table->id();
             $table->string('number');
             $table->date('date');
+            $table->string('from');
+            $table->string('to');
+            $table->bigInteger('status_id')->unsigned();
+            $table->foreign('status_id')->references('id')->on('statuses')->onDelete('cascade');
             $table->bigInteger('provider_id')->unsigned();
             $table->foreign('provider_id')->references('id')->on('providers')->onDelete('cascade');
             $table->bigInteger('customer_id')->unsigned();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-            $table->bigInteger('movement_id')->unsigned();
-            $table->foreign('movement_id')->references('id')->on('movements')->onDelete('cascade');
+            $table->bigInteger('type_id')->unsigned();
+            $table->foreign('type_id')->references('id')->on('invoice_types')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -35,7 +39,7 @@ class CreateInvoicesTable extends Migration
      */
     public function down()
     {
-        Schema::table('invoices', function (Blueprint $table){
+        Schema::table('invoices', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
     }

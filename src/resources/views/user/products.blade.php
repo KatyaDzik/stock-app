@@ -5,7 +5,7 @@
 @endsection
 
 @section('page-title')
-    Продукты
+   <h2>Продукты</h2>
 @endsection
 
 @section('page-content')
@@ -18,11 +18,9 @@
     <table class="table table-striped" style="margin: 0 auto;">
         <thead>
         <tr>
-            <th scope="col">№</th>
             <th scope="col">Наименование</th>
             <th scope="col">Категория</th>
             <th scope="col">Автор</th>
-            <th scope="col"></th>
             <th scope="col"></th>
         </tr>
         </thead>

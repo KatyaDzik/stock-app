@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Invoice
@@ -21,14 +22,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Invoice extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'number',
         'date',
         'provider_id',
         'customer_id',
-        'movement_id'
+        'type_id',
+        'from',
+        'to',
+        'status_id'
     ];
 
     /**
@@ -36,7 +40,7 @@ class Invoice extends Model
      */
     public function provider(): ?BelongsTo
     {
-        return $this->belongsTo(Provider::class);
+        return $this->belongsTo(Provider::class, 'provider_id');
     }
 
     /**
@@ -44,15 +48,7 @@ class Invoice extends Model
      */
     public function customer(): ?BelongsTo
     {
-        return $this->belongsTo(Customer::class);
-    }
-
-    /**
-     * @return Movement|null
-     */
-    public function movement(): ?BelongsTo
-    {
-        return $this->belongsTo(Movement::class);
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 
     /**
@@ -61,5 +57,16 @@ class Invoice extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_has_invoices', 'invoice_id', 'product_id');
+    }
+
+
+    public function type(): ?BelongsTo
+    {
+        return $this->belongsTo(InvoiceType::class, 'type_id');
+    }
+
+    public function status(): ?BelongsTo
+    {
+        return $this->belongsTo(Status::class, 'status_id');
     }
 }

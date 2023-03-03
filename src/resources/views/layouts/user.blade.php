@@ -35,26 +35,26 @@
                 </a>
             </li>
             @canany(['actions on products', 'admin-panel'])
-            <li class="nav-item">
-                <a href="{{route('products')}}"
-                   class="{{ str_contains(request()->url(), 'products') ? 'my-active-nav-link' : '' }} nav-link text-white">
-                    Продукты
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a href="{{route('products')}}"
+                       class="{{ str_contains(request()->url(), 'products') ? 'my-active-nav-link' : '' }} nav-link text-white">
+                        Продукты
+                    </a>
+                </li>
             @endcan
             @canany(['actions on invoices', 'admin-panel'])
-            <li class="nav-item">
-                <a href="{{route('admin-settings')}}"
-                   class="{{ str_contains(request()->url(), 'invoice') ? 'my-active-nav-link' : '' }} nav-link text-white">
-                    Накладные
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a href="{{route('invoices')}}"
+                       class="{{ str_contains(request()->url(), 'invoice') ? 'my-active-nav-link' : '' }} nav-link text-white">
+                        Накладные
+                    </a>
+                </li>
             @endcan
         </ul>
     </div>
     <div style="width: 80%; margin: 20px auto; ">
         <div style=" height: 80px; padding: 15px; background: white; border-radius: 10px;">
-            <h2>@yield('page-title')</h2>
+            @yield('page-title')
         </div>
         <br>
         <div

@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-use App\Dto\LoginDto;
 use App\Dto\UserDto;
 use App\Exceptions\InvalidCredentialsException;
 use App\Exceptions\LogoutException;
 use App\Exceptions\ModelNotCreatedException;
+use App\Http\LoginDto;
 use App\Repositories\UserRepository;
 use App\Services\Interfaces\AuthServiceInterface;
 

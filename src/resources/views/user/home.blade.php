@@ -5,7 +5,7 @@
 @endsection
 
 @section('page-title')
-    Главная
+    <h2>Главная</h2>
 @endsection
 
 @section('page-content')

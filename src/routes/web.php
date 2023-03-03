@@ -43,14 +43,20 @@ Route::middleware("auth:web")->group(function () {
         'update',
         'destroy'
     ]);
+    Route::resource('/invoices', \App\Http\Controllers\InvoiceController::class)->only([
+        'store',
+        'show',
+        'update',
+        'destroy'
+    ]);
+
+    Route::get('/invoices', [\App\Http\Controllers\InvoiceController::class, 'getAll'])->name('invoices');
+    Route::post('/add/product/to/invoice', [\App\Http\Controllers\InvoiceController::class, 'addProduct'])->name('add.product.to.invoice');
+
 });
-//Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
-//    'store',
-//    'show',
-//    'update',
-//    'destroy'
-//]);
-//Route::get('/create', function () {
+Route::get('/create', function () {
+
+});
 //    \App\Models\ProductHasInvoices::create([
 //        'count' => 600,
 //        'price' => 14.00,
