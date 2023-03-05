@@ -50,10 +50,10 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     }
 
     /**
-     * @param $count
+     * @param int $count
      * @return LengthAwarePaginator
      */
-    public function getAllPaginate($count): LengthAwarePaginator
+    public function getAllPaginate(int $count): LengthAwarePaginator
     {
         return Invoice::paginate($count);
     }

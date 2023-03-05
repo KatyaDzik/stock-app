@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Dto\ProductToInvoiceDto;
 use App\Models\ProductHasInvoices;
 use App\Repositories\Interfaces\ProductHasInvoicesRepositoryInterface;
+use Illuminate\Support\Collection;
 
 
 /**
@@ -13,6 +14,15 @@ use App\Repositories\Interfaces\ProductHasInvoicesRepositoryInterface;
  */
 class ProductHasInvoicesRepository implements ProductHasInvoicesRepositoryInterface
 {
+    /**
+     * @param int $id
+     * @return Collection
+     */
+    public static function getByInvoice(int $id): Collection
+    {
+        return ProductHasInvoices::where('invoice_id', $id)->get();
+    }
+
     /**
      * @param int $id
      * @return bool

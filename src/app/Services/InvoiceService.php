@@ -9,6 +9,7 @@ use App\Exceptions\ModelNotFoundException;
 use App\Exceptions\ModelNotUpdatedException;
 use App\Models\Invoice;
 use App\Repositories\InvoiceRepository;
+use App\Repositories\ReceiptOfProductsRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
@@ -28,10 +29,10 @@ class InvoiceService
     }
 
     /**
-     * @param $count
+     * @param int $count
      * @return LengthAwarePaginator
      */
-    public function getAllPaginate($count): LengthAwarePaginator
+    public function getAllPaginate(int $count): LengthAwarePaginator
     {
         return $this->repository->getAllPaginate($count);
     }
@@ -70,6 +71,11 @@ class InvoiceService
     public function update(int $id, InvoiceDto $dto): bool
     {
         try {
+            if ($dto->getType() === 1 && $dto->getStatus() === 3) {
+                $repository = new ReceiptOfProductsRepository();
+                $service = new ReceiptOfProductsService($repository);
+                $service->createFromInvoice($id);
+            }
             return $this->repository->update($id, $dto);
         } catch (\Exception $e) {
             throw new ModelNotUpdatedException();

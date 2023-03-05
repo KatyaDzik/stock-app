@@ -68,6 +68,8 @@ Route::middleware("auth:web")->group(function () {
 Route::get('/create', function () {
 
 });
+
+Route::get('/test', [\App\Services\ReceiptOfProductsService::class, 'createFromInvoice']);
 //    \App\Models\ProductHasInvoices::create([
 //        'count' => 600,
 //        'price' => 14.00,

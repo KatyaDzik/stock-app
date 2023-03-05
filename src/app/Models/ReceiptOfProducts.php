@@ -21,7 +21,7 @@ class ReceiptOfProducts extends Model
         'product_id',
     ];
 
-    protected $table = 'product_has_invoices';
+    protected $table = 'receipt_of_products';
 
     /**
      * @return null|BelongsTo
