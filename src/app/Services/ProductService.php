@@ -93,10 +93,10 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param $count
+     * @param int $count
      * @return LengthAwarePaginator
      */
-    public function getAllPaginate($count): LengthAwarePaginator
+    public function getAllPaginate(int $count): LengthAwarePaginator
     {
         return $this->repository->getAllPaginate($count);
     }

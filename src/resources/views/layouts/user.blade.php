@@ -34,19 +34,27 @@
                     Главная
                 </a>
             </li>
-            @canany(['actions on products', 'admin-panel'])
-                <li class="nav-item">
-                    <a href="{{route('products')}}"
-                       class="{{ str_contains(request()->url(), 'products') ? 'my-active-nav-link' : '' }} nav-link text-white">
-                        Продукты
-                    </a>
-                </li>
-            @endcan
             @canany(['actions on invoices', 'admin-panel'])
                 <li class="nav-item">
                     <a href="{{route('invoices')}}"
                        class="{{ str_contains(request()->url(), 'invoice') ? 'my-active-nav-link' : '' }} nav-link text-white">
                         Накладные
+                    </a>
+                </li>
+            @endcan
+            @canany(['actions on products', 'admin-panel'])
+                <li class="nav-item">
+                    <a href="{{route('stocks')}}"
+                       class="{{ str_contains(request()->url(), 'stock') ? 'my-active-nav-link' : '' }} nav-link text-white">
+                        Продукция на складе
+                    </a>
+                </li>
+            @endcan
+            @canany(['actions on products', 'admin-panel'])
+                <li class="nav-item">
+                    <a href="{{route('products')}}"
+                       class="{{ str_contains(request()->url(), 'products') ? 'my-active-nav-link' : '' }} nav-link text-white">
+                        Продукты
                     </a>
                 </li>
             @endcan

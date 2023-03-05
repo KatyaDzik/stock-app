@@ -1,25 +1,13 @@
 <?php
 
-namespace App\Repositories\Interfaces;
+namespace App\Services\Interfaces;
 
 use App\Dto\StockDto;
 use App\Models\Stock;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-interface StockRepositoryInterface
+interface StockServiceInterface
 {
-    /**
-     * @return Collection
-     */
-    public function getAll(): Collection;
-
-    /**
-     * @param int $id
-     * @return Stock|null
-     */
-    public function getById(int $id): ?Stock;
-
     /**
      * @param int $count
      * @return LengthAwarePaginator
@@ -30,7 +18,7 @@ interface StockRepositoryInterface
      * @param StockDto $dto
      * @return Stock
      */
-    public function save(StockDto $dto): Stock;
+    public function create(StockDto $dto): Stock;
 
     /**
      * @param int $id
@@ -41,7 +29,7 @@ interface StockRepositoryInterface
 
     /**
      * @param int $id
-     * @return bool
+     * @return string[]
      */
-    public function delete(int $id): bool;
+    public function delete(int $id): array;
 }

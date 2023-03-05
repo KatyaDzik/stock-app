@@ -2,26 +2,37 @@
 
 namespace App\Services;
 
-use App\Dto\ProductToInvoiceDto;
+use App\Dto\ProductInStockDto;
 use App\Exceptions\ModelNotCreatedException;
 use App\Exceptions\ModelNotDeletedException;
 use App\Exceptions\ModelNotUpdatedException;
-use App\Repositories\ProductHasInvoicesRepository;
+use App\Repositories\ProductHasStocksRepository;
+use App\Services\Interfaces\ProductHasStocksServiceInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
- * Class ProductHasInvoicesService
+ * Class ProductHasStocksService
  * @package App\Services
  */
-class ProductHasInvoicesService
+class ProductHasStocksService implements ProductHasStocksServiceInterface
 {
-    private ProductHasInvoicesRepository $repository;
+    private ProductHasStocksRepository $repository;
 
     /**
-     * @param ProductHasInvoicesRepository $repository
+     * @param ProductHasStocksRepository $repository
      */
-    public function __construct(ProductHasInvoicesRepository $repository)
+    public function __construct(ProductHasStocksRepository $repository)
     {
         $this->repository = $repository;
+    }
+
+    /**
+     * @param int $count
+     * @return LengthAwarePaginator
+     */
+    public function getAllPaginate(int $count): LengthAwarePaginator
+    {
+        return $this->repository->getAllPaginate($count);
     }
 
     /**
@@ -39,11 +50,10 @@ class ProductHasInvoicesService
     }
 
     /**
-     * @param ProductToInvoiceDto $dto
-     * @return array
-     * @throws \Exception
+     * @param ProductInStockDto $dto
+     * @return string[]
      */
-    public function create(ProductToInvoiceDto $dto): array
+    public function create(ProductInStockDto $dto): array
     {
         try {
             $this->repository->save($dto);
@@ -55,10 +65,10 @@ class ProductHasInvoicesService
 
     /**
      * @param int $id
-     * @param ProductToInvoiceDto $dto
+     * @param ProductInStockDto $dto
      * @return bool
      */
-    public function update(int $id, ProductToInvoiceDto $dto): bool
+    public function update(int $id, ProductInStockDto $dto): bool
     {
         try {
             return $this->repository->update($id, $dto);

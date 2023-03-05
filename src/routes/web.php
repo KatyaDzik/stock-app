@@ -49,6 +49,21 @@ Route::middleware("auth:web")->group(function () {
     Route::put('/product/has/invoices/{id}',
         [\App\Http\Controllers\ProductHasInvoicesController::class, 'update'])->name('update.product.from.invoice');
 
+    Route::get('/stocks', [\App\Http\Controllers\StockController::class, 'getAll'])->name('stocks');
+    Route::resource('/stocks', \App\Http\Controllers\StockController::class)->only([
+        'store',
+        'update',
+        'destroy'
+    ]);
+
+    Route::get('/product/has/stocks/{id}',
+        [\App\Http\Controllers\ProductHasStocksController::class, 'getAll'])->name('get.product.from.stock');
+    Route::post('/product/has/stocks',
+        [\App\Http\Controllers\ProductHasStocksController::class, 'store'])->name('add.product.to.stock');
+    Route::put('/product/has/stocks/{id}',
+        [\App\Http\Controllers\ProductHasStocksController::class, 'update'])->name('update.product.from.stock');
+    Route::delete('/product/has/stocks/{id}',
+        [\App\Http\Controllers\ProductHasStocksController::class, 'destroy'])->name('delete.product.from.stock');
 });
 Route::get('/create', function () {
 

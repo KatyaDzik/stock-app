@@ -23,7 +23,7 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::all();
     }
 
-    public function getAllPaginate($count): LengthAwarePaginator
+    public function getAllPaginate(int $count): LengthAwarePaginator
     {
         return Product::paginate($count);
     }
@@ -34,7 +34,7 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function getById(int $id): ?Product
     {
-        return Product::with(['category', 'author', 'stocks', 'invoices'])->findOrFail($id);
+        return Product::findOrFail($id);
     }
 
     /**

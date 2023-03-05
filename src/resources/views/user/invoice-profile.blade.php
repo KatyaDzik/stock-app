@@ -404,7 +404,6 @@
             let nds = $('#nds' + id).val();
             let product_id = $("#products" + id + " option:selected").val();
             let invoice_id = {{$invoice->id}};
-            console.log(id);
             $.ajax({
                 url: "{{route('update.product.from.invoice', '')}}" + "/" + id,
                 type: "PUT",

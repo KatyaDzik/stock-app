@@ -14,7 +14,7 @@
     </div>
 
     <x-modal-window id="{{'create-invoice'}}">
-        <form style="margin: 20px;" id="UpdateInvoice">
+        <form style="margin: 20px;" id="AddInvoice">
             {{--     Блок для вывода ошибок       --}}
             <div style="display: none" id="createInvoiceErrors" class="alert alert-danger"></div>
             {{--         Форма       --}}
@@ -140,7 +140,7 @@
     </div>
 
     <script type="text/javascript">
-        $('#UpdateInvoice').on('submit', function (e) {
+        $('#AddInvoice').on('submit', function (e) {
             e.preventDefault();
             let number = $('#number').val();
             let date = $('#date').val();
