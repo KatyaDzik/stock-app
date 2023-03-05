@@ -2,12 +2,9 @@
 
 namespace App\Services;
 
-use App\Dto\UserDto;
 use App\Exceptions\InvalidCredentialsException;
 use App\Exceptions\LogoutException;
-use App\Exceptions\ModelNotCreatedException;
 use App\Http\LoginDto;
-use App\Repositories\UserRepository;
 use App\Services\Interfaces\AuthServiceInterface;
 
 /**
@@ -16,27 +13,6 @@ use App\Services\Interfaces\AuthServiceInterface;
  */
 class AuthService implements AuthServiceInterface
 {
-    private UserRepository $repository;
-
-    public function __construct(UserRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-    /**
-     * @param UserDto $dto
-     * @return array
-     */
-    public function register(UserDto $dto): array
-    {
-        try {
-            $this->repository->save($dto);
-            return ['success' => 'регистрация прошла успешно'];
-        } catch (\Exception $exception) {
-            throw new ModelNotCreatedException();
-        }
-    }
-
     /**
      * @param LoginDto $dto
      * @return array

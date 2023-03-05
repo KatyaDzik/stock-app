@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Dto\UserDto;
 use App\Http\LoginDto;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\UserRequest;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 
@@ -23,26 +21,6 @@ class AuthController extends Controller
     public function __construct(AuthService $service)
     {
         $this->service = $service;
-    }
-
-    /**
-     * @param UserRequest $request
-     * @return JsonResponse
-     */
-    public function register(UserRequest $request): JsonResponse
-    {
-        $request->validated();
-
-        $data = new UserDto(
-            $request->input('name'),
-            $request->input('login'),
-            $request->input('role_id'),
-            $request->input('password')
-        );
-
-        $result = $this->service->register($data);
-
-        return response()->json($result);
     }
 
     /**

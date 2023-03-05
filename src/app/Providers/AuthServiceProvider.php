@@ -37,5 +37,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('actions on products', function (User $user) {
             return $user->permissions->containsStrict('name', 'actions on products');
         });
+
+        Gate::define('actions on stocks', function (User $user) {
+            return $user->permissions->containsStrict('name', 'actions on stocks');
+        });
     }
 }

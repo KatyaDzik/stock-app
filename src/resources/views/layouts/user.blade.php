@@ -42,7 +42,7 @@
                     </a>
                 </li>
             @endcan
-            @canany(['actions on products', 'admin-panel'])
+            @canany(['actions on stocks', 'admin-panel'])
                 <li class="nav-item">
                     <a href="{{route('stocks')}}"
                        class="{{ str_contains(request()->url(), 'stock') ? 'my-active-nav-link' : '' }} nav-link text-white">
@@ -50,7 +50,7 @@
                     </a>
                 </li>
             @endcan
-            @canany(['actions on products', 'admin-panel'])
+            @canany(['actions on stock', 'admin-panel'])
                 <li class="nav-item">
                     <a href="{{route('get.product.for.stock')}}"
                        class="{{ str_contains(request()->url(), 'received') ? 'my-active-nav-link' : '' }} nav-link text-white">

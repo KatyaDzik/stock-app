@@ -8,12 +8,6 @@ use App\Http\LoginDto;
 interface AuthServiceInterface
 {
     /**
-     * @param UserDto $dto
-     * @return array
-     */
-    public function register(UserDto $dto): array;
-
-    /**
      * @param LoginDto $dto
      * @return array
      */

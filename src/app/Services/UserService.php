@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Dto\PermissionsToUpdateDto;
 use App\Dto\UserDto;
+use App\Exceptions\ModelNotCreatedException;
 use App\Exceptions\ModelNotDeletedException;
 use App\Exceptions\ModelNotFoundException;
 use App\Exceptions\ModelNotUpdatedException;
@@ -86,6 +87,20 @@ class UserService implements UserServiceInterface
             return $this->repository->updatePermissions($id, $dto->getPermissions());
         } catch (\Exception $e) {
             throw new ModelNotUpdatedException();
+        }
+    }
+
+    /**
+     * @param UserDto $dto
+     * @return array
+     */
+    public function create(UserDto $dto): array
+    {
+        try {
+            $this->repository->save($dto);
+            return ['success' => 'регистрация прошла успешно'];
+        } catch (\Exception $exception) {
+            throw new ModelNotCreatedException();
         }
     }
 }

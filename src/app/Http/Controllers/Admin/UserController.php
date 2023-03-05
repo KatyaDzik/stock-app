@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Dto\PermissionsToUpdateDto;
+use App\Dto\UserDto;
+use App\Http\Requests\UserRequest;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -68,5 +70,25 @@ class UserController
         $this->service->updatePermissions($id, $dto);
 
         return response()->json('updated');
+    }
+
+    /**
+     * @param UserRequest $request
+     * @return JsonResponse
+     */
+    public function create(UserRequest $request): JsonResponse
+    {
+        $request->validated();
+
+        $data = new UserDto(
+            $request->input('name'),
+            $request->input('login'),
+            $request->input('role_id'),
+            $request->input('password')
+        );
+
+        $result = $this->service->create($data);
+
+        return response()->json($result);
     }
 }
