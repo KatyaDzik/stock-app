@@ -88,4 +88,26 @@ class ProductHasStocksController extends Controller
 
         return response()->json('updated successfully');
     }
+
+    /**
+     * @param int $id
+     * @param ProductHasStocksRequest $request
+     * @return JsonResponse
+     */
+    public function storeReceivedGoods(int $id, ProductHasStocksRequest $request)
+    {
+        $request->validated();
+
+        $data = new ProductInStockDto(
+            $request->input('count'),
+            $request->input('price'),
+            $request->input('nds'),
+            $request->input('product_id'),
+            $request->input('stock_id'),
+        );
+
+        $this->service->saveReceivedGoods($id, $data);
+
+        return response()->json('added successfully');
+    }
 }

@@ -7,8 +7,10 @@ use App\Exceptions\ModelNotCreatedException;
 use App\Exceptions\ModelNotDeletedException;
 use App\Exceptions\ModelNotUpdatedException;
 use App\Repositories\ProductHasStocksRepository;
+use App\Repositories\ReceiptOfProductsRepository;
 use App\Services\Interfaces\ProductHasStocksServiceInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ProductHasStocksService
@@ -37,16 +39,32 @@ class ProductHasStocksService implements ProductHasStocksServiceInterface
 
     /**
      * @param int $id
-     * @return string[]
+     * @param ProductInStockDto $dto
+     * @return bool
      */
-    public function delete(int $id): array
+    public function update(int $id, ProductInStockDto $dto): bool
     {
         try {
-            $this->repository->delete($id);
-            return ['success' => 'deleted'];
+            return $this->repository->update($id, $dto);
         } catch (\Exception $e) {
-            throw new ModelNotDeletedException();
+            throw new ModelNotUpdatedException();
         }
+    }
+
+    /**
+     * @param int $id
+     * @param ProductInStockDto $dto
+     * @return void
+     */
+    public function saveReceivedGoods(int $id, ProductInStockDto $dto): void
+    {
+        DB::transaction(function () use ($id, $dto) {
+            $this->create($dto);
+            $repository = new ReceiptOfProductsRepository();
+            $service = new ReceiptOfProductsService($repository);
+
+            $service->delete($id);
+        });
     }
 
     /**
@@ -65,15 +83,15 @@ class ProductHasStocksService implements ProductHasStocksServiceInterface
 
     /**
      * @param int $id
-     * @param ProductInStockDto $dto
-     * @return bool
+     * @return string[]
      */
-    public function update(int $id, ProductInStockDto $dto): bool
+    public function delete(int $id): array
     {
         try {
-            return $this->repository->update($id, $dto);
+            $this->repository->delete($id);
+            return ['success' => 'deleted'];
         } catch (\Exception $e) {
-            throw new ModelNotUpdatedException();
+            throw new ModelNotDeletedException();
         }
     }
 }

@@ -52,6 +52,14 @@
             @endcan
             @canany(['actions on products', 'admin-panel'])
                 <li class="nav-item">
+                    <a href="{{route('get.product.for.stock')}}"
+                       class="{{ str_contains(request()->url(), 'received') ? 'my-active-nav-link' : '' }} nav-link text-white">
+                        Поступление товаров
+                    </a>
+                </li>
+            @endcan
+            @canany(['actions on products', 'admin-panel'])
+                <li class="nav-item">
                     <a href="{{route('products')}}"
                        class="{{ str_contains(request()->url(), 'products') ? 'my-active-nav-link' : '' }} nav-link text-white">
                         Продукты

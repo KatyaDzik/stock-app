@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\ModelNotDeletedException;
 use App\Repositories\ProductHasInvoicesRepository;
 use App\Repositories\ReceiptOfProductsRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -49,5 +50,19 @@ class ReceiptOfProductsService
             $data[] = $el;
         }
         return $this->repository->saveMultiple($data);
+    }
+
+    /**
+     * @param int $id
+     * @return string[]
+     */
+    public function delete(int $id): array
+    {
+        try {
+            $this->repository->delete($id);
+            return ['success' => 'deleted'];
+        } catch (\Exception $e) {
+            throw new ModelNotDeletedException();
+        }
     }
 }

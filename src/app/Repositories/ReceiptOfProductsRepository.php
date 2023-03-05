@@ -43,4 +43,15 @@ class ReceiptOfProductsRepository
     {
         return ReceiptOfProducts::insert($data);
     }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function delete(int $id): bool
+    {
+        $product = ReceiptOfProducts::findOrFail($id);
+
+        return $product->delete();
+    }
 }

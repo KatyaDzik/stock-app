@@ -60,30 +60,19 @@ Route::middleware("auth:web")->group(function () {
         [\App\Http\Controllers\ProductHasStocksController::class, 'getAll'])->name('get.product.from.stock');
     Route::post('/product/has/stocks',
         [\App\Http\Controllers\ProductHasStocksController::class, 'store'])->name('add.product.to.stock');
+    Route::post('/product/has/stocks/from/received/goods/{id}',
+        [\App\Http\Controllers\ProductHasStocksController::class, 'storeReceivedGoods'])->name('add.product.to.stock.from.received.goods');
     Route::put('/product/has/stocks/{id}',
         [\App\Http\Controllers\ProductHasStocksController::class, 'update'])->name('update.product.from.stock');
     Route::delete('/product/has/stocks/{id}',
         [\App\Http\Controllers\ProductHasStocksController::class, 'destroy'])->name('delete.product.from.stock');
+
+    Route::get('/received/goods',
+        [\App\Http\Controllers\ReceiptOfProductsController::class, 'getAll'])->name('get.product.for.stock');
+    Route::delete('/received/goods/{id}',
+        [\App\Http\Controllers\ReceiptOfProductsController::class, 'destroy'])->name('delete.product.for.stock');
+
 });
 Route::get('/create', function () {
 
 });
-
-Route::get('/test', [\App\Services\ReceiptOfProductsService::class, 'createFromInvoice']);
-//    \App\Models\ProductHasInvoices::create([
-//        'count' => 600,
-//        'price' => 14.00,
-//        'nds' => 0.2,
-//        'product_id' => 1,
-//        'invoice_id' => 1
-//
-//    ]);
-//
-//    \App\Models\ProductHasInvoices::create([
-//        'count' => 200,
-//        'price' => 8.00,
-//        'nds' => 0.2,
-//        'product_id' => 7,
-//        'invoice_id' => 1
-//    ]);
-//});
