@@ -18,18 +18,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('categories', \App\Http\Controllers\CategoryController::class)->only([
-    'store',
-    'show',
-    'update',
-    'destroy'
-]);
-
-Route::resource('users', \App\Http\Controllers\UserController::class)->only([
-    'show',
-    'update',
-    'destroy'
-]);
+//Route::resource('categories', \App\Http\Controllers\CategoryController::class)->only([
+//    'store',
+//    'show',
+//    'update',
+//    'destroy'
+//]);
+//
+//Route::resource('users', \App\Http\Controllers\UserController::class)->only([
+//    'show',
+//    'update',
+//    'destroy'
+//]);
 
 
 Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
@@ -41,6 +41,6 @@ Route::resource('products', \App\Http\Controllers\ProductController::class)->onl
 
 Route::post('/users/register', [\App\Http\Controllers\AuthController::class, 'register']);
 
-Route::post('/users/login', [\App\Http\Controllers\AuthController::class, 'login']);
+Route::post('/users/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
 
-Route::post('/users/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('/users/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout'])->middleware('auth:sanctum');
