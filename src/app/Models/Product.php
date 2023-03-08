@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id
  * @property string $name
+ * @property string $sku
  * @property int $category_id
  * @property int $author_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -25,12 +25,14 @@ class Product extends Model
 
     protected $fillable = [
         'name',
+        'sku',
         'category_id',
         'author_id'
     ];
 
+
     /**
-     * @return BelongsTo|nullmake:request
+     * @return null|BelongsTo
      */
     public function category(): ?BelongsTo
     {

@@ -19,6 +19,7 @@ class CreateInvoicesTable extends Migration
             $table->date('date');
             $table->string('from');
             $table->string('to');
+            $table->boolean('closed')->default(0);
             $table->bigInteger('status_id')->unsigned();
             $table->foreign('status_id')->references('id')->on('statuses')->onDelete('cascade');
             $table->bigInteger('provider_id')->unsigned();
@@ -39,8 +40,6 @@ class CreateInvoicesTable extends Migration
      */
     public function down()
     {
-        Schema::table('invoices', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-        });
+        Schema::dropIfExists('invoices');
     }
 }

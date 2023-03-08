@@ -41,9 +41,9 @@ interface ProductRepositoryInterface
     /**
      * @param int $id
      * @param ProductDto $dto
-     * @return Product|null
+     * @return bool
      */
-    public function update(int $id, ProductDto $dto): ?Product;
+    public function update(int $id, ProductDto $dto): bool;
 
     /**
      * @param ProductDto $dto

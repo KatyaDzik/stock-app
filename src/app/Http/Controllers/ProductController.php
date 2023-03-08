@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Dto\ProductDto;
 use App\Http\Requests\ProductRequest;
 use App\Services\ProductService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 
 /**
@@ -26,22 +25,18 @@ class ProductController extends Controller
 
     /**
      * @param ProductRequest $request
-     * @return JsonResponse
-     * @throws \Exception
+     * @return void
      */
-    public function store(ProductRequest $request): JsonResponse
+    public function store(ProductRequest $request): void
     {
-        $request->validated();
-
         $data = new ProductDto(
             $request->input('name'),
+            md5('new'),
             $request->input('category_id'),
             auth('web')->user()->id
         );
 
-        $result = $this->service->create($data);
-
-        return response()->json($result);
+        $this->service->create($data);
     }
 
 
@@ -59,34 +54,28 @@ class ProductController extends Controller
     /**
      * @param int $id
      * @param ProductRequest $request
-     * @return JsonResponse
-     * @throws \Exception
+     * @return void
      */
-    public function update(int $id, ProductRequest $request): JsonResponse
+    public function update(int $id, ProductRequest $request): void
     {
-        $request->validated();
-
         $data = new ProductDto(
             $request->input('name'),
             $request->input('category_id'),
+            $request->input('scu'),
             auth('web')->user()->id
         );
 
-        $result = $this->service->update($id, $data);
-
-        return response()->json($result);
+        $this->service->update($id, $data);
     }
 
     /**
      * @param int $id
-     * @return JsonResponse
+     * @return void
      * @throws \Exception
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(int $id): void
     {
         $this->service->delete($id);
-
-        return response()->json('deleted');
     }
 
     /**

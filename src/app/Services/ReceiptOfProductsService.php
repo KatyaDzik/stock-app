@@ -38,7 +38,8 @@ class ReceiptOfProductsService
      */
     public function createFromInvoice(int $id): bool
     {
-        $products = ProductHasInvoicesRepository::getByInvoice($id);
+        $repository = new ProductHasInvoicesRepository();
+        $products = $repository->getByInvoice($id);
         $data = [];
         foreach ($products as $product) {
             $el = [

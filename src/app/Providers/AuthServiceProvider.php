@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -40,6 +41,10 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('actions on stocks', function (User $user) {
             return $user->permissions->containsStrict('name', 'actions on stocks');
+        });
+
+        Gate::define('add products to invoice', function (User $user, Invoice $invoice) {
+            return $invoice->status->id === config('status-enums.statuses')['PACKED'];
         });
     }
 }

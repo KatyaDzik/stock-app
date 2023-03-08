@@ -32,15 +32,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //]);
 
 
-Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
-    'store',
-    'show',
-    'update',
-    'destroy'
-]);
-
 Route::post('/users/register', [\App\Http\Controllers\AuthController::class, 'register']);
 
 Route::post('/users/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
 
 Route::post('/users/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/products', [\App\Http\Controllers\Api\ProductController::class, 'getAll'])->name('products');
+    Route::resource('products', \App\Http\Controllers\Api\ProductController::class)->only([
+        'store',
+        'show',
+        'update',
+        'destroy'
+    ]);
+});

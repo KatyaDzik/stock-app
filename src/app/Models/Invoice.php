@@ -59,12 +59,17 @@ class Invoice extends Model
         return $this->belongsToMany(Product::class, 'product_has_invoices', 'invoice_id', 'product_id');
     }
 
-
+    /**
+     * @return null|BelongsTo
+     */
     public function type(): ?BelongsTo
     {
         return $this->belongsTo(InvoiceType::class, 'type_id');
     }
 
+    /**
+     * @return null|BelongsTo
+     */
     public function status(): ?BelongsTo
     {
         return $this->belongsTo(Status::class, 'status_id');

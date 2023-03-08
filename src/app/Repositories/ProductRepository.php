@@ -23,6 +23,10 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::all();
     }
 
+    /**
+     * @param int $count
+     * @return LengthAwarePaginator
+     */
     public function getAllPaginate(int $count): LengthAwarePaginator
     {
         return Product::paginate($count);
@@ -35,6 +39,15 @@ class ProductRepository implements ProductRepositoryInterface
     public function getById(int $id): ?Product
     {
         return Product::findOrFail($id);
+    }
+
+    /**
+     * @param string $sku
+     * @return null|Product
+     */
+    public function getBySku(string $sku): ?Product
+    {
+        return Product::where('sku', $sku)->first();
     }
 
     /**
@@ -61,6 +74,17 @@ class ProductRepository implements ProductRepositoryInterface
      * @param int $id
      * @return Collection
      */
+    public function getProductsByProvider(int $id): Collection
+    {
+        return Product::whereHas('invoices', function ($query) use ($id) {
+            $query->with('invoice')->where('provider_id', $id);
+        })->get();
+    }
+
+    /**
+     * @param int $id
+     * @return Collection
+     */
     public function getProductsByStock(int $id): Collection
     {
         return Product::whereHas('stocks', function (Builder $query) use ($id) {
@@ -71,14 +95,15 @@ class ProductRepository implements ProductRepositoryInterface
     /**
      * @param int $id
      * @param ProductDto $dto
-     * @return Product|null
+     * @return bool
      */
-    public function update(int $id, ProductDto $dto): ?Product
+    public function update(int $id, ProductDto $dto): bool
     {
         $product = Product::findOrFail($id);
 
         return $product->update([
             'name' => $dto->getName(),
+            'sku' => $dto->getSku(),
             'category_id' => $dto->getCategory()
         ]);
     }
@@ -91,6 +116,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         return Product::create([
             'name' => $dto->getName(),
+            'sku' => $dto->getSku(),
             'category_id' => $dto->getCategory(),
             'author_id' => $dto->getAuthor()
         ]);

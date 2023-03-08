@@ -31,12 +31,12 @@ class ProductService implements ProductServiceInterface
 
     /**
      * @param ProductDto $dto
-     * @return Product
+     * @return void
      */
-    public function create(ProductDto $dto): Product
+    public function create(ProductDto $dto): void
     {
         try {
-            return $this->repository->save($dto);
+            $this->repository->save($dto);
         } catch (\Exception $e) {
             throw new ModelNotCreatedException();
         }
@@ -58,12 +58,12 @@ class ProductService implements ProductServiceInterface
     /**
      * @param int $id
      * @param ProductDto $dto
-     * @return Product
+     * @return void
      */
-    public function update(int $id, ProductDto $dto): Product
+    public function update(int $id, ProductDto $dto): void
     {
         try {
-            return $this->repository->update($id, $dto);
+            $this->repository->update($id, $dto);
         } catch (\Exception $e) {
             throw new ModelNotUpdatedException();
         }
@@ -71,14 +71,12 @@ class ProductService implements ProductServiceInterface
 
     /**
      * @param int $id
-     * @return array
-     * @throws \Exception
+     * @return void
      */
-    public function delete(int $id): array
+    public function delete(int $id): void
     {
         try {
             $this->repository->delete($id);
-            return ['success' => 'deleted'];
         } catch (\Exception $e) {
             throw new ModelNotDeletedException();
         }

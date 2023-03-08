@@ -29,8 +29,6 @@ class CreateStocksTable extends Migration
      */
     public function down()
     {
-        Schema::table('stocks', function (Blueprint $table){
-            $table->dropSoftDeletes();
-        });
+        Schema::dropIfExists('stocks');
     }
 }

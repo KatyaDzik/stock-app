@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Dto\InvoiceDto;
 use App\Http\Requests\InvoiceRequest;
+use App\Http\Requests\InvoiceUpdateRequest;
 use App\Services\InvoiceService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 
 /**
@@ -36,12 +36,10 @@ class InvoiceController extends Controller
 
     /**
      * @param InvoiceRequest $request
-     * @return JsonResponse
+     * @return void
      */
-    public function store(InvoiceRequest $request): JsonResponse
+    public function store(InvoiceRequest $request): void
     {
-        $request->validated();
-
         $data = new InvoiceDto(
             $request->input('number'),
             $request->input('date'),
@@ -53,9 +51,7 @@ class InvoiceController extends Controller
             $request->input('status_id'),
         );
 
-        $result = $this->service->create($data);
-
-        return response()->json($result);
+        $this->service->create($data);
     }
 
     /**
@@ -71,13 +67,11 @@ class InvoiceController extends Controller
 
     /**
      * @param int $id
-     * @param InvoiceRequest $request
-     * @return JsonResponse
+     * @param InvoiceUpdateRequest $request
+     * @return void
      */
-    public function update(int $id, InvoiceRequest $request): JsonResponse
+    public function update(int $id, InvoiceUpdateRequest $request): void
     {
-        $request->validated();
-
         $data = new InvoiceDto(
             $request->input('number'),
             $request->input('date'),
@@ -89,19 +83,15 @@ class InvoiceController extends Controller
             $request->input('status_id'),
         );
 
-        $result = $this->service->update($id, $data);
-
-        return response()->json($result);
+        $this->service->update($id, $data);
     }
 
     /**
      * @param int $id
-     * @return JsonResponse
+     * @return void
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(int $id): void
     {
         $this->service->delete($id);
-
-        return response()->json('deleted');
     }
 }

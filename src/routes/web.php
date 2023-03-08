@@ -1,5 +1,7 @@
 <?php
 
+use App\Repositories\InvoiceRepository;
+use App\Repositories\ProductRepository;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,8 +40,8 @@ Route::middleware(['auth:web', 'access.invoices'])->group(function () {
 
     Route::delete('/product/has/invoices/{id}',
         [\App\Http\Controllers\ProductHasInvoicesController::class, 'destroy'])->name('delete.product.from.invoice');
-    Route::post('/product/has/invoices',
-        [\App\Http\Controllers\ProductHasInvoicesController::class, 'store'])->name('add.product.to.invoice');
+    Route::post('/product/has/invoices/{id}',
+        [\App\Http\Controllers\ProductHasInvoicesController::class, 'store'])->name('add.products.to.invoice');
     Route::put('/product/has/invoices/{id}',
         [\App\Http\Controllers\ProductHasInvoicesController::class, 'update'])->name('update.product.from.invoice');
 });
@@ -80,5 +82,29 @@ Route::middleware(['auth:web', 'access.stocks'])->group(function () {
         [\App\Http\Controllers\ReceiptOfProductsController::class, 'getAll'])->name('get.product.for.stock');
     Route::delete('/received/goods/{id}',
         [\App\Http\Controllers\ReceiptOfProductsController::class, 'destroy'])->name('delete.product.for.stock');
+});
+
+Route::get('/create', function () {
+    $g = new \App\Repositories\ProductHasInvoicesRepository;
+    if ($g->getByProduct(1)->isEmpty()) {
+        echo 'same';
+    } else {
+        echo 'difrent';
+    };
+});
+
+Route::get('/create', function () {
+    dd(config('status-enums.statuses')['PACKED']);
+//    $l =  md5('Колобок'.'0.003'.'2');
+//
+//    $m =  md5('Колобок'.'0.003'.'2');
+//    echo strlen($l)." ".strlen($m)."</br>";
+//    if($l === $m)
+//    {
+//        echo 'equal';
+//    }
+//
+//
+//    echo $l."</br>".$m;
 });
 

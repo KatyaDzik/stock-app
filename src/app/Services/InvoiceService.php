@@ -39,12 +39,12 @@ class InvoiceService
 
     /**
      * @param InvoiceDto $dto
-     * @return Invoice
+     * @return void
      */
-    public function create(InvoiceDto $dto): Invoice
+    public function create(InvoiceDto $dto): void
     {
         try {
-            return $this->repository->save($dto);
+            $this->repository->save($dto);
         } catch (\Exception $e) {
             throw new ModelNotCreatedException();
         }
@@ -66,9 +66,9 @@ class InvoiceService
     /**
      * @param int $id
      * @param InvoiceDto $dto
-     * @return bool
+     * @return void
      */
-    public function update(int $id, InvoiceDto $dto): bool
+    public function update(int $id, InvoiceDto $dto): void
     {
         try {
             if ($dto->getType() === 1 && $dto->getStatus() === 3) {
@@ -76,7 +76,8 @@ class InvoiceService
                 $service = new ReceiptOfProductsService($repository);
                 $service->createFromInvoice($id);
             }
-            return $this->repository->update($id, $dto);
+
+            $this->repository->update($id, $dto);
         } catch (\Exception $e) {
             throw new ModelNotUpdatedException();
         }
@@ -84,13 +85,12 @@ class InvoiceService
 
     /**
      * @param int $id
-     * @return string[]
+     * @return void
      */
-    public function delete(int $id): array
+    public function delete(int $id): void
     {
         try {
             $this->repository->delete($id);
-            return ['success' => 'deleted'];
         } catch (\Exception $e) {
             throw new ModelNotDeletedException();
         }

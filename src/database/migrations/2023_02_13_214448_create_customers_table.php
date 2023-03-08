@@ -31,7 +31,7 @@ class CreateCustomersTable extends Migration
     public function down()
     {
         Schema::table('customers', function (Blueprint $table){
-            $table->dropSoftDeletes();
+            Schema::dropIfExists('customers');
         });
     }
 }

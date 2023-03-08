@@ -37,7 +37,7 @@ class ProductController extends Controller
         $data = new ProductDto(
             $request->input('name'),
             $request->input('category_id'),
-            auth('web')->user()->id
+            auth()->user()->id
         );
 
         $result = $this->service->create($data);
@@ -65,17 +65,17 @@ class ProductController extends Controller
      */
     public function update(int $id, ProductRequest $request): JsonResponse
     {
-        $request->validated();
+//        $request->validated();
 
         $data = new ProductDto(
             $request->input('name'),
             $request->input('category_id'),
-            auth('web')->user()->id
+            auth()->user()->id
         );
 
-        $result = $this->service->update($id, $data);
+        $this->service->update($id, $data);
 
-        return response()->json($result);
+        return response()->json(['message' => 'updated successfully']);
     }
 
     /**
@@ -87,16 +87,16 @@ class ProductController extends Controller
     {
         $this->service->delete($id);
 
-        return response()->json('deleted', 200);
+        return response()->json('deleted successfully');
     }
 
     /**
-     * @return View
+     * @return JsonResponse
      */
-    public function getAll(): View
+    public function getAll(): JsonResponse
     {
         $products = $this->service->getAll();
 
-        return view('user/products', compact('products'));
+        return response()->json(compact('products'));
     }
 }

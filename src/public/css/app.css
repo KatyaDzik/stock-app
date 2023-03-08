@@ -10862,7 +10862,7 @@ button.btn-exit:hover {
 .modal-content {
     background-color: #ffffff;
     padding: 30px;
-    width: 50%;
+    width: 60%;
     border-radius: 5px;
     margin: 0 auto;
     position: absolute;
@@ -10897,7 +10897,6 @@ button.btn-exit:hover {
 .my-active-nav-link {
     background-color: #36a346 !important;
 }
-
 ul.categories li {
     border: 1px solid black;
 }
@@ -10923,5 +10922,162 @@ ul.dropdown li a {
     text-decoration: none;
     padding: 0em 1em;
     display: block;
+}
+
+.number-of-notifications {
+
+}
+
+
+
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    font-size: 15px
+}
+
+::-moz-selection {
+    color: #fff;
+    background: #4285f4;
+}
+
+::selection {
+    color: #fff;
+    background: #4285f4;
+}
+
+.wrapper {
+    width: 150px;
+    margin: 15px auto 0;
+}
+
+.select-btn, li {
+    align-items: center;
+    cursor: pointer;
+}
+
+.select-btn {
+    height: 45px;
+    padding: 0 20px;
+    font-size: 17px;
+    background: #fff;
+    color: #0a58ca;
+    border-radius: 7px;
+    justify-content: space-between;
+}
+
+.select-btn i {
+    font-size: 10px;
+    transition: transform 0.3s linear;
+}
+
+.wrapper.active .select-btn i {
+    transform: rotate(-180deg);
+}
+
+.content {
+    display: none;
+    padding: 5px;
+    margin-top: 15px;
+    background: #fff;
+    border-radius: 7px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.wrapper.active .content {
+    display: block;
+}
+
+.content .search {
+    position: relative;
+}
+
+.search i {
+    top: 50%;
+    left: 15px;
+    color: #999;
+    font-size: 20px;
+    pointer-events: none;
+    transform: translateY(-50%);
+    position: absolute;
+}
+
+.search input {
+    height: 50px;
+    width: 100%;
+    outline: none;
+    font-size: 17px;
+    border-radius: 5px;
+    padding: 0 20px 0 43px;
+    border: 1px solid #B3B3B3;
+}
+
+.search input:focus {
+    padding-left: 42px;
+    border: 2px solid #4285f4;
+}
+
+.search input::-moz-placeholder {
+    color: #bfbfbf;
+}
+
+.search input::placeholder {
+    color: #bfbfbf;
+}
+
+.content .options {
+    position: absolute;
+    z-index: 1;
+    margin-top: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 7px;
+    padding-left: 2px;
+    background: white;
+}
+
+.options::-webkit-scrollbar {
+    width: 7px;
+}
+
+.options::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 25px;
+}
+
+.options::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 25px;
+}
+
+.options::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;
+}
+
+.options li {
+    height: 40px;
+    padding: 0 15px;
+    font-size: 17px;
+}
+
+.options li:hover, li.selected {
+    border-radius: 5px;
+    background: #f2f2f2;
+}
+button.btnPlus{
+    position: relative;
+}
+
+button.btnPlus::before{
+    content: "+";
+    position: absolute;
+    font-size: 20px;
+    top: -5px;
+    left: 25%;
+}
+
+.mystyleBlock{
+    display: none;
 }
 

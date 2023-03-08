@@ -66,4 +66,13 @@ class ProductToInvoiceDto
     {
         return $this->invoice_id;
     }
+
+    /**
+     * @param int $product_id
+     * @return void
+     */
+    public function setProduct(int $product_id): void
+    {
+        $this->product_id = $product_id;
+    }
 }

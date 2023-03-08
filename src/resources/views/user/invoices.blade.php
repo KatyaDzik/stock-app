@@ -21,7 +21,7 @@
             @csrf
             <div>
                 <div style="display: flex; justify-content: space-between">
-                    <div>
+                    <div style="width: 50%">
                         <div class="form-group">
                             <label for="number">Номер</label><span class="required-field"> *</span>
                             <input type="text" class="form-control" id="number" name="number">
@@ -44,7 +44,7 @@
 
                     </div>
 
-                    <div>
+                    <div style="width: 50%">
                         <div class="form-group">
                             <label for="providers">Поставщик</label><span class="required-field"> *</span>
                             @php( $providers = \App\Repositories\ProviderRepository::getAll())
@@ -67,16 +67,16 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label for="statuses">Статус</label><span class="required-field"> *</span>
-                            @php( $statuses = \App\Repositories\StatusRepository::getAll())
-                            <select class="form-select statuses" id="statuses" aria-label="Default select example">
-                                @foreach($statuses as $status)
-                                    <option
-                                        value="{{$status->id}}">{{$status->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        {{--                        <div class="form-group">--}}
+                        {{--                            <label for="statuses">Статус</label><span class="required-field"> *</span>--}}
+                        {{--                            @php( $statuses = \App\Repositories\StatusRepository::getAll())--}}
+                        {{--                            <select class="form-select statuses" id="statuses" aria-label="Default select example">--}}
+                        {{--                                @foreach($statuses as $status)--}}
+                        {{--                                    <option--}}
+                        {{--                                        value="{{$status->id}}">{{$status->name}}</option>--}}
+                        {{--                                @endforeach--}}
+                        {{--                            </select>--}}
+                        {{--                        </div>--}}
 
                         <div class="form-group">
                             <label for="types">Тип</label><span class="required-field"> *</span>
@@ -149,7 +149,7 @@
             let provider_id = $("#providers option:selected").val();
             let customer_id = $("#customers option:selected").val();
             let type_id = $("#types option:selected").val();
-            let status_id = $("#statuses option:selected").val();
+            // let status_id = $("#statuses option:selected").val();
             console.log(to)
             $.ajax({
                 url: "{{route('invoices.store')}}",
@@ -163,12 +163,14 @@
                     provider_id: provider_id,
                     customer_id: customer_id,
                     type_id: type_id,
-                    status_id: status_id,
+                    //
+                    status_id: 1
                 },
                 success: function (response) {
                     location.reload();
                 },
                 error: function (response) {
+                    console.log(response);
                     let obj = JSON.parse(response.responseText);
                     if (typeof obj.errors !== 'undefined') {
                         let errors_div = $('#createInvoiceErrors');

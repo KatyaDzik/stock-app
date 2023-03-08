@@ -6,6 +6,7 @@ use App\Dto\ProductToInvoiceDto;
 use App\Http\Requests\ProductToInvoiceRequest;
 use App\Services\ProductHasInvoicesService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 
 /**
@@ -28,33 +29,28 @@ class ProductHasInvoicesController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(int $id): void
     {
         $this->service->delete($id);
-
-        return response()->json('deleted');
     }
 
-    /**
-     * @param ProductToInvoiceRequest $request
-     * @return JsonResponse
-     * @throws \Exception
-     */
-    public function store(ProductToInvoiceRequest $request): JsonResponse
+    public function store(int $id, Request $request): void
     {
-        $request->validated();
+        $data = json_decode($request->input('data'));
 
-        $data = new ProductToInvoiceDto(
-            $request->input('count'),
-            $request->input('price'),
-            $request->input('nds'),
-            $request->input('product_id'),
-            $request->input('invoice_id'),
-        );
+        $products = [];
+        foreach ($data as $el) {
+            $product = new ProductToInvoiceDto(
+                $el->count,
+                $el->price,
+                $el->nds,
+                $el->product_id,
+                $id,
+            );
+            $products[] = $product;
+        }
 
-        $this->service->create($data);
-
-        return response()->json('product added');
+        $this->service->saveProducts($products);
     }
 
     /**
@@ -64,8 +60,6 @@ class ProductHasInvoicesController extends Controller
      */
     public function update(int $id, ProductToInvoiceRequest $request): JsonResponse
     {
-        $request->validated();
-
         $data = new ProductToInvoiceDto(
             $request->input('count'),
             $request->input('price'),

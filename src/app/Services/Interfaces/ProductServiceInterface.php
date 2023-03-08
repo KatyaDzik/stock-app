@@ -9,9 +9,9 @@ interface ProductServiceInterface
 {
     /**
      * @param ProductDto $dto
-     * @return Product
+     * @return void
      */
-    public function create(ProductDto $dto): Product;
+    public function create(ProductDto $dto): void;
 
     /**
      * @param int $id
@@ -22,13 +22,13 @@ interface ProductServiceInterface
     /**
      * @param int $id
      * @param ProductDto $dto
-     * @return Product
+     * @return void
      */
-    public function update(int $id, ProductDto $dto): Product;
+    public function update(int $id, ProductDto $dto): void;
 
     /**
      * @param int $id
-     * @return array
+     * @return void
      */
-    public function delete(int $id): array;
+    public function delete(int $id): void;
 }

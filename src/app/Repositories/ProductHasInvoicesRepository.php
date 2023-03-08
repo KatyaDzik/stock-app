@@ -18,7 +18,7 @@ class ProductHasInvoicesRepository implements ProductHasInvoicesRepositoryInterf
      * @param int $id
      * @return Collection
      */
-    public static function getByInvoice(int $id): Collection
+    public function getByInvoice(int $id): Collection
     {
         return ProductHasInvoices::where('invoice_id', $id)->get();
     }
@@ -65,5 +65,25 @@ class ProductHasInvoicesRepository implements ProductHasInvoicesRepositoryInterf
             'product_id' => $dto->getProduct(),
             'invoice_id' => $dto->getInvoice()
         ]);
+    }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function getByProduct(int $id)
+    {
+        return ProductHasInvoices::where('product_id', $id)->get();
+    }
+
+    /**
+     * @param string $sku
+     * @return mixed
+     */
+    public function getByProductSku(string $sku)
+    {
+        return ProductHasInvoices::whereHas('product', function ($q) use ($sku) {
+            $q->where('sku', $sku);
+        })->get();
     }
 }
