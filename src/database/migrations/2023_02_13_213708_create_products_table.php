@@ -19,10 +19,15 @@ class CreateProductsTable extends Migration
             $table->char('sku', 32);
             $table->bigInteger('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->bigInteger('provider_id')->unsigned();
             $table->bigInteger('author_id')->unsigned();
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
+        });
+
+        Schema::table('products', function($table) {
+            $table->foreign('provider_id')->references('id')->on('providers')->onDelete('cascade');
         });
     }
 
