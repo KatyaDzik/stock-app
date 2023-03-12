@@ -24,9 +24,9 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
     /**
      * @param int $id
-     * @return Invoice|null
+     * @return Invoice
      */
-    public function getById(int $id): ?Invoice
+    public function getById(int $id): Invoice
     {
         return Invoice::findOrFail($id);
     }

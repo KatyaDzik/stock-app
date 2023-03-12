@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Enums\StatusEnums;
 use Illuminate\Contracts\Validation\Rule;
 
 class ChangeFieldRule implements Rule
@@ -29,7 +30,7 @@ class ChangeFieldRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        if ($this->status !== 1) {
+        if ($this->status !== StatusEnums::PACKED) {
             return $this->field == $value;
         } else {
             return true;

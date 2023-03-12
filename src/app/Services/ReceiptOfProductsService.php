@@ -40,29 +40,29 @@ class ReceiptOfProductsService
      */
     public function createFromInvoice(int $id): void
     {
-        DB::transaction(function () use ($id) {
-            try {
-                $repository = new ProductHasInvoicesRepository();
-                $products_from_invoice = $repository->getByInvoice($id);
-                $receipt_of_products = $this->repository->getAll();
-                foreach ($products_from_invoice as $product) {
-
-                    if ($receipt_of_products->containsStrict('product_id', $product->product_id)) {
-                        $receipt_of_product = $this->repository->getByProduct($product->product_id);
-                        $this->repository->update($receipt_of_product->id,
-                            new ReceiptOfProductsDto($receipt_of_product->count + $product->count,
-                                $receipt_of_product->price,
-                                $receipt_of_product->nds, $receipt_of_product->product_id));
-                    } else {
-                        $this->repository->save(new ReceiptOfProductsDto($product->count, $product->price,
-                            $product->nds,
-                            $product->product_id));
-                    }
-                }
-            } catch (\Exception $e) {
-                throw new \Exception($e->getMessage());
-            }
-        });
+//        DB::transaction(function () use ($id) {
+//            try {
+//                $repository = new ProductHasInvoicesRepository();
+//                $products_from_invoice = $repository->getByInvoice($id);
+//                $receipt_of_products = $this->repository->getAll();
+//                foreach ($products_from_invoice as $product) {
+//
+//                    if ($receipt_of_products->containsStrict('product_id', $product->product_id)) {
+//                        $receipt_of_product = $this->repository->getByProduct($product->product_id);
+//                        $this->repository->update($receipt_of_product->id,
+//                            new ReceiptOfProductsDto($receipt_of_product->count + $product->count,
+//                                $receipt_of_product->price,
+//                                $receipt_of_product->nds, $receipt_of_product->product_id));
+//                    } else {
+//                        $this->repository->save(new ReceiptOfProductsDto($product->count, $product->price,
+//                            $product->nds,
+//                            $product->product_id));
+//                    }
+//                }
+//            } catch (\Exception $e) {
+//                throw new \Exception($e->getMessage());
+//            }
+//        });
     }
 
     /**

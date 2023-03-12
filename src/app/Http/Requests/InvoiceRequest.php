@@ -24,13 +24,12 @@ class InvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'number' => ['required', 'digits:9'],
+            'number' => ['required', 'digits:9', 'unique:invoices,number'],
             'date' => ['required'],
             'from' => ['required', 'min:5'],
             'to' => ['required', 'min:5'],
-            'status_id' => ['required', 'exists:statuses,id'],
-            'provider_id' => ['required', 'exists:providers,id'],
-            'customer_id' => ['required', 'exists:customers,id'],
+            'provider' => ['required', 'string', 'min:2', 'max:255'],
+            'customer' => ['required', 'string', 'min:2', 'max:255'],
             'type_id' => ['required', 'exists:invoice_types,id']
         ];
     }

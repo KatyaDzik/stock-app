@@ -21,12 +21,23 @@ class CustomerRepository implements CustomerRepositoryInterface
         return Customer::all();
     }
 
-
+    /**
+     * @param int $id
+     * @return null|Customer
+     */
     public function getById(int $id): ?Customer
     {
         return Customer::with('author')->findOrFail($id);
     }
 
+    /**
+     * @param string $name
+     * @return null|Customer
+     */
+    public function getByName(string $name): ?Customer
+    {
+        return Customer::where('name', $name)->first();
+    }
 
     /**
      * @param int $id

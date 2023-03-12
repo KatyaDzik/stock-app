@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Dto\InvoiceDto;
 use App\Http\Requests\InvoiceRequest;
 use App\Http\Requests\InvoiceUpdateRequest;
 use App\Services\InvoiceService;
@@ -31,7 +30,7 @@ class InvoiceController extends Controller
     {
         $invoices = $this->service->getAllPaginate(5);
 
-        return view('user/invoices', compact('invoices'));
+        return view('user/invoice/invoices', compact('invoices'));
     }
 
     /**
@@ -40,18 +39,7 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceRequest $request): void
     {
-        $data = new InvoiceDto(
-            $request->input('number'),
-            $request->input('date'),
-            $request->input('from'),
-            $request->input('to'),
-            $request->input('provider_id'),
-            $request->input('customer_id'),
-            $request->input('type_id'),
-            $request->input('status_id'),
-        );
-
-        $this->service->create($data);
+        $this->service->create($request->validated());
     }
 
     /**
@@ -62,7 +50,7 @@ class InvoiceController extends Controller
     {
         $invoice = $this->service->read($id);
 
-        return view('user/invoice-profile', compact('invoice'));
+        return view('user/invoice/invoice-profile', compact('invoice'));
     }
 
     /**
@@ -72,18 +60,7 @@ class InvoiceController extends Controller
      */
     public function update(int $id, InvoiceUpdateRequest $request): void
     {
-        $data = new InvoiceDto(
-            $request->input('number'),
-            $request->input('date'),
-            $request->input('from'),
-            $request->input('to'),
-            $request->input('provider_id'),
-            $request->input('customer_id'),
-            $request->input('type_id'),
-            $request->input('status_id'),
-        );
-
-        $this->service->update($id, $data);
+        $this->service->update($id, $request->validated());
     }
 
     /**

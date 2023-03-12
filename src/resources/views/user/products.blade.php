@@ -63,13 +63,13 @@
                         <div class="select-btn" style="padding: 0 10px">
                             <label for="provider-name" style="color: black">Поставщик</label><span
                                 class="required-field"> *</span>
-                            <input type="text" id="provider-name" class="form-control select-item">
+                            <input type="text" id="provider-name" autocomplete="off" class="form-control select-item">
                             <i class="uil uil-angle-down"></i>
                         </div>
                         <div class="content">
                             <div class="search">
                                 <i class="uil uil-search"></i>
-                                <input spellcheck="false" type="text" placeholder="Search">
+                                <input spellcheck="false" autocomplete="off" type="text" placeholder="Search">
                             </div>
                             <ul class="options" style="position: static"></ul>
                         </div>

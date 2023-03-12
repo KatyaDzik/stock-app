@@ -16,7 +16,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $date
  * @property int $provider_id
  * @property int $customer_id
- * @property int $movement_id
+ * @property int $type_id
+ * @property string $from
+ * @property string $to
+ * @property int $status_id
+ * @property bool $closed
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  */
@@ -32,7 +36,8 @@ class Invoice extends Model
         'type_id',
         'from',
         'to',
-        'status_id'
+        'status_id',
+        'closed'
     ];
 
     /**
