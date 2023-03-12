@@ -51,10 +51,12 @@
                 </li>
             @endcan
             @canany(['actions on stock', 'admin-panel'])
+                @php($p = (\App\Models\ReceiptOfProducts::all()))
                 <li class="nav-item">
                     <a href="{{route('get.product.for.stock')}}"
                        class="{{ str_contains(request()->url(), 'received') ? 'my-active-nav-link' : '' }} nav-link text-white">
-                        Поступление товаров
+                        Поступление
+                        товаров {{$p->count()>0 ?  "<span class='number-of-notifications'>$p->count()</span>" : ""}}
                     </a>
                 </li>
             @endcan
@@ -66,6 +68,23 @@
                     </a>
                 </li>
             @endcan
+            @canany(['actions on stocks', 'actions on invoices','admin-panel'])
+                <li class="nav-item">
+                    <a href="{{route('providers')}}"
+                       class="{{ str_contains(request()->url(), 'providers') ? 'my-active-nav-link' : '' }} nav-link text-white">
+                        Поставщики
+                    </a>
+                </li>
+            @endcan
+{{--            @canany(['actions on stocks', 'actions on invoices', 'admin-panel'])--}}
+{{--                <li class="nav-item">--}}
+{{--                    <a href="{{route('stocks')}}"--}}
+{{--                       class="{{ str_contains(request()->url(), 'stock') ? 'my-active-nav-link' : '' }} nav-link text-white">--}}
+{{--                         Заказчики--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            @endcan--}}
+
         </ul>
     </div>
     <div style="width: 80%; margin: 20px auto; ">

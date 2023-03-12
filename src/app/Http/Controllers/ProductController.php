@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Dto\ProductDto;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Services\ProductService;
 use Illuminate\View\View;
 
@@ -29,16 +29,8 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request): void
     {
-        $data = new ProductDto(
-            $request->input('name'),
-            md5('new'),
-            $request->input('category_id'),
-            auth('web')->user()->id
-        );
-
-        $this->service->create($data);
+        $this->service->create($request->validated());
     }
-
 
     /**
      * @param int $id
@@ -53,19 +45,12 @@ class ProductController extends Controller
 
     /**
      * @param int $id
-     * @param ProductRequest $request
+     * @param ProductUpdateRequest $request
      * @return void
      */
-    public function update(int $id, ProductRequest $request): void
+    public function update(int $id, ProductUpdateRequest $request): void
     {
-        $data = new ProductDto(
-            $request->input('name'),
-            $request->input('category_id'),
-            $request->input('scu'),
-            auth('web')->user()->id
-        );
-
-        $this->service->update($id, $data);
+        $this->service->update($id, $request->validated());
     }
 
     /**

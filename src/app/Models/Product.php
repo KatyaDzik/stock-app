@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id
  * @property string $name
- * @property string $sku
+ * @property int $provider_id
  * @property int $category_id
  * @property int $author_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -25,8 +25,8 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'sku',
         'category_id',
+        'provider_id',
         'author_id'
     ];
 
@@ -37,6 +37,14 @@ class Product extends Model
     public function category(): ?BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * @return null|BelongsTo
+     */
+    public function provider(): ?BelongsTo
+    {
+        return $this->belongsTo(Provider::class);
     }
 
     /**

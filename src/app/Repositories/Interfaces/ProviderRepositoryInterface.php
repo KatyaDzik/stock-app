@@ -35,12 +35,12 @@ interface ProviderRepositoryInterface
      * @param int $id
      * @return null|bool
      */
-    public function delete(int $id): ?bool;
+    public function delete(int $id): bool;
 
     /**
      * @param int $id
      * @param ProviderDto $dto
-     * @return Provider
+     * @return bool
      */
-    public function update(int $id, ProviderDto $dto): Provider;
+    public function update(int $id, ProviderDto $dto): bool;
 }

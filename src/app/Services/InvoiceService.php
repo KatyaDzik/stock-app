@@ -71,7 +71,7 @@ class InvoiceService
     public function update(int $id, InvoiceDto $dto): void
     {
         try {
-            if ($dto->getType() === 1 && $dto->getStatus() === 3) {
+            if ($dto->getType() === config('type-enums.types')['INCOMING'] && $dto->getStatus() === config('status-enums.statuses')['DELIVERED']) {
                 $repository = new ReceiptOfProductsRepository();
                 $service = new ReceiptOfProductsService($repository);
                 $service->createFromInvoice($id);

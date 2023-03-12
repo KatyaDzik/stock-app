@@ -2,16 +2,17 @@
 
 namespace App\Services\Interfaces;
 
-use App\Dto\ProductDto;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ProductServiceInterface
 {
     /**
-     * @param ProductDto $dto
+     * @param array $data
      * @return void
      */
-    public function create(ProductDto $dto): void;
+    public function create(array $data): void;
 
     /**
      * @param int $id
@@ -21,14 +22,25 @@ interface ProductServiceInterface
 
     /**
      * @param int $id
-     * @param ProductDto $dto
+     * @param array $data
      * @return void
      */
-    public function update(int $id, ProductDto $dto): void;
+    public function update(int $id, array $data): void;
 
     /**
      * @param int $id
      * @return void
      */
     public function delete(int $id): void;
+
+    /**
+     * @return Collection
+     */
+    public function getAll(): Collection;
+
+    /**
+     * @param int $count
+     * @return LengthAwarePaginator
+     */
+    public function getAllPaginate(int $count): LengthAwarePaginator;
 }

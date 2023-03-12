@@ -16,9 +16,19 @@ class ProductHasStocksRepository
      * @param int $count
      * @return LengthAwarePaginator
      */
-    public function getAllPaginate(int $count): LengthAwarePaginator
+    public function getAllPaginate(int $id, int $count): LengthAwarePaginator
     {
-        return ProductHasStocks::paginate($count);
+        return ProductHasStocks::where('stock_id', $id)->paginate($count);
+    }
+
+    /**
+     * @param int $stock_id
+     * @param int $product_id
+     * @return null|ProductHasStocks
+     */
+    public function getByStockAndProduct(int $stock_id, int $product_id): ?ProductHasStocks
+    {
+        return ProductHasStocks::where('stock_id', $stock_id)->where('product_id', $product_id)->first();
     }
 
     /**

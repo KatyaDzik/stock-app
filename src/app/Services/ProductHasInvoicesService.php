@@ -57,7 +57,7 @@ class ProductHasInvoicesService
      * @param array $data
      * @return void
      */
-    public function saveProducts(array $data): void
+    public function saveIncomingProducts(array $data): void
     {
         DB::transaction(function () use ($data) {
             try {

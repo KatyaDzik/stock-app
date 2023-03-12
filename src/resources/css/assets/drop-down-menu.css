@@ -1,0 +1,69 @@
+a {
+    text-decoration: none;
+}
+
+ul.category {
+    background: #cfcfcf;
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+li.category-li {
+    color: black;
+    background: #cfcfcf;
+    position: relative;
+    display: block;
+    float: left;
+    padding: 10px;
+    text-decoration: none;
+    transition-duration: 0.5s;
+}
+
+li.subcategory {
+    position: absolute;
+    z-index: 2;
+    width: auto;
+    max-height: 80px;
+}
+
+li.category-li a {
+    color: black;
+}
+
+li.category-li:hover {
+    background: #2e9dff;
+    cursor: pointer;
+}
+
+ul.category li.category-li ul.category {
+    background: orange;
+    visibility: hidden;
+    opacity: 0;
+    min-width: 5rem;
+    position: absolute;
+    z-index: 1;
+    transition: all 0.5s ease;
+    margin-top: 1rem;
+    left: 100%;
+    top: -37%;
+    display: none;
+}
+
+ul.category li.category-li:hover > ul.category,
+ul.category li.category-li:focus-within > ul.category, /* this is the line we add */
+ul.category li.category-li ul.category:hover {
+    visibility: visible;
+    opacity: 1;
+    display: inline-block;
+}
+
+ul.category li.category-li ul.category li {
+    clear: both;
+    width: 100%;
+}
+
+ul.category li.category-li ul.category li {
+    clear: both;
+    width: 100%;
+}

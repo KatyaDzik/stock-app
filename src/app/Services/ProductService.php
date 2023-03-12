@@ -3,15 +3,19 @@
 namespace App\Services;
 
 use App\Dto\ProductDto;
+use App\Dto\ProviderDto;
 use App\Exceptions\ModelNotCreatedException;
 use App\Exceptions\ModelNotDeletedException;
 use App\Exceptions\ModelNotFoundException;
 use App\Exceptions\ModelNotUpdatedException;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
+use App\Repositories\ProviderRepository;
 use App\Services\Interfaces\ProductServiceInterface;
+use App\Services\Validation\ProductValidationService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ProductService
@@ -30,16 +34,28 @@ class ProductService implements ProductServiceInterface
     }
 
     /**
-     * @param ProductDto $dto
+     * @param array $data
      * @return void
      */
-    public function create(ProductDto $dto): void
+    public function create(array $data): void
     {
-        try {
-            $this->repository->save($dto);
-        } catch (\Exception $e) {
-            throw new ModelNotCreatedException();
-        }
+        DB::transaction(function () use ($data) {
+            $provider_repository = new ProviderRepository();
+            $provider = $provider_repository->getByName($data['provider']);
+
+            if (!$provider) {
+                $provider = $provider_repository->save(new ProviderDto($data['provider'], auth()->user()->id));
+            }
+
+            ProductValidationService::isExistProductNameAtProvider($data['name'], $provider->id);
+
+            try {
+                $this->repository->save(new ProductDto($data['name'], $data['category_id'], $provider->id,
+                    auth()->user()->id));
+            } catch (\Exception $exception) {
+                throw new ModelNotCreatedException();
+            }
+        });
     }
 
     /**
@@ -57,13 +73,17 @@ class ProductService implements ProductServiceInterface
 
     /**
      * @param int $id
-     * @param ProductDto $dto
+     * @param array $data
      * @return void
      */
-    public function update(int $id, ProductDto $dto): void
+    public function update(int $id, array $data): void
     {
+        $product = $this->repository->getById($id);
+        ProductValidationService::isExistProductNameAtProvider($data['name'], $product->provider_id);
+
         try {
-            $this->repository->update($id, $dto);
+            $this->repository->update($id,
+                new ProductDto($data['name'], $data['category_id'], $product->provider_id, $product->author_id));
         } catch (\Exception $e) {
             throw new ModelNotUpdatedException();
         }

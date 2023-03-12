@@ -29,25 +29,16 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function getAllPaginate(int $count): LengthAwarePaginator
     {
-        return Product::paginate($count);
+        return Product::with('provider')->with('category')->with('author')->paginate($count);
     }
 
     /**
      * @param int $id
-     * @return Product|null
+     * @return Product
      */
-    public function getById(int $id): ?Product
+    public function getById(int $id): Product
     {
         return Product::findOrFail($id);
-    }
-
-    /**
-     * @param string $sku
-     * @return null|Product
-     */
-    public function getBySku(string $sku): ?Product
-    {
-        return Product::where('sku', $sku)->first();
     }
 
     /**
@@ -57,6 +48,16 @@ class ProductRepository implements ProductRepositoryInterface
     public function getProductsByCategory(int $id): Collection
     {
         return Product::where('category_id', $id)->get();
+    }
+
+    /**
+     * @param string $name
+     * @param int $provider_id
+     * @return null|Product
+     */
+    public function getByNameAndProvider(string $name, int $provider_id): ?Product
+    {
+        return Product::where('name', $name)->where('provider_id', $provider_id)->first();
     }
 
     /**
@@ -103,7 +104,6 @@ class ProductRepository implements ProductRepositoryInterface
 
         return $product->update([
             'name' => $dto->getName(),
-            'sku' => $dto->getSku(),
             'category_id' => $dto->getCategory()
         ]);
     }
@@ -116,8 +116,8 @@ class ProductRepository implements ProductRepositoryInterface
     {
         return Product::create([
             'name' => $dto->getName(),
-            'sku' => $dto->getSku(),
             'category_id' => $dto->getCategory(),
+            'provider_id' => $dto->getProvider(),
             'author_id' => $dto->getAuthor()
         ]);
     }
@@ -129,6 +129,7 @@ class ProductRepository implements ProductRepositoryInterface
     public function delete(int $id): bool
     {
         $product = Product::findOrFail($id);
+
         return $product->delete();
     }
 }

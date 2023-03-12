@@ -74,17 +74,17 @@
 
                                 <div class="form-group">
                                     <label for="count">Количество</label><span class="required-field"> *</span>
-                                    <input type="number" class="form-control" value="{{$el->count}}" readonly
-                                           id="{{'count'.$el->id}}" name="count" min="1">
+                                    <input type="number" class="form-control" value="{{$el->count}}"
+                                           id="{{'count'.$el->id}}" max="{{$el->count}}" name="count" min="1">
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group" style="display: none">
                                     <label for="price">Цена</label><span class="required-field"> *</span>
                                     <input type="number" class="form-control" id="{{'price'.$el->id}}" readonly
                                            value="{{$el->price}}" name="price" min="0.001" step=".001">
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group" style="display:none;">
                                     <label for="nds">НДС</label><span class="required-field"> *</span>
                                     <input type="number" class="form-control" value="{{$el->nds}}" readonly
                                            id="{{'nds'.$el->id}}" name="nds" min="1">

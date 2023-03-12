@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Dto\ProductToInvoiceDto;
 use App\Models\ProductHasInvoices;
 use App\Repositories\Interfaces\ProductHasInvoicesRepositoryInterface;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 
 
 /**
@@ -71,7 +71,7 @@ class ProductHasInvoicesRepository implements ProductHasInvoicesRepositoryInterf
      * @param int $id
      * @return mixed
      */
-    public function getByProduct(int $id)
+    public function getByProduct(int $id): Collection
     {
         return ProductHasInvoices::where('product_id', $id)->get();
     }

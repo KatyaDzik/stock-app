@@ -37,6 +37,7 @@ class ProductController extends Controller
         $data = new ProductDto(
             $request->input('name'),
             $request->input('category_id'),
+            $request->input('provider_id'),
             auth()->user()->id
         );
 
@@ -65,11 +66,10 @@ class ProductController extends Controller
      */
     public function update(int $id, ProductRequest $request): JsonResponse
     {
-//        $request->validated();
-
         $data = new ProductDto(
             $request->input('name'),
             $request->input('category_id'),
+            $request->input('provider_id'),
             auth()->user()->id
         );
 

@@ -22,20 +22,16 @@ class ProviderController
 
     /**
      * @param ProviderRequest $request
-     * @return JsonResponse
+     * @return void
      */
-    public function store(ProviderRequest $request): JsonResponse
+    public function store(ProviderRequest $request): void
     {
-        $request->validated();
-
         $data = new ProviderDto(
             $request->input('name'),
-            auth()->user()->id()
+            auth('web')->user()->id
         );
 
-        $result = $this->service->create($data);
-
-        return response()->json($result);
+        $this->service->create($data);
     }
 
     /**
@@ -46,43 +42,40 @@ class ProviderController
     {
         $provider = $this->service->read($id);
 
-        return view('admin/provider-profile', compact('provider'));
+        return view('user/provider-profile', compact('provider'));
     }
 
     /**
      * @param int $id
      * @param ProviderRequest $request
-     * @return JsonResponse
+     * @return void
      */
-    public function update(int $id, ProviderRequest $request): JsonResponse
+    public function update(int $id, ProviderRequest $request): void
     {
-        $request->validated();
-
         $data = new ProviderDto(
             $request->input('name'),
-            auth()->user()->id
+            auth('web')->user()->id
         );
 
-        $result = $this->service->update($id, $data);
-
-        return response()->json($result);
+        $this->service->update($id, $data);
     }
 
     /**
      * @param int $id
-     * @return JsonResponse
+     * @return void
      * @throws \Exception
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(int $id): void
     {
         $this->service->delete($id);
-
-        return response()->json('deleted');
     }
 
-    public function getAll()
+    /**
+     * @return View
+     */
+    public function getAll(): View
     {
-        $providers = $this->service->getAll();
+        $providers = $this->service->getAllPaginate(5);
 
         return view('user/providers', compact('providers'));
     }

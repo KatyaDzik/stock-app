@@ -50,7 +50,7 @@ class ProductHasInvoicesController extends Controller
             $products[] = $product;
         }
 
-        $this->service->saveProducts($products);
+        $this->service->saveIncomingProducts($products);
     }
 
     /**

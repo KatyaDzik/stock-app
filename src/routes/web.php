@@ -64,8 +64,16 @@ Route::middleware(['auth:web', 'access.stocks'])->group(function () {
         'destroy'
     ]);
 
+    Route::get('/providers', [\App\Http\Controllers\ProviderController::class, 'getAll'])->name('providers');
+    Route::resource('/providers', \App\Http\Controllers\ProviderController::class)->only([
+        'store',
+        'show',
+        'update',
+        'destroy'
+    ]);
+
     Route::get('/product/has/stocks/{id}',
-        [\App\Http\Controllers\ProductHasStocksController::class, 'getAll'])->name('get.product.from.stock');
+        [\App\Http\Controllers\ProductHasStocksController::class, 'getAllFromStock'])->name('get.product.from.stock');
     Route::post('/product/has/stocks',
         [\App\Http\Controllers\ProductHasStocksController::class, 'store'])->name('add.product.to.stock');
     Route::post('/product/has/stocks/from/received/goods/{id}',
@@ -92,19 +100,14 @@ Route::get('/create', function () {
         echo 'difrent';
     };
 });
+Route::get('/newproducts', function () {
+    return compact(\App\Models\Product::all());
+});
 
 Route::get('/create', function () {
-    dd(config('status-enums.statuses')['PACKED']);
-//    $l =  md5('Колобок'.'0.003'.'2');
-//
-//    $m =  md5('Колобок'.'0.003'.'2');
-//    echo strlen($l)." ".strlen($m)."</br>";
-//    if($l === $m)
-//    {
-//        echo 'equal';
-//    }
-//
-//
-//    echo $l."</br>".$m;
+  dd(\App\Models\Product::where('provider_id', 2)->where('name', 'эд вуд')->first());
 });
+
+
+
 

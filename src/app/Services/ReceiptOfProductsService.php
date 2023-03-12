@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Dto\ReceiptOfProductsDto;
 use App\Exceptions\ModelNotDeletedException;
 use App\Repositories\ProductHasInvoicesRepository;
 use App\Repositories\ReceiptOfProductsRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ReceiptOfProductsService
@@ -34,23 +36,33 @@ class ReceiptOfProductsService
 
     /**
      * @param int $id
-     * @return bool
+     * @return void
      */
-    public function createFromInvoice(int $id): bool
+    public function createFromInvoice(int $id): void
     {
-        $repository = new ProductHasInvoicesRepository();
-        $products = $repository->getByInvoice($id);
-        $data = [];
-        foreach ($products as $product) {
-            $el = [
-                'count' => $product->count,
-                'price' => $product->price,
-                'nds' => $product->nds,
-                'product_id' => $product->product_id
-            ];
-            $data[] = $el;
-        }
-        return $this->repository->saveMultiple($data);
+        DB::transaction(function () use ($id) {
+            try {
+                $repository = new ProductHasInvoicesRepository();
+                $products_from_invoice = $repository->getByInvoice($id);
+                $receipt_of_products = $this->repository->getAll();
+                foreach ($products_from_invoice as $product) {
+
+                    if ($receipt_of_products->containsStrict('product_id', $product->product_id)) {
+                        $receipt_of_product = $this->repository->getByProduct($product->product_id);
+                        $this->repository->update($receipt_of_product->id,
+                            new ReceiptOfProductsDto($receipt_of_product->count + $product->count,
+                                $receipt_of_product->price,
+                                $receipt_of_product->nds, $receipt_of_product->product_id));
+                    } else {
+                        $this->repository->save(new ReceiptOfProductsDto($product->count, $product->price,
+                            $product->nds,
+                            $product->product_id));
+                    }
+                }
+            } catch (\Exception $e) {
+                throw new \Exception($e->getMessage());
+            }
+        });
     }
 
     /**

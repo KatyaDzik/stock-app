@@ -17,7 +17,7 @@ class RenderedHttpException extends HttpException
     public function render(): JsonResponse
     {
         return response()->json([
-            "error" => $this->getMessage()
+            "errors" => (object)['error' => [$this->getMessage()]]
         ], $this->getStatusCode());
     }
 }

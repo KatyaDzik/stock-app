@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Dto\ReceiptOfProductsDto;
 use App\Models\ReceiptOfProducts;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
@@ -12,6 +13,23 @@ use Illuminate\Pagination\LengthAwarePaginator;
  */
 class ReceiptOfProductsRepository
 {
+    /**
+     * @return Collection
+     */
+    public function getAll(): Collection
+    {
+        return ReceiptOfProducts::all();
+    }
+
+    /**
+     * @param int $id
+     * @return ReceiptOfProducts
+     */
+    public function getByProduct(int $id): ReceiptOfProducts
+    {
+        return ReceiptOfProducts::where('product_id', $id)->first();
+    }
+
     /**
      * @param int $count
      * @return LengthAwarePaginator
@@ -34,6 +52,24 @@ class ReceiptOfProductsRepository
             'product_id' => $dto->getProduct(),
         ]);
     }
+
+    /**
+     * @param int $id
+     * @param ReceiptOfProductsDto $dto
+     * @return bool
+     */
+    public function update(int $id, ReceiptOfProductsDto $dto): bool
+    {
+        $receipt_of_product = ReceiptOfProducts::findOrFail($id);
+
+        return $receipt_of_product->update([
+            'count' => $dto->getCount(),
+            'price' => $dto->getPrice(),
+            'nds' => $dto->getNds(),
+            'product_id' => $dto->getProduct(),
+        ]);
+    }
+
 
     /**
      * @param array $data

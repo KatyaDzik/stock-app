@@ -6,6 +6,7 @@ use App\Dto\ProviderDto;
 use App\Models\Provider;
 use App\Repositories\Interfaces\ProviderRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class ProviderRepository
@@ -19,6 +20,24 @@ class ProviderRepository implements ProviderRepositoryInterface
     public function getAll(): Collection
     {
         return Provider::all();
+    }
+
+    /**
+     * @param string $name
+     * @return null|Provider
+     */
+    public function getByName(string $name): ?Provider
+    {
+        return Provider::where('name', $name)->first();
+    }
+
+    /**
+     * @param int $count
+     * @return LengthAwarePaginator
+     */
+    public function getAllPaginate(int $count): LengthAwarePaginator
+    {
+        return Provider::paginate($count);
     }
 
     /**
@@ -55,11 +74,11 @@ class ProviderRepository implements ProviderRepositoryInterface
 
     /**
      * @param int $id
-     * @return null|bool
+     * @return bool
      */
-    public function delete(int $id): ?bool
+    public function delete(int $id): bool
     {
-        $provider = Provider::findOrFail();
+        $provider = Provider::findOrFail($id);
 
         return $provider->delete();
     }
@@ -67,9 +86,9 @@ class ProviderRepository implements ProviderRepositoryInterface
     /**
      * @param int $id
      * @param ProviderDto $dto
-     * @return Provider
+     * @return bool
      */
-    public function update(int $id, ProviderDto $dto): Provider
+    public function update(int $id, ProviderDto $dto): bool
     {
         $provider = Provider::findOrFail($id);
 

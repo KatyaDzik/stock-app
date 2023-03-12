@@ -12,9 +12,9 @@ class ChangeFieldRule implements Rule
      * @return void
      */
     private $field;
-    private $status;
+    private int $status;
 
-    public function __construct($field, $status)
+    public function __construct($field, int $status)
     {
         $this->field = $field;
         $this->status = $status;
@@ -29,7 +29,7 @@ class ChangeFieldRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        if ($this->status != 1) {
+        if ($this->status !== 1) {
             return $this->field == $value;
         } else {
             return true;

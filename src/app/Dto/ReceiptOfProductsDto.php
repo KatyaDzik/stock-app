@@ -38,7 +38,7 @@ class ReceiptOfProductsDto
      */
     public function getPrice(): float
     {
-        return $this->product_id;
+        return $this->price;
     }
 
     /**

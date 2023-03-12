@@ -28,7 +28,7 @@
                         <div class="form-group">
                             <label for="number">Номер</label><span class="required-field"> *</span>
                             <input type="text" class="form-control" id="number" name="number"
-                                   value="{{$invoice->number}}" {{$invoice->status->id === 1 ? '' : 'readonly'}}>
+                                   value="{{$invoice->number}}">
                         </div>
                         <div class="form-group">
                             <label for="date">Дата</label>
@@ -138,158 +138,242 @@
             <div style="display: flex; justify-content: space-between">
                 <h4>Продукты</h4>
                 @can('add products to invoice', $invoice)
-                    <button class="btn btn-dark btn-open-modal" value="{{'add-product-to-invoice'}}"><a>Добавить</a>
-                    </button>
-                @endcan
-                {{--Форма обновления нового продукта--}}
-                <x-modal-window id="{{'add-product-to-invoice'}}">
-                    {{--                    Блок для вывода добавленных товаров--}}
-                    <div>
-                        <div class="product-item" style="font-weight: bold; width: 50%; ">
-                            <p>название</p>
-                            <p>кол-во</p>
-                            <p>цена</p>
-                            <p>ндс</p>
-                        </div>
-                    </div>
-                    <div id="addedProducts" style="border-bottom: 2px solid #acadac">
-                    </div>
-                    <form style="margin: 20px;" id="addProductToList">
-                        {{--                    Блок для вывода ошибок--}}
-                        <div style="display: none; padding: 5px" id="addProductToInvoiceErrors"
-                             class="alert alert-danger"></div>
-                        {{--                    Форма добавления продукта в список--}}
-                        @csrf
-                        <div style="display: flex; justify-content: space-between; margin-top: 10px">
+                    @can('incoming invoice', $invoice)
+                        <button class="btn btn-dark btn-open-modal" value="{{'add-product-to-incoming-invoice'}}"><a>Добавить</a>
+                        </button>
+
+                        {{--Форма обновления нового продукта--}}
+                        <x-modal-window id="{{'add-product-to-incoming-invoice'}}">
+                            {{--                    Блок для вывода добавленных товаров--}}
                             <div>
-                                <div class="wrapper">
-                                    <div class="select-btn">
-                                        <span class="select-item">Выбрать продукт</span>
-                                        <i class="uil uil-angle-down"></i>
-                                    </div>
-                                    <div class="content">
-                                        <div class="search">
-                                            <i class="uil uil-search"></i>
-                                            <input spellcheck="false" type="text" placeholder="Search">
-                                        </div>
-                                        <ul class="options"></ul>
-                                    </div>
+                                <div class="product-item" style="font-weight: bold; width: 50%; ">
+                                    <p>название</p>
+                                    <p>кол-во</p>
+                                    <p>цена</p>
+                                    <p>ндс</p>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="count">Количество</label><span class="required-field"> *</span>
-                                <input type="number" class="form-control" id="count" name="count" min="1" required>
+                            <div id="addedProducts" style="border-bottom: 2px solid #acadac">
                             </div>
-
-                            <div class="form-group">
-                                <label for="price">Цена</label><span class="required-field"> *</span>
-                                <input type="number" class="form-control" id="price" name="price" min="0.001"
-                                       step=".001" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="nds">НДС</label><span class="required-field"> *</span>
-                                <input type="number" class="form-control" id="nds" name="nds" min="1" required>
-                            </div>
-                            <button type="submit" style="margin: 30px; height: 50px" class="btn btn-primary">Добавить
-                            </button>
-
-                        </div>
-                    </form>
-                    <div>
-                        <div style="display: flex">
-                            <p style="font-size: small">Если необходимого продукта нет в списке, вы можете создать
-                                новый</p>
-                            <button type="button"
-                                    class="btnPlus"
-                                    style="background: white; margin: -2px 0 0px 10px; padding: 5px; height: 35px; border: 1px solid #0a58ca; color: #0a58ca; border-radius: 100%; width: 25px; height: 25px"
-                                    id="createProductBtn">
-                            </button>
-                        </div>
-                        <div id="blockCreateProduct" class="mystyleBlock">
-                            <form style="margin: 20px;" id="CreateProduct">
-                                {{--     Блок для вывода ошибок       --}}
-                                <div style="display: none" id="createProductsErrors" class="alert alert-danger"></div>
-                                {{--         Форма       --}}
+                            <form style="margin: 20px;" id="addProductToList">
+                                {{--                    Блок для вывода ошибок--}}
+                                <div style="display: none; padding: 5px" id="addProductToInvoiceErrors"
+                                     class="alert alert-danger"></div>
+                                {{--                    Форма добавления продукта в список--}}
                                 @csrf
-                                <div>
-                                    <div class="form-group">
-                                        <label for="name">Название</label><span class="required-field"> *</span>
-                                        <input type="text" class="form-control" id="name" name="name">
+                                <div style="display: flex; justify-content: space-between; margin-top: 10px">
+                                    <div>
+                                        <div class="wrapper">
+                                            <div class="select-btn">
+                                                <span class="select-item">Выбрать продукт</span>
+                                                <i class="uil uil-angle-down"></i>
+                                            </div>
+                                            <div class="content">
+                                                <div class="search">
+                                                    <i class="uil uil-search"></i>
+                                                    <input spellcheck="false" type="text" placeholder="Search">
+                                                </div>
+                                                <ul class="options"></ul>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="category-name">Категория</label><span
-                                            class="required-field"> *</span>
-                                        <input type="text" class="form-control" id="category-name" name="category-name"
-                                               readonly>
+                                        <label for="count">Количество</label><span class="required-field"> *</span>
+                                        <input type="number" class="form-control" id="count" name="count" min="1"
+                                               required>
                                     </div>
 
-                                    <div class="form-group" style="display: none">
-                                        <label for="category-id">Категория</label><span class="required-field"> *</span>
-                                        <input type="text" class="form-control" id="category-id" name="category-id"
-                                               readonly>
+                                    <div class="form-group">
+                                        <label for="price">Цена</label><span class="required-field"> *</span>
+                                        <input type="number" class="form-control" id="price" name="price" min="0.001"
+                                               step=".001" required>
                                     </div>
 
-                                    <nav class="navbar">
-                                        @php( $categories = \App\Repositories\CategoryRepository::getMainCategories())
-                                        <ul class="navbar-nav categories">
-                                            @foreach($categories as $category)
-                                                @if(count($category->subcategories)>0)
-                                                    <li class="nav-item"><a class="dropdown-toggle"
-                                                                            href="#">{{$category->name}}</a>
-                                                        <ul class="dropdown categories">
-                                                            @foreach($category->subcategories as $subcategory)
-                                                                @if(count($subcategory->subcategories)>0)
-                                                                    <li class="nav-item"><a class="dropdown-toggle"
-                                                                                            id="{{$subcategory->id}}"
-                                                                                            value="{{$subcategory->name}}"
-                                                                                            href="#">{{$subcategory->name}}</a>
-                                                                        <ul class="dropdown categories">
-                                                                            <li><a href="#">Menu Item</a></li>
-                                                                            <li><a href="#">Menu</a></li>
-                                                                        </ul>
-                                                                    </li>
-                                                                @else
-                                                                    <li class="nav-item" id="{{$subcategory->id}}"
-                                                                        value="{{$subcategory->name}}">
-                                                                        <a class="nav-link"
-                                                                           href="#">{{$subcategory->name}}</span></a>
-                                                                    </li>
-                                                                @endif
-                                                            @endforeach
-                                                        </ul>
-                                                    </li>
-                                                @else
-                                                    <li class="nav-item" id="{{$category->id}}"
-                                                        value="{{$category->name}}">
-                                                        <a class="nav-link" href="#">{{$category->name}}</span></a>
-                                                    </li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    </nav>
+                                    <div class="form-group">
+                                        <label for="nds">НДС</label><span class="required-field"> *</span>
+                                        <input type="number" class="form-control" id="nds" name="nds" min="1" required>
+                                    </div>
+                                    <button type="submit" style="margin: 30px; height: 50px" class="btn btn-primary">
+                                        Добавить
+                                    </button>
+
                                 </div>
+                            </form>
+                            <div>
+                                <div style="display: flex">
+                                    <p style="font-size: small">Если необходимого продукта нет в списке, вы можете
+                                        создать
+                                        новый</p>
+                                    <button type="button"
+                                            class="btnPlus"
+                                            style="background: white; margin: -2px 0 0px 10px; padding: 5px; height: 35px; border: 1px solid #0a58ca; color: #0a58ca; border-radius: 100%; width: 25px; height: 25px"
+                                            id="createProductBtn">
+                                    </button>
+                                </div>
+                                <div id="blockCreateProduct" class="mystyleBlock">
+                                    <form style="margin: 20px;" id="CreateProduct">
+                                        {{--     Блок для вывода ошибок       --}}
+                                        <div style="display: none" id="createProductsErrors"
+                                             class="alert alert-danger"></div>
+                                        {{--         Форма       --}}
+                                        @csrf
+                                        <div>
+                                            <div class="form-group">
+                                                <label for="name">Название</label><span class="required-field"> *</span>
+                                                <input type="text" class="form-control" id="name" name="name">
+                                            </div>
 
+                                            <div class="form-group">
+                                                <label for="category-name">Категория</label><span
+                                                    class="required-field"> *</span>
+                                                <input type="text" class="form-control" id="category-name"
+                                                       name="category-name"
+                                                       readonly>
+                                            </div>
+
+                                            <div class="form-group" style="display: none">
+                                                <label for="category-id">Категория</label><span
+                                                    class="required-field"> *</span>
+                                                <input type="text" class="form-control" id="category-id"
+                                                       name="category-id"
+                                                       readonly>
+                                            </div>
+
+                                            <nav class="navbar">
+                                                @php( $categories = \App\Repositories\CategoryRepository::getMainCategories())
+                                                <ul class="navbar-nav categories">
+                                                    @foreach($categories as $category)
+                                                        @if(count($category->subcategories)>0)
+                                                            <li class="nav-item"><a class="dropdown-toggle"
+                                                                                    href="#">{{$category->name}}</a>
+                                                                <ul class="dropdown categories">
+                                                                    @foreach($category->subcategories as $subcategory)
+                                                                        @if(count($subcategory->subcategories)>0)
+                                                                            <li class="nav-item"><a
+                                                                                    class="dropdown-toggle"
+                                                                                    id="{{$subcategory->id}}"
+                                                                                    value="{{$subcategory->name}}"
+                                                                                    href="#">{{$subcategory->name}}</a>
+                                                                                <ul class="dropdown categories">
+                                                                                    <li><a href="#">Menu Item</a></li>
+                                                                                    <li><a href="#">Menu</a></li>
+                                                                                </ul>
+                                                                            </li>
+                                                                        @else
+                                                                            <li class="nav-item"
+                                                                                id="{{$subcategory->id}}"
+                                                                                value="{{$subcategory->name}}">
+                                                                                <a class="nav-link"
+                                                                                   href="#">{{$subcategory->name}}</span></a>
+                                                                            </li>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </ul>
+                                                            </li>
+                                                        @else
+                                                            <li class="nav-item" id="{{$category->id}}"
+                                                                value="{{$category->name}}">
+                                                                <a class="nav-link"
+                                                                   href="#">{{$category->name}}</span></a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            </nav>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" style="margin: 10px"
+                                                    class="btn btn-secondary btn-close-modal">
+                                                Закрыть
+                                            </button>
+                                            <button type="submit" style="margin: 10px" class="btn btn-primary">Сохранить
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" style="margin: 10px" class="btn btn-secondary btn-close-modal">
+                                    Закрыть
+                                </button>
+                                <button style="margin: 10px" id="saveProducts" class="btn btn-success">Сохранить
+                                </button>
+                            </div>
+                        </x-modal-window>
+                    @endcan
+                    @can('outcoming invoice', $invoice)
+                        <button class="btn btn-dark btn-open-modal" value="{{'add-product-to-outcoming-invoice'}}"><a>Добавить</a>
+                        </button>
+
+                        <x-modal-window id="{{'add-product-to-outcoming-invoice'}}">
+                            <div>
+                                <div id="addedProducts" style="border-bottom: 2px solid #acadac">
+                                </div>
+                                <form id="AddProductListOutcomingInvoice">
+                                    <div style="display: flex; font-size: 15px">
+                                        <div>
+                                            <div class="wrapper">
+                                                <div class="select-btn">
+                                                    <span class="select-item">Выбрать продукт</span>
+                                                    <i class="uil uil-angle-down"></i>
+                                                </div>
+                                                <div class="content">
+                                                    <div class="search">
+                                                        <i class="uil uil-search"></i>
+                                                        <input spellcheck="false" type="text" placeholder="Search">
+                                                    </div>
+                                                    <ul class="options"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" style="width: 30%;">
+                                            <label for="count">Количество</label><span class="required-field"> *</span>
+                                            <input type="number" class="form-control" id="count" name="count" min="1"
+                                                   required readonly>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="price">Цена</label><span class="required-field"> *</span>
+                                            <input type="number" class="form-control" id="price" name="price"
+                                                   min="0.001"
+                                                   step=".001" required readonly>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="nds">НДС</label><span class="required-field"> *</span>
+                                            <input type="number" class="form-control" id="nds" name="nds"
+                                                   min="1"
+                                                   required readonly>
+                                        </div>
+
+                                        <div class="form-group" style="width: 30%">
+                                            <label for="percent">Процент реализации</label><span class="required-field"> *</span>
+                                            <input type="number" class="form-control" id="percent" name="percent"
+                                                   min="1"
+                                                   required>
+                                        </div>
+                                        <button type="submit" style="margin: 30px; height: 50px"
+                                                class="btn btn-primary">
+                                            Добавить
+                                        </button>
+                                    </div>
+                                </form>
                                 <div class="modal-footer">
                                     <button type="button" style="margin: 10px"
                                             class="btn btn-secondary btn-close-modal">
                                         Закрыть
                                     </button>
-                                    <button type="submit" style="margin: 10px" class="btn btn-primary">Сохранить
+                                    <button style="margin: 10px" id="saveProductsOutcomingInvoice"
+                                            class="btn btn-success">Сохранить
                                     </button>
                                 </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" style="margin: 10px" class="btn btn-secondary btn-close-modal">
-                            Закрыть
-                        </button>
-                        <button style="margin: 10px" id="saveProducts" class="btn btn-success">Сохранить</button>
-                    </div>
-                </x-modal-window>
+                            </div>
+                        </x-modal-window>
+                    @endcan
+                @endcan
             </div>
             <div>
                 <table class="table">
@@ -300,6 +384,7 @@
                         <th scope="col">количество</th>
                         <th scope="col">цена</th>
                         <th scope="col">ндс %</th>
+                        <th scope="col">сумма</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
@@ -313,6 +398,7 @@
                             <td>{{$el->count}}</td>
                             <td>{{round($el->price, 3)}}</td>
                             <td>{{$el->nds}}</td>
+                            <td>{{($el->nds*$el->price)/100+$el->price}}</td>
                             <td>
                                 <button class="btn btn-warning btn-open-modal"
                                         value="{{'delete-product-from-invoice-'.$el->id}}">Удалить
@@ -396,114 +482,325 @@
             </div>
         </section>
     </div>
-    <script type="text/javascript">
-        const wrapper = document.querySelector(".wrapper"),
-            selectBtn = wrapper.querySelector(".select-btn"),
-            searchInp = wrapper.querySelector("input"),
-            options = wrapper.querySelector(".options");
-        const selectSpan = document.querySelector('.select-item');
-        let products = new Map;
-        let products1 = [];
-
-        {{--function fillDataSelect(products, products1){--}}
-        {{--    @php($products = \App\Models\Product::all())--}}
-        {{--     products = new Map([--}}
-        {{--            @foreach($products as $product)--}}
-        {{--        ['{{$product->id}}', "{{$product->name}} {{$product->sku}}"],--}}
-        {{--        @endforeach--}}
-        {{--    ]);--}}
-        {{--    @foreach($products as $product)--}}
-        {{--    products1.push({name: "{{$product->name}} {{$product->sku}}", key: "{{$product->id}}"});--}}
-        {{--    @endforeach--}}
-        {{--}--}}
-        function fillDataSelect2() {
-            @php($products = \App\Models\Product::all())
-            let products1 = [];
-            @foreach($products as $product)
-            products1.push({name: "{{$product->name}}", key: "{{$product->id}}"});
-            @endforeach
-        }
-
-        function fillDataSelect1() {
-            @php($products = \App\Models\Product::all())
-            let products;
-            products = new Map([
-                    @foreach($products as $product)
-                ['{{$product->id}}', "{{$product->name}}"],
-                @endforeach
-            ]);
-
-            return products;
-        }
-
-
-        function addCountry(selectedProduct) {
-            options.innerHTML = "";
-            products.forEach(function (value, key) {
-                let isSelected = value == selectedProduct ? "selected" : "";
-                let li = `<li onclick="updateName(this)" value="${key}" class="${isSelected}">${value}</li>`;
-                options.insertAdjacentHTML("beforeend", li);
+    @can('incoming invoice', $invoice)
+        <script type="text/javascript">
+            $('#addProductToList').on('submit', function (e) {
+                e.preventDefault();
+                const selectSpan = document.querySelector('.select-item');
+                let parent_div = $('#addedProducts');
+                let child_div = document.createElement("div");
+                child_div.className = "product-item";
+                let count_p = document.createElement('p');
+                count_p.innerHTML = $('#count').val();
+                let price_p = document.createElement('p');
+                price_p.innerHTML = $('#price').val();
+                let nds_p = document.createElement('p');
+                nds_p.innerHTML = $('#nds').val();
+                let product_p = document.createElement('p');
+                product_p.innerHTML = selectSpan.innerText;
+                product_p.setAttribute("id", selectSpan.id);
+                // let delete_btn = document.createElement('button');
+                // delete_btn.innerHTML = 'удалить';
+                // delete_btn.className = "deleteFromListBtn";
+                child_div.append(product_p);
+                child_div.append(count_p);
+                child_div.append(price_p);
+                child_div.append(nds_p);
+                // child_div.append(delete_btn);
+                parent_div.append(child_div);
             });
-        }
-
-        function start() {
-            products = fillDataSelect1();
-            products1 = fillDataSelect2();
-            addCountry();
-        }
-
-        start();
-
-
-        function updateName(selectedLi) {
-            searchInp.value = "";
-            addCountry(selectedLi.innerText);
-            wrapper.classList.remove("active");
-            selectBtn.firstElementChild.innerText = selectedLi.innerText;
-            selectSpan.setAttribute('id', selectedLi.value);
-        }
-
-        searchInp.addEventListener("keyup", () => {
-            let arr = [];
-            let searchWord = searchInp.value.toLowerCase();
-            arr = products1.filter(data => {
-                return data["name"].toLowerCase().startsWith(searchWord);
-            }).map(data => {
-                let isSelected = data["name"] == selectBtn.firstElementChild.innerText ? "selected" : "";
-                return `<li onclick="updateName(this)" value="${data['key']}" class="${isSelected}">${data["name"]}</li>`;
-            }).join("");
-            options.innerHTML = arr ? arr : `<p style="margin-top: 10px;">продукт не найден</p>`;
-        });
-        selectBtn.addEventListener("click", () => wrapper.classList.toggle("active"))
-    </script>
-
-    <script type="text/javascript">
-        $('#addProductToList').on('submit', function (e) {
-            e.preventDefault();
+        </script>
+        <script type="text/javascript">
+            const wrapper = document.querySelector(".wrapper"),
+                selectBtn = wrapper.querySelector(".select-btn"),
+                searchInp = wrapper.querySelector("input"),
+                options = wrapper.querySelector(".options");
             const selectSpan = document.querySelector('.select-item');
-            let parent_div = $('#addedProducts');
-            let child_div = document.createElement("div");
-            child_div.className = "product-item";
-            let count_p = document.createElement('p');
-            count_p.innerHTML = $('#count').val();
-            let price_p = document.createElement('p');
-            price_p.innerHTML = $('#price').val();
-            let nds_p = document.createElement('p');
-            nds_p.innerHTML = $('#nds').val();
-            let product_p = document.createElement('p');
-            product_p.innerHTML = selectSpan.innerText;
-            product_p.setAttribute("id", selectSpan.id);
-            // let delete_btn = document.createElement('button');
-            // delete_btn.innerHTML = 'удалить';
-            // delete_btn.className = "deleteFromListBtn";
-            child_div.append(product_p);
-            child_div.append(count_p);
-            child_div.append(price_p);
-            child_div.append(nds_p);
-            // child_div.append(delete_btn);
-            parent_div.append(child_div);
-        });
-    </script>
+            let products = new Map;
+            let products1 = [];
+
+            function fillDataSelect2() {
+                @php($products = \App\Models\Product::all())
+                let products1 = [];
+                @foreach($products as $product)
+                products1.push({name: "{{$product->name}}", key: "{{$product->id}}"});
+                @endforeach
+            }
+
+            function fillDataSelect1() {
+                @php($products = \App\Models\Product::all())
+                let products;
+                products = new Map([
+                        @foreach($products as $product)
+                    ['{{$product->id}}', "{{$product->name}}"],
+                    @endforeach
+                ]);
+
+                return products;
+            }
+
+
+            function addCountry(selectedProduct) {
+                options.innerHTML = "";
+                products.forEach(function (value, key) {
+                    let isSelected = value == selectedProduct ? "selected" : "";
+                    let li = `<li onclick="updateName(this)" value="${key}" class="${isSelected}">${value}</li>`;
+                    options.insertAdjacentHTML("beforeend", li);
+                });
+            }
+
+            function start() {
+                products = fillDataSelect1();
+                products1 = fillDataSelect2();
+                addCountry();
+                displayVals();
+            }
+
+            start();
+
+            function displayVals() {
+                $.ajax({
+                    type: "GET",
+                    url: '/newproducts',
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+
+            function updateName(selectedLi) {
+                searchInp.value = "";
+                addCountry(selectedLi.innerText);
+                wrapper.classList.remove("active");
+                selectBtn.firstElementChild.innerText = selectedLi.innerText;
+                selectSpan.setAttribute('id', selectedLi.value);
+            }
+
+            searchInp.addEventListener("keyup", () => {
+                let arr = [];
+                let searchWord = searchInp.value.toLowerCase();
+                arr = products1.filter(data => {
+                    return data["name"].toLowerCase().startsWith(searchWord);
+                }).map(data => {
+                    let isSelected = data["name"] == selectBtn.firstElementChild.innerText ? "selected" : "";
+                    return `<li onclick="updateName(this)" value="${data['key']}" class="${isSelected}">${data["name"]}</li>`;
+                }).join("");
+                options.innerHTML = arr ? arr : `<p style="margin-top: 10px;">продукт не найден</p>`;
+            });
+            selectBtn.addEventListener("click", () => wrapper.classList.toggle("active"))
+        </script>
+        {{--        <script type="text/javascript">--}}
+        {{--            function displayVals()--}}
+        {{--            {--}}
+        {{--                $.ajax({--}}
+        {{--                    type: "GET",--}}
+        {{--                    url: '/newproducts',--}}
+        {{--                    success:function(response)--}}
+        {{--                    {--}}
+        {{--                        console.log(JSON.parse(response));--}}
+        {{--                    }--}}
+        {{--                });--}}
+        {{--            }--}}
+        {{--        </script>--}}
+        <script type="text/javascript">
+            $('#saveProducts').on('click', function () {
+                dataarr = [];
+                var children = [].slice.call(document.getElementById('addedProducts').children);
+                children.forEach((element) => {
+                        el = [].slice.call(element.children);
+                        let obj = {
+                            product_id: el[0].id,
+                            count: el[1].innerText,
+                            price: el[2].innerText,
+                            nds: el[3].innerText
+                        };
+                        dataarr.push(obj);
+                    }
+                );
+                $.ajax({
+                    url: "{{route('add.products.to.invoice', $invoice->id)}}",
+                    type: "POST",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        data: JSON.stringify(dataarr),
+                    },
+                    success: function (response) {
+                        location.reload();
+                    },
+                    error: function (response) {
+                        let obj = JSON.parse(response.responseText);
+                        if (typeof obj.errors !== 'undefined') {
+                            let errors_div = $('#addProductToInvoiceErrors');
+                            errors_div.empty();
+                            for (key in obj.errors) {
+                                obj.errors[key].forEach(function (elem) {
+                                    let p = document.createElement('p');
+                                    p.innerHTML = elem;
+                                    errors_div.append(p)
+                                    console.log(elem);
+                                });
+                            }
+                            errors_div[0].style.display = "block";
+                        }
+                    },
+                });
+            });
+        </script>
+    @endcan
+
+    @can('outcoming invoice', $invoice)
+        <script>
+            $('#AddProductListOutcomingInvoice').on('submit', function (e) {
+                e.preventDefault();
+                const selectSpan = document.querySelector('.select-item');
+                let parent_div = $('#addedProducts');
+                let child_div = document.createElement("div");
+                child_div.className = "product-item";
+                let count_p = document.createElement('p');
+                count_p.innerHTML = $('#count').val();
+                let price_p = document.createElement('p');
+                price_p.innerHTML = $('#price').val();
+                let nds_p = document.createElement('p');
+                nds_p.innerHTML = $('#nds').val();
+                let percent_p = document.createElement('p');
+                percent_p.innerHTML = $('#percent').val();
+                let product_p = document.createElement('p');
+                product_p.innerHTML = selectSpan.innerText;
+                product_p.setAttribute("id", selectSpan.id);
+                child_div.append(product_p);
+                child_div.append(count_p);
+                child_div.append(price_p);
+                child_div.append(nds_p);
+                child_div.append(percent_p);
+                // child_div.append(delete_btn);
+                parent_div.append(child_div);
+            });
+        </script>
+        <script>
+            $('#saveProductsOutcomingInvoice').on('click', function () {
+                dataarr = [];
+                var children = [].slice.call(document.getElementById('addedProducts').children);
+                children.forEach((element) => {
+                        el = [].slice.call(element.children);
+                        let obj = {
+                            product_id: el[0].id,
+                            count: el[1].innerText,
+                            price: el[2].innerText,
+                            nds: el[3].innerText,
+                            percent: el[4].innerText,
+                        };
+                        dataarr.push(obj);
+                    }
+                );
+                console.log(dataarr);
+                $.ajax({
+                    url: "{{route('add.products.to.outcoming.invoice', $invoice->id)}}",
+                    type: "POST",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        data: JSON.stringify(dataarr),
+                    },
+                    success: function (response) {
+                        location.reload();
+                    },
+                    error: function (response) {
+                        let obj = JSON.parse(response.responseText);
+                        if (typeof obj.errors !== 'undefined') {
+                            let errors_div = $('#addProductToInvoiceErrors');
+                            errors_div.empty();
+                            for (key in obj.errors) {
+                                obj.errors[key].forEach(function (elem) {
+                                    let p = document.createElement('p');
+                                    p.innerHTML = elem;
+                                    errors_div.append(p)
+                                    console.log(elem);
+                                });
+                            }
+                            errors_div[0].style.display = "block";
+                        }
+                    },
+                });
+            });
+        </script>
+        <script type="text/javascript">
+            const wrapper = document.querySelector(".wrapper"),
+                selectBtn = wrapper.querySelector(".select-btn"),
+                searchInp = wrapper.querySelector("input"),
+                options = wrapper.querySelector(".options");
+            const selectSpan = document.querySelector('.select-item');
+            let products = new Map;
+
+            function fillDataSelect() {
+                @php($products =  \App\Models\Product::has('stocks')->get())
+                let products = [];
+                @foreach($products as $product)
+                @php($has_invoice = \App\Models\ProductHasInvoices::where('product_id', $product->id)->first())
+                @php($count_in_stock = \App\Models\ProductHasStocks::where('product_id', $product->id)->sum('count'))
+                products.push({
+                    name: "{{$product->name}}",
+                    key: "{{$product->id}}",
+                    price: "{{round($has_invoice->price, 3)}}",
+                    nds: "{{$has_invoice->nds}}",
+                    count: "{{$count_in_stock}}"
+                });
+                @endforeach
+
+                    return products;
+            }
+
+            function addCountry(selectedProduct) {
+                options.innerHTML = "";
+                products.forEach(function (value) {
+                    let isSelected = value == selectedProduct ? "selected" : "";
+                    let li = `<li onclick="updateName(this)" value="${value['key']}" class="${isSelected}">${value['name']}</li>`;
+                    options.insertAdjacentHTML("beforeend", li);
+                });
+            }
+
+            function start() {
+                products = fillDataSelect();
+                console.log(products);
+                addCountry();
+            }
+
+            start();
+
+            function updateName(selectedLi) {
+                searchInp.value = "";
+                addCountry(selectedLi.innerText);
+                wrapper.classList.remove("active");
+                selectBtn.firstElementChild.innerText = selectedLi.innerText;
+                selectSpan.setAttribute('id', selectedLi.value);
+                console.log(selectedLi.value)
+                let result = products.filter(obj => {
+                    return obj.key == selectedLi.value
+                })
+
+                $('#count').val(result[0].count);
+                $('#count').attr({
+                    "max": result[0].count,        // substitute your own
+                });
+                $('#price').val(result[0].price);
+                $('#nds').val(result[0].nds);
+
+                console.log(result[0].count);
+            }
+
+            searchInp.addEventListener("keyup", () => {
+                let arr = [];
+                let searchWord = searchInp.value.toLowerCase();
+                arr = products.filter(data => {
+                    return data["name"].toLowerCase().startsWith(searchWord);
+                }).map(data => {
+                    let isSelected = data["name"] == selectBtn.firstElementChild.innerText ? "selected" : "";
+                    return `<li onclick="updateName(this)" value="${data['key']}" class="${isSelected}">${data["name"]}</li>`;
+                }).join("");
+                options.innerHTML = arr ? arr : `<p style="margin-top: 10px;">продукт не найден</p>`;
+            });
+            selectBtn.addEventListener("click", () => wrapper.classList.toggle("active"))
+        </script>
+    @endcan
+
     <script type="text/javascript">
         $('#UpdateInvoice').on('submit', function (e) {
             e.preventDefault();
@@ -570,45 +867,7 @@
             });
         });
     </script>
-    <script type="text/javascript">
-        $('#saveProducts').on('click', function () {
-            dataarr = [];
-            var children = [].slice.call(document.getElementById('addedProducts').children);
-            children.forEach((element) => {
-                    el = [].slice.call(element.children);
-                    let obj = {product_id: el[0].id, count: el[1].innerText, price: el[2].innerText, nds: el[3].innerText};
-                    dataarr.push(obj);
-                }
-            );
-            $.ajax({
-                url: "{{route('add.products.to.invoice', $invoice->id)}}",
-                type: "POST",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    data: JSON.stringify(dataarr),
-                },
-                success: function (response) {
-                    location.reload();
-                },
-                error: function (response) {
-                    let obj = JSON.parse(response.responseText);
-                    if (typeof obj.errors !== 'undefined') {
-                        let errors_div = $('#addProductToInvoiceErrors');
-                        errors_div.empty();
-                        for (key in obj.errors) {
-                            obj.errors[key].forEach(function (elem) {
-                                let p = document.createElement('p');
-                                p.innerHTML = elem;
-                                errors_div.append(p)
-                                console.log(elem);
-                            });
-                        }
-                        errors_div[0].style.display = "block";
-                    }
-                },
-            });
-        });
-    </script>
+
     <script type="text/javascript">
         document.querySelectorAll('.DeleteProductFromInvoice').forEach(w => {
             w.addEventListener('click', _ => {

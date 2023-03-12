@@ -28,9 +28,9 @@ class ProductHasStocksController extends Controller
      * @param int $id
      * @return View
      */
-    public function getAll(int $id): View
+    public function getAllFromStock(int $id): View
     {
-        $products = $this->service->getAllPaginate(5);
+        $products = $this->service->getAllPaginate($id, 5);
 
         return view('user/stock-profile')->with('products', $products)->with('id', $id);
     }
@@ -52,8 +52,6 @@ class ProductHasStocksController extends Controller
      */
     public function store(ProductHasStocksRequest $request): JsonResponse
     {
-        $request->validated();
-
         $data = new ProductInStockDto(
             $request->input('count'),
             $request->input('price'),
@@ -94,10 +92,8 @@ class ProductHasStocksController extends Controller
      * @param ProductHasStocksRequest $request
      * @return JsonResponse
      */
-    public function storeReceivedGoods(int $id, ProductHasStocksRequest $request)
+    public function storeReceivedGoods(int $id, ProductHasStocksRequest $request): void
     {
-        $request->validated();
-
         $data = new ProductInStockDto(
             $request->input('count'),
             $request->input('price'),
@@ -107,7 +103,5 @@ class ProductHasStocksController extends Controller
         );
 
         $this->service->saveReceivedGoods($id, $data);
-
-        return response()->json('added successfully');
     }
 }

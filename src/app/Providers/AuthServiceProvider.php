@@ -43,8 +43,12 @@ class AuthServiceProvider extends ServiceProvider
             return $user->permissions->containsStrict('name', 'actions on stocks');
         });
 
-        Gate::define('add products to invoice', function (User $user, Invoice $invoice) {
-            return $invoice->status->id === config('status-enums.statuses')['PACKED'];
-        });
+//        Gate::define('add products to invoice', function (User $user, Invoice $invoice) {
+//            return $invoice->status->id === config('status-enums.statuses')['PACKED'];
+//        });
+
+//        Gate::define('incoming invoice', function (User $user, Invoice $invoice) {
+//            return $invoice->type->id === config('type-enums.types')['INCOMING'];
+//        });
     }
 }

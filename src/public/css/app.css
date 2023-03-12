@@ -10835,6 +10835,76 @@ textarea.form-control-lg {
     }
 }
 
+a {
+    text-decoration: none;
+}
+
+ul.category {
+    background: #cfcfcf;
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+li.category-li {
+    color: black;
+    background: #cfcfcf;
+    position: relative;
+    display: block;
+    float: left;
+    padding: 10px;
+    text-decoration: none;
+    transition-duration: 0.5s;
+}
+
+li.subcategory {
+    position: absolute;
+    z-index: 2;
+    width: auto;
+    max-height: 80px;
+}
+
+li.category-li a {
+    color: black;
+}
+
+li.category-li:hover {
+    background: #2e9dff;
+    cursor: pointer;
+}
+
+ul.category li.category-li ul.category {
+    background: orange;
+    visibility: hidden;
+    opacity: 0;
+    min-width: 5rem;
+    position: absolute;
+    z-index: 1;
+    transition: all 0.5s ease;
+    margin-top: 1rem;
+    left: 100%;
+    top: -37%;
+    display: none;
+}
+
+ul.category li.category-li:hover > ul.category,
+ul.category li.category-li:focus-within > ul.category, /* this is the line we add */
+ul.category li.category-li ul.category:hover {
+    visibility: visible;
+    opacity: 1;
+    display: inline-block;
+}
+
+ul.category li.category-li ul.category li {
+    clear: both;
+    width: 100%;
+}
+
+ul.category li.category-li ul.category li {
+    clear: both;
+    width: 100%;
+}
+
 .btn-exit {
     background: rgba(255, 255, 255, 0);
     border: none;
@@ -10897,35 +10967,39 @@ button.btn-exit:hover {
 .my-active-nav-link {
     background-color: #36a346 !important;
 }
-ul.categories li {
-    border: 1px solid black;
-}
+/*ul.categories li {*/
+/*    border: 1px solid black;*/
+/*}*/
 
-.dropdown-toggle {
-    padding: 0;
-}
+/*.dropdown-toggle {*/
+/*    padding: 0;*/
+/*}*/
 
-ul.dropdown {
-    display: none;
-    margin-top: 5px;
-    padding: 5px 5px 0 0;
-    position: absolute;
-    background: white;
-    left: 50px;
-}
+/*ul.dropdown {*/
+/*    display: none;*/
+/*    margin-top: 5px;*/
+/*    padding: 5px 5px 0 0;*/
+/*    position: absolute;*/
+/*    background: white;*/
+/*    left: 50px;*/
+/*}*/
 
-ul.dropdown li {
-    list-style-type: none;
-}
+/*ul.dropdown li {*/
+/*    list-style-type: none;*/
+/*}*/
 
-ul.dropdown li a {
-    text-decoration: none;
-    padding: 0em 1em;
-    display: block;
-}
+/*ul.dropdown li a {*/
+/*    text-decoration: none;*/
+/*    padding: 0em 1em;*/
+/*    display: block;*/
+/*}*/
 
 .number-of-notifications {
-
+    background-color: white;
+    color: #4c6db5;
+    border-radius: 100%;
+    padding: 5px 10px;
+    margin-left: 15px;
 }
 
 

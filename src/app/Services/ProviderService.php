@@ -10,6 +10,7 @@ use App\Exceptions\ModelNotUpdatedException;
 use App\Models\Provider;
 use App\Repositories\ProviderRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProviderService
 {
@@ -25,12 +26,12 @@ class ProviderService
 
     /**
      * @param ProviderDto $dto
-     * @return Provider
+     * @return void
      */
-    public function create(ProviderDto $dto): Provider
+    public function create(ProviderDto $dto): void
     {
         try {
-            return $this->repository->save($dto);
+            $this->repository->save($dto);
         } catch (\Exception $e) {
             throw new ModelNotCreatedException();
         }
@@ -52,12 +53,12 @@ class ProviderService
     /**
      * @param int $id
      * @param ProviderDto $dto
-     * @return Provider
+     * @return void
      */
-    public function update(int $id, ProviderDto $dto): Provider
+    public function update(int $id, ProviderDto $dto): void
     {
         try {
-            return $this->repository->update($id, $dto);
+            $this->repository->update($id, $dto);
         } catch (\Exception $e) {
             throw new ModelNotUpdatedException();
         }
@@ -65,14 +66,12 @@ class ProviderService
 
     /**
      * @param int $id
-     * @return array
-     * @throws \Exception
+     * @return void
      */
-    public function delete(int $id): array
+    public function delete(int $id): void
     {
         try {
             $this->repository->delete($id);
-            return ['success' => 'deleted'];
         } catch (\Exception $e) {
             throw new ModelNotDeletedException();
         }
@@ -84,5 +83,14 @@ class ProviderService
     public function getAll(): Collection
     {
         return $this->repository->getAll();
+    }
+
+    /**
+     * @param int $count
+     * @return LengthAwarePaginator
+     */
+    public function getAllPaginate(int $count): LengthAwarePaginator
+    {
+        return $this->repository->getAllPaginate($count);
     }
 }
