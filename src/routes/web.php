@@ -29,23 +29,6 @@ Route::middleware("auth:web")->group(function () {
     })->name('home');
 });
 
-Route::middleware(['auth:web', 'access.invoices'])->group(function () {
-    Route::get('/invoices', [\App\Http\Controllers\InvoiceController::class, 'getAll'])->name('invoices');
-    Route::resource('/invoices', \App\Http\Controllers\InvoiceController::class)->only([
-        'store',
-        'show',
-        'update',
-        'destroy'
-    ]);
-
-    Route::delete('/product/has/invoices/{id}',
-        [\App\Http\Controllers\ProductHasInvoicesController::class, 'destroy'])->name('delete.product.from.invoice');
-    Route::post('/product/has/invoices/{id}',
-        [\App\Http\Controllers\ProductHasInvoicesController::class, 'store'])->name('add.products.to.invoice');
-    Route::put('/product/has/invoices/{id}',
-        [\App\Http\Controllers\ProductHasInvoicesController::class, 'update'])->name('update.product.from.invoice');
-});
-
 Route::middleware(['auth:web', 'access.products'])->group(function () {
     Route::get('/products', [\App\Http\Controllers\ProductController::class, 'getAll'])->name('products');
     Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
@@ -54,6 +37,26 @@ Route::middleware(['auth:web', 'access.products'])->group(function () {
         'update',
         'destroy'
     ]);
+});
+
+Route::middleware(['auth:web', 'access.invoices'])->group(function () {
+    Route::get('/invoices', [\App\Http\Controllers\InvoiceController::class, 'getAll'])->name('invoices');
+    Route::resource('/invoices', \App\Http\Controllers\InvoiceController::class)->only([
+        'store',
+        'show',
+        'update',
+        'destroy'
+    ]);
+    Route::get('/invoices/{id}/manage/incoming/products', [\App\Http\Controllers\ProductHasInvoicesController::class, 'getAllIncomingProducts'])->name('manage.incoming.products');
+    Route::post('/invoices/{id}/manage/incoming/products', [\App\Http\Controllers\ProductHasInvoicesController::class, 'storeIncomingProducts'])->name('manage.incoming.products.store');
+
+
+//    Route::delete('/product/has/invoices/{id}',
+//        [\App\Http\Controllers\ProductHasInvoicesController::class, 'destroy'])->name('delete.product.from.invoice');
+//    Route::post('/product/has/invoices/{id}',
+//        [\App\Http\Controllers\ProductHasInvoicesController::class, 'store'])->name('add.products.to.invoice');
+//    Route::put('/product/has/invoices/{id}',
+//        [\App\Http\Controllers\ProductHasInvoicesController::class, 'update'])->name('update.product.from.invoice');
 });
 
 Route::middleware(['auth:web', 'access.stocks'])->group(function () {
@@ -92,20 +95,9 @@ Route::middleware(['auth:web', 'access.stocks'])->group(function () {
         [\App\Http\Controllers\ReceiptOfProductsController::class, 'destroy'])->name('delete.product.for.stock');
 });
 
-Route::get('/create', function () {
-    $g = new \App\Repositories\ProductHasInvoicesRepository;
-    if ($g->getByProduct(1)->isEmpty()) {
-        echo 'same';
-    } else {
-        echo 'difrent';
-    };
-});
-Route::get('/newproducts', function () {
-    return compact(\App\Models\Product::all());
-});
 
 Route::get('/create', function () {
-  dd(\App\Models\Product::where('provider_id', 2)->where('name', 'эд вуд')->first());
+    dd(\App\Models\Product::where('provider_id', 2)->where('name', 'эд вуд')->first());
 });
 
 

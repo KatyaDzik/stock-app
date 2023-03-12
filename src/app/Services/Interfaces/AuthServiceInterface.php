@@ -2,8 +2,7 @@
 
 namespace App\Services\Interfaces;
 
-use App\Dto\UserDto;
-use App\Http\LoginDto;
+use App\Dto\LoginDto;
 
 interface AuthServiceInterface
 {

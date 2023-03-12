@@ -6,7 +6,7 @@ namespace App\Dto;
  * Class ProductToInvoiceDto
  * @package App\Dto
  */
-class ProductToInvoiceDto
+class ProductHasInvoiceDto
 {
     private int $count, $product_id, $invoice_id, $nds;
     private float $price;

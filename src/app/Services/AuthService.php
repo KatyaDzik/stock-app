@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
+use App\Dto\LoginDto;
 use App\Exceptions\InvalidCredentialsException;
 use App\Exceptions\LogoutException;
-use App\Http\LoginDto;
 use App\Repositories\UserRepository;
 use App\Services\Interfaces\AuthServiceInterface;
 use Illuminate\Support\Facades\Hash;

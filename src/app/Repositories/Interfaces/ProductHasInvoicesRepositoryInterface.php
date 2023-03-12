@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Dto\ProductToInvoiceDto;
+use App\Dto\ProductHasInvoiceDto;
 use App\Models\ProductHasInvoices;
 
 interface ProductHasInvoicesRepositoryInterface
@@ -14,15 +14,15 @@ interface ProductHasInvoicesRepositoryInterface
     public function delete(int $id): bool;
 
     /**
-     * @param ProductToInvoiceDto $dto
+     * @param ProductHasInvoiceDto $dto
      * @return null|ProductHasInvoices
      */
-    public function save(ProductToInvoiceDto $dto): ?ProductHasInvoices;
+    public function save(ProductHasInvoiceDto $dto): ?ProductHasInvoices;
 
     /**
      * @param int $id
-     * @param ProductToInvoiceDto $dto
+     * @param ProductHasInvoiceDto $dto
      * @return bool
      */
-    public function update(int $id, ProductToInvoiceDto $dto): bool;
+    public function update(int $id, ProductHasInvoiceDto $dto): bool;
 }

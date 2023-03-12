@@ -2,7 +2,7 @@
 
 namespace App\Services\Interfaces;
 
-use App\Dto\ProductToInvoiceDto;
+use App\Dto\ProductHasInvoiceDto;
 
 interface ProductHasInvoicesServiceInterface
 {
@@ -13,16 +13,16 @@ interface ProductHasInvoicesServiceInterface
     public function delete(int $id): array;
 
     /**
-     * @param ProductToInvoiceDto $dto
+     * @param ProductHasInvoiceDto $dto
      * @return array
      * @throws \Exception
      */
-    public function create(ProductToInvoiceDto $dto): array;
+    public function create(ProductHasInvoiceDto $dto): array;
 
     /**
      * @param int $id
-     * @param ProductToInvoiceDto $dto
+     * @param ProductHasInvoiceDto $dto
      * @return bool
      */
-    public function update(int $id, ProductToInvoiceDto $dto): bool;
+    public function update(int $id, ProductHasInvoiceDto $dto): bool;
 }

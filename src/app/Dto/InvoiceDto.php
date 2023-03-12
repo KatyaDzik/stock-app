@@ -10,6 +10,7 @@ class InvoiceDto
 {
     private string $number, $date, $from, $to;
     private int $provider_id, $customer_id, $type_id, $status_id;
+    private bool $closed;
 
     /**
      * @param string $number
@@ -20,9 +21,10 @@ class InvoiceDto
      * @param int $customer_id
      * @param int $type_id
      * @param int $status_id
+     * @param bool $closed
      */
     public function __construct(string $number, string $date, string $from, string $to,
-        int $provider_id, int $customer_id, int $type_id, int $status_id)
+        int $provider_id, int $customer_id, int $type_id, int $status_id, bool $closed)
     {
         $this->number = $number;
         $this->date = $date;
@@ -32,6 +34,7 @@ class InvoiceDto
         $this->customer_id = $customer_id;
         $this->type_id = $type_id;
         $this->status_id = $status_id;
+        $this->closed = $closed;
     }
 
     /**
@@ -96,5 +99,10 @@ class InvoiceDto
     public function getStatus(): int
     {
         return $this->status_id;
+    }
+
+    public function getClosed(): bool
+    {
+        return $this->closed;
     }
 }

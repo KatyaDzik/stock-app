@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Dto\ProductToInvoiceDto;
-use App\Http\Requests\ProductToInvoiceRequest;
+use App\Dto\ProductHasInvoiceDto;
+use App\Http\Requests\ProductHasInvoiceRequest;
 use App\Services\ProductHasInvoicesService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 
 /**
@@ -34,33 +35,55 @@ class ProductHasInvoicesController extends Controller
         $this->service->delete($id);
     }
 
-    public function store(int $id, Request $request): void
+//    public function store(int $id, Request $request): void
+//    {
+//        $data = json_decode($request->input('data'));
+//
+//        $products = [];
+//        foreach ($data as $el) {
+//            $product = new ProductHasInvoiceDto(
+//                $el->count,
+//                $el->price,
+//                $el->nds,
+//                $el->product_id,
+//                $id,
+//            );
+//            $products[] = $product;
+//        }
+//
+//        $this->service->saveIncomingProducts($products);
+//    }
+
+//    /**
+//     * @param int $id
+//     * @param ProductHasInvoiceRequest $request
+//     * @return JsonResponse
+//     */
+//    public function update(int $id, ProductHasInvoiceRequest $request): JsonResponse
+//    {
+//        $data = new ProductHasInvoiceDto(
+//            $request->input('count'),
+//            $request->input('price'),
+//            $request->input('nds'),
+//            $request->input('product_id'),
+//            $request->input('invoice_id'),
+//        );
+//
+//        $this->service->update($id, $data);
+//
+//        return response()->json('product added');
+//    }
+
+    public function getAllIncomingProducts(int $id): View
     {
-        $data = json_decode($request->input('data'));
+        $products = $this->service->getAllByInvoicePaginate($id, 5);
 
-        $products = [];
-        foreach ($data as $el) {
-            $product = new ProductToInvoiceDto(
-                $el->count,
-                $el->price,
-                $el->nds,
-                $el->product_id,
-                $id,
-            );
-            $products[] = $product;
-        }
-
-        $this->service->saveIncomingProducts($products);
+        return view('user/invoice/manage-incoming-products')->with('products', $products)->with('id', $id);
     }
 
-    /**
-     * @param int $id
-     * @param ProductToInvoiceRequest $request
-     * @return JsonResponse
-     */
-    public function update(int $id, ProductToInvoiceRequest $request): JsonResponse
+    public function storeIncomingProducts(ProductHasInvoiceRequest $request)
     {
-        $data = new ProductToInvoiceDto(
+        $data = new ProductHasInvoiceDto(
             $request->input('count'),
             $request->input('price'),
             $request->input('nds'),
@@ -68,8 +91,6 @@ class ProductHasInvoicesController extends Controller
             $request->input('invoice_id'),
         );
 
-        $this->service->update($id, $data);
-
-        return response()->json('product added');
+        $this->service->saveIncomingProducts($data);
     }
 }

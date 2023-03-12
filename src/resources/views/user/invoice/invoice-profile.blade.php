@@ -5,14 +5,18 @@
 @endsection
 
 @section('page-title')
-    <div style="display: flex; padding: 0px 20px 20px 0;">
-        <h2 style="margin: 0; margin-right: 20px;">Накладная №{{$invoice->number}}</h2>
-        <button class="btn-icon btn-open-modal" value="{{'update-invoice-'.$invoice->id}}"><img width="20px"
-                                                                                                src="{{ URL::asset('img/pen.png') }}"
-                                                                                                alt=""></button>
-        <button class="btn-icon btn-open-modal" value="{{'delete-invoice-'.$invoice->id}}" style="margin-left: 20px">
-            <a><img
-                    width="20px" src="{{ URL::asset('img/trash.png') }}" alt=""></a></button>
+    <div style="display: flex; justify-content: space-between">
+        <div style="display: flex; padding: 0px 20px 20px 0;">
+            <h2 style="margin: 0; margin-right: 20px;">Накладная №{{$invoice->number}}</h2>
+            <button class="btn-icon btn-open-modal" value="{{'update-invoice-'.$invoice->id}}"><img width="20px"
+                                                                                                    src="{{ URL::asset('img/pen.png') }}"
+                                                                                                    alt=""></button>
+            <button class="btn-icon btn-open-modal" value="{{'delete-invoice-'.$invoice->id}}"
+                    style="margin-left: 20px">
+                <a><img
+                        width="20px" src="{{ URL::asset('img/trash.png') }}" alt=""></a></button>
+        </div>
+        <button class="btn btn-primary" id="manage-products">Управление продуктами</button>
     </div>
 
     <x-modal-window id="{{'update-invoice-'.$invoice->id}}">
@@ -173,6 +177,13 @@
                     alert('There was some error performing the AJAX call!');
                 },
             });
+        });
+    </script>
+    <script type="text/javascript">
+        $('#manage-products').on('click', function (e) {
+            @if($invoice->type->id == \App\Enums\TypeEnums::INCOMING)
+            location.href = "{{route('manage.incoming.products', $invoice->id)}}";
+            @endif
         });
     </script>
 @endsection

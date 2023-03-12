@@ -2,10 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Dto\ProductToInvoiceDto;
+use App\Dto\ProductHasInvoiceDto;
 use App\Models\ProductHasInvoices;
 use App\Repositories\Interfaces\ProductHasInvoicesRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 
 /**
@@ -23,6 +24,11 @@ class ProductHasInvoicesRepository implements ProductHasInvoicesRepositoryInterf
         return ProductHasInvoices::where('invoice_id', $id)->get();
     }
 
+    public function getByInvoicePaginate(int $id, int $count): LengthAwarePaginator
+    {
+        return ProductHasInvoices::where('invoice_id', $id)->with('product')->paginate($count);
+    }
+
     /**
      * @param int $id
      * @return bool
@@ -35,10 +41,10 @@ class ProductHasInvoicesRepository implements ProductHasInvoicesRepositoryInterf
     }
 
     /**
-     * @param ProductToInvoiceDto $dto
+     * @param ProductHasInvoiceDto $dto
      * @return null|ProductHasInvoices
      */
-    public function save(ProductToInvoiceDto $dto): ?ProductHasInvoices
+    public function save(ProductHasInvoiceDto $dto): ?ProductHasInvoices
     {
         return ProductHasInvoices::create([
             'count' => $dto->getCount(),
@@ -51,10 +57,10 @@ class ProductHasInvoicesRepository implements ProductHasInvoicesRepositoryInterf
 
     /**
      * @param int $id
-     * @param ProductToInvoiceDto $dto
+     * @param ProductHasInvoiceDto $dto
      * @return bool
      */
-    public function update(int $id, ProductToInvoiceDto $dto): bool
+    public function update(int $id, ProductHasInvoiceDto $dto): bool
     {
         $product = ProductHasInvoices::findOrFail($id);
 
