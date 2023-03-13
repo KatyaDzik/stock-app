@@ -3,32 +3,42 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProductRequest;
-use App\Services\ProductService;
+use App\Http\Requests\InvoiceRequest;
+use App\Http\Requests\InvoiceUpdateRequest;
+use App\Services\InvoiceService;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class ProductController
+ * Class InvoiceController
  * @package App\Http\Controllers
  */
-class ProductController extends Controller
+class InvoiceController extends Controller
 {
-    private ProductService $service;
+    private InvoiceService $service;
 
     /**
-     * @param ProductService $service
+     * @param InvoiceService $service
      */
-    public function __construct(ProductService $service)
+    public function __construct(InvoiceService $service)
     {
         $this->service = $service;
     }
 
     /**
-     * @param ProductRequest $request
      * @return JsonResponse
-     * @throws \Exception
      */
-    public function store(ProductRequest $request): JsonResponse
+    public function getAll(): JsonResponse
+    {
+        $invoices = $this->service->getAll();
+
+        return response()->json(compact('invoices'));
+    }
+
+    /**
+     * @param InvoiceRequest $request
+     * @return JsonResponse
+     */
+    public function store(InvoiceRequest $request): JsonResponse
     {
         $this->service->create($request->validated());
 
@@ -38,22 +48,20 @@ class ProductController extends Controller
     /**
      * @param int $id
      * @return JsonResponse
-     * @throws \Exception
      */
     public function show(int $id): JsonResponse
     {
-        $product = $this->service->read($id);
+        $invoice = $this->service->read($id);
 
-        return response()->json($product);
+        return response()->json($invoice);
     }
 
     /**
      * @param int $id
-     * @param ProductRequest $request
+     * @param InvoiceUpdateRequest $request
      * @return JsonResponse
-     * @throws \Exception
      */
-    public function update(int $id, ProductRequest $request): JsonResponse
+    public function update(int $id, InvoiceUpdateRequest $request): JsonResponse
     {
         $this->service->update($id, $request->validated());
 
@@ -63,22 +71,11 @@ class ProductController extends Controller
     /**
      * @param int $id
      * @return JsonResponse
-     * @throws \Exception
      */
     public function destroy(int $id): JsonResponse
     {
         $this->service->delete($id);
 
         return response()->json(['message' => 'deleted successfully']);
-    }
-
-    /**
-     * @return JsonResponse
-     */
-    public function getAll(): JsonResponse
-    {
-        $products = $this->service->getAll();
-
-        return response()->json(compact('products'));
     }
 }

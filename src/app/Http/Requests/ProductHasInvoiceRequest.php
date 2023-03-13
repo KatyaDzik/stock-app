@@ -28,7 +28,6 @@ class ProductHasInvoiceRequest extends FormRequest
             'nds' => ['required', 'numeric'],
             'price' => ['required', 'numeric'],
             'product_id' => ['required', 'exists:products,id'],
-            'invoice_id' => ['required', 'exists:invoices,id']
         ];
     }
 }

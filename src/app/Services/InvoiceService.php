@@ -16,6 +16,7 @@ use App\Repositories\CustomerRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\ProviderRepository;
 use App\Repositories\ReceiptOfProductsRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
@@ -42,6 +43,14 @@ class InvoiceService
     public function getAllPaginate(int $count): LengthAwarePaginator
     {
         return $this->repository->getAllPaginate($count);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAll(): Collection
+    {
+        return $this->repository->getAll();
     }
 
     /**

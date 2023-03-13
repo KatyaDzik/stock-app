@@ -100,19 +100,19 @@ class ProductHasInvoicesService
      * @param array $data
      * @return void
      */
-    public function updateIncomingProducts(int $id, array $data): void
+    public function updateIncomingProducts(int $invoice, int $product, array $data): void
     {
-        $product_has_invoice = $this->repository->getById($id);
+        $product_has_invoice = $this->repository->getById($product);
 
         $dto = new ProductHasInvoiceDto(
             $data['count'],
             $data['price'],
             $data['nds'],
             $product_has_invoice->product_id,
-            $product_has_invoice->invoice_id
+            $invoice
         );
 
-        $this->update($id, $dto);
+        $this->update($product, $dto);
     }
 
     /**

@@ -6,7 +6,6 @@ use App\Dto\ProductHasInvoiceDto;
 use App\Http\Requests\ProductHasInvoiceRequest;
 use App\Services\ProductHasInvoicesService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 

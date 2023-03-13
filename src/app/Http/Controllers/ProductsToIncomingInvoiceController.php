@@ -6,7 +6,6 @@ use App\Dto\ProductHasInvoiceDto;
 use App\Http\Requests\ProductHasInvoiceRequest;
 use App\Http\Requests\ProductHasInvoiceUpdateRequest;
 use App\Services\ProductHasInvoicesService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 
 /**
@@ -27,11 +26,11 @@ class ProductsToIncomingInvoiceController extends Controller
 
     /**
      * @param int $id
-     * @return JsonResponse
+     * @return void
      */
-    public function destroy(int $id): void
+    public function destroy(int $invoice, int $product): void
     {
-        $this->service->delete($id);
+        $this->service->delete($product);
     }
 
     /**
@@ -49,14 +48,14 @@ class ProductsToIncomingInvoiceController extends Controller
      * @param ProductHasInvoiceRequest $request
      * @return void
      */
-    public function store(ProductHasInvoiceRequest $request): void
+    public function store(int $invoice, ProductHasInvoiceRequest $request): void
     {
         $data = new ProductHasInvoiceDto(
             $request->input('count'),
             $request->input('price'),
             $request->input('nds'),
             $request->input('product_id'),
-            $request->input('invoice_id'),
+            $invoice
         );
 
         $this->service->saveIncomingProducts($data);
@@ -70,6 +69,6 @@ class ProductsToIncomingInvoiceController extends Controller
      */
     public function update(int $invoice, int $product_id, ProductHasInvoiceUpdateRequest $request): void
     {
-        $this->service->updateIncomingProducts($product_id, $request->validated());
+        $this->service->updateIncomingProducts($invoice, $product_id, $request->validated());
     }
 }
