@@ -68,11 +68,11 @@ class ProductHasInvoiceDto
     }
 
     /**
-     * @param int $product_id
+     * @param int $count
      * @return void
      */
-    public function setProduct(int $product_id): void
+    public function setCount(int $count): void
     {
-        $this->product_id = $product_id;
+        $this->count = $count;
     }
 }

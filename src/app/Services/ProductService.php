@@ -47,7 +47,8 @@ class ProductService implements ProductServiceInterface
                 $provider = $provider_repository->save(new ProviderDto($data['provider'], auth()->user()->id));
             }
 
-            ProductValidationService::isExistProductNameAtProvider($data['name'], $provider->id);
+            $validator = new ProductValidationService();
+            $validator->isExistProductNameAtProvider($data['name'], $provider->id);
 
             try {
                 $this->repository->save(new ProductDto($data['name'], $data['category_id'], $provider->id,
@@ -79,7 +80,8 @@ class ProductService implements ProductServiceInterface
     public function update(int $id, array $data): void
     {
         $product = $this->repository->getById($id);
-        ProductValidationService::isExistProductNameAtProvider($data['name'], $product->provider_id);
+        $validator = new ProductValidationService();
+        $validator->isExistProductNameAtProvider($data['name'], $product->provider_id);
 
         try {
             $this->repository->update($id,

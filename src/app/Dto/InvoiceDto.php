@@ -101,6 +101,9 @@ class InvoiceDto
         return $this->status_id;
     }
 
+    /**
+     * @return bool
+     */
     public function getClosed(): bool
     {
         return $this->closed;

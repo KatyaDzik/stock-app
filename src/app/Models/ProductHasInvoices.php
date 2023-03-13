@@ -9,6 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * Class ProductHasInvoices
  * @package App\Models
+ *
+ * @property int $count
+ * @property float $price
+ * @property int $nds
+ * @property int $product_id
+ * @property int $invoice_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  */
 class ProductHasInvoices extends Model
 {

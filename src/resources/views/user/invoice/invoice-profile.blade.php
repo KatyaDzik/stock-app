@@ -8,6 +8,7 @@
     <div style="display: flex; justify-content: space-between">
         <div style="display: flex; padding: 0px 20px 20px 0;">
             <h2 style="margin: 0; margin-right: 20px;">Накладная №{{$invoice->number}}</h2>
+            @if($invoice->closed === 0)
             <button class="btn-icon btn-open-modal" value="{{'update-invoice-'.$invoice->id}}"><img width="20px"
                                                                                                     src="{{ URL::asset('img/pen.png') }}"
                                                                                                     alt=""></button>
@@ -15,8 +16,11 @@
                     style="margin-left: 20px">
                 <a><img
                         width="20px" src="{{ URL::asset('img/trash.png') }}" alt=""></a></button>
+            @endif
         </div>
+        @if($invoice->closed === 0)
         <button class="btn btn-primary" id="manage-products">Управление продуктами</button>
+        @endif
     </div>
 
     <x-modal-window id="{{'update-invoice-'.$invoice->id}}">
@@ -43,6 +47,13 @@
                             <label for="to">Адрес грузополучателя</label><span class="required-field"> *</span>
                             <input type="text" class="form-control" id="to" name="to"
                                    value="{{$invoice->to}}" {{$invoice->status->id === 1 ? '' : 'readonly'}}>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox"  {{$invoice->closed == 1 ? 'checked' : ''}} id="checkClosed">
+                            <label class="form-check-label" for="CheckClosed">
+                                Закрыть накладную
+                            </label>
                         </div>
                     </div>
 
@@ -118,6 +129,35 @@
             </div>
         </section>
     </div>
+    <div>
+        @php($products = \App\Repositories\ProductHasInvoicesRepository::getByInvoicePaginate($invoice->id, 5))
+        <hr/>
+        <h4>Товары</h4>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">наименование</th>
+                <th scope="col">количество</th>
+                <th scope="col">цена</th>
+                <th scope="col">ндс %</th>
+                <th scope="col">сумма</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($products as $el)
+                <tr>
+                    <td>{{$el->product->name}}</td>
+                    <td>{{$el->count}}</td>
+                    <td>{{round($el->price, 3)}}</td>
+                    <td>{{$el->nds}}</td>
+                    <td>{{($el->nds*$el->price)/100+$el->price}}</td>
+            @endforeach
+            </tbody>
+        </table>
+        <div>
+            {{$products->links()}}
+        </div>
+    </div>
 
     <script type="text/javascript">
         $('#UpdateInvoice').on('submit', function (e) {
@@ -128,6 +168,8 @@
             let to = $('#to').val();
             let customer_id = $("#customers option:selected").val();
             let status_id = $("#statuses option:selected").val();
+            let closed = $("#checkClosed").is(":checked") == true ? 1 : 0;
+            console.log(typeof(closed))
             $.ajax({
                 url: "{{route('invoices.update', $invoice->id)}}",
                 type: "PUT",
@@ -139,6 +181,7 @@
                     to: to,
                     customer_id: customer_id,
                     status_id: status_id,
+                    closed: closed
                 },
                 success: function (response) {
                     location.reload();

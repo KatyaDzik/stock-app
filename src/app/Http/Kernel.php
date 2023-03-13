@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AbilityToChangeInvoiceMiddleware;
+use App\Http\Middleware\OpenInvoiceMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Support\Facades\App;
 
@@ -76,6 +78,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'access.invoices' => \App\Http\Middleware\AccessToInvoiceMiddleware::class,
         'access.products' => \App\Http\Middleware\AccessToProductMiddleware::class,
-        'access.stocks' => \App\Http\Middleware\AccessToStockMiddleware::class
+        'access.stocks' => \App\Http\Middleware\AccessToStockMiddleware::class,
+        'open.invoice' => \App\Http\Middleware\OpenInvoiceMiddleware::class,
+        'invoice.status.packed' => \App\Http\Middleware\AbilityToChangeInvoiceMiddleware::class
     ];
 }

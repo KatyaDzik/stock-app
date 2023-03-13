@@ -35,6 +35,7 @@ class InvoiceUpdateRequest extends FormRequest
             'to' => ['required', 'min:5', new ChangeFieldRule($invoice->to, $invoice->status_id)],
             'status_id' => ['required', 'exists:statuses,id', new ChangeStatusRule($this->route('invoice'))],
             'customer_id' => ['required', 'exists:customers,id', new ChangeFieldRule($invoice->customer_id, $invoice->status_id)],
+            'closed' => ['required', 'boolean']
         ];
     }
 }

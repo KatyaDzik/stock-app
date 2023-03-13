@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductHasInvoiceRequest extends FormRequest
+class ProductHasInvoiceUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,8 +27,6 @@ class ProductHasInvoiceRequest extends FormRequest
             'count' => ['required', 'numeric'],
             'nds' => ['required', 'numeric'],
             'price' => ['required', 'numeric'],
-            'product_id' => ['required', 'exists:products,id'],
-            'invoice_id' => ['required', 'exists:invoices,id']
         ];
     }
 }

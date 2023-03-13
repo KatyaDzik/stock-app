@@ -65,9 +65,20 @@ class InvoiceService
                 $customer = $customer_repository->save(new CustomerDto($data['customer'], auth()->user()->id));
             }
 
+            $dto = new InvoiceDto(
+                $data['number'],
+                $data['date'],
+                $data['from'],
+                $data['to'],
+                $provider->id,
+                $customer->id,
+                $data['type_id'],
+                StatusEnums::PACKED,
+                false
+            );
+
             try {
-                $this->repository->save(new InvoiceDto($data['number'], $data['date'], $data['from'], $data['to'],
-                    $provider->id, $customer->id, $data['type_id'], StatusEnums::PACKED));
+                $this->repository->save($dto);
             } catch (\Exception $exception) {
                 throw new ModelNotCreatedException();
             }
@@ -98,14 +109,24 @@ class InvoiceService
             $invoice = $this->repository->getById($id);
 
             if ($invoice->type_id === TypeEnums::INCOMING && $data['status_id'] === StatusEnums::DELIVERED) {
-                $repository = new ReceiptOfProductsRepository();
-                $service = new ReceiptOfProductsService($repository);
+                $service = app()->make(ReceiptOfProductsService::class);
                 $service->createFromInvoice($id);
             }
+
+            $dto = new InvoiceDto(
+                $data['number'],
+                $data['date'],
+                $data['from'],
+                $data['to'],
+                $invoice->provider_id,
+                $data['customer_id'],
+                $invoice->type_id,
+                $data['status_id'],
+                $data['closed']
+            );
+
             try {
-                $this->repository->update($id,
-                    new InvoiceDto($data['number'], $data['date'], $data['from'], $data['to'], $invoice->provider_id,
-                        $data['customer_id'], $invoice->type_id, $data['status_id']));
+                $this->repository->update($id, $dto);
             } catch (\Exception $e) {
                 throw new ModelNotUpdatedException();
             }

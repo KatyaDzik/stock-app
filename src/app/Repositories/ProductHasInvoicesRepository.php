@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Dto\ProductHasInvoiceDto;
+use App\Models\Product;
 use App\Models\ProductHasInvoices;
 use App\Repositories\Interfaces\ProductHasInvoicesRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -24,6 +25,20 @@ class ProductHasInvoicesRepository implements ProductHasInvoicesRepositoryInterf
         return ProductHasInvoices::where('invoice_id', $id)->get();
     }
 
+    /**
+     * @param int $id
+     * @return ProductHasInvoices
+     */
+    public function getById(int $id): ProductHasInvoices
+    {
+        return ProductHasInvoices::findOrFail($id);
+    }
+
+    /**
+     * @param int $id
+     * @param int $count
+     * @return LengthAwarePaginator
+     */
     public function getByInvoicePaginate(int $id, int $count): LengthAwarePaginator
     {
         return ProductHasInvoices::where('invoice_id', $id)->with('product')->paginate($count);
@@ -77,19 +92,18 @@ class ProductHasInvoicesRepository implements ProductHasInvoicesRepositoryInterf
      * @param int $id
      * @return mixed
      */
-    public function getByProduct(int $id): Collection
+    public function getByProduct(int $id): ?ProductHasInvoices
     {
-        return ProductHasInvoices::where('product_id', $id)->get();
+        return ProductHasInvoices::where('product_id', $id)->first();
     }
 
     /**
-     * @param string $sku
+     * @param int $invoice_id
+     * @param int $product_id
      * @return mixed
      */
-    public function getByProductSku(string $sku)
+    public function getByProductAndInvoice(int $invoice_id, int $product_id)
     {
-        return ProductHasInvoices::whereHas('product', function ($q) use ($sku) {
-            $q->where('sku', $sku);
-        })->get();
+        return ProductHasInvoices::where('invoice_id', $invoice_id)->where('product_id', $product_id)->first();
     }
 }

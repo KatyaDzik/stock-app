@@ -63,7 +63,7 @@
             @canany(['actions on products', 'admin-panel'])
                 <li class="nav-item">
                     <a href="{{route('products')}}"
-                       class="{{ str_contains(request()->url(), 'products') ? 'my-active-nav-link' : '' }} nav-link text-white">
+                       class="{{ (str_contains(request()->url(), 'products') && !str_contains(request()->url(), 'invoices')) ? 'my-active-nav-link' : '' }} nav-link text-white">
                         Продукты
                     </a>
                 </li>

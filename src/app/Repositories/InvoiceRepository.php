@@ -55,7 +55,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
      */
     public function getAllPaginate(int $count): LengthAwarePaginator
     {
-        return Invoice::paginate($count);
+        return Invoice::with('status')->with('provider')->with('customer')->with('type')->paginate($count);
     }
 
     /**
@@ -73,6 +73,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
             'customer_id' => $dto->getCustomer(),
             'status_id' => $dto->getStatus(),
             'type_id' => $dto->getType(),
+            'closed' => $dto->getClosed()
         ]);
     }
 
@@ -94,6 +95,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
             'customer_id' => $dto->getCustomer(),
             'status_id' => $dto->getStatus(),
             'type_id' => $dto->getType(),
+            'closed' => $dto->getClosed()
         ]);
     }
 

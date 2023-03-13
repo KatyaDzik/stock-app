@@ -41,22 +41,15 @@ Route::middleware(['auth:web', 'access.products'])->group(function () {
 
 Route::middleware(['auth:web', 'access.invoices'])->group(function () {
     Route::get('/invoices', [\App\Http\Controllers\InvoiceController::class, 'getAll'])->name('invoices');
-    Route::resource('/invoices', \App\Http\Controllers\InvoiceController::class)->only([
-        'store',
-        'show',
-        'update',
-        'destroy'
-    ]);
-    Route::get('/invoices/{id}/manage/incoming/products', [\App\Http\Controllers\ProductHasInvoicesController::class, 'getAllIncomingProducts'])->name('manage.incoming.products');
-    Route::post('/invoices/{id}/manage/incoming/products', [\App\Http\Controllers\ProductHasInvoicesController::class, 'storeIncomingProducts'])->name('manage.incoming.products.store');
+    Route::get('invoices/{invoice}', [\App\Http\Controllers\InvoiceController::class, 'show'])->name('invoices.show');
+    Route::post('invoices', [\App\Http\Controllers\InvoiceController::class, 'store'])->name('invoices.store');
+    Route::put('invoices/{invoice}', [\App\Http\Controllers\InvoiceController::class, 'update'])->name('invoices.update')->middleware('open.invoice');
+    Route::delete('invoices/{invoice}', [\App\Http\Controllers\InvoiceController::class, 'destroy'])->name('invoices.destroy')->middleware('open.invoice');
 
-
-//    Route::delete('/product/has/invoices/{id}',
-//        [\App\Http\Controllers\ProductHasInvoicesController::class, 'destroy'])->name('delete.product.from.invoice');
-//    Route::post('/product/has/invoices/{id}',
-//        [\App\Http\Controllers\ProductHasInvoicesController::class, 'store'])->name('add.products.to.invoice');
-//    Route::put('/product/has/invoices/{id}',
-//        [\App\Http\Controllers\ProductHasInvoicesController::class, 'update'])->name('update.product.from.invoice');
+    Route::get('/invoices/{invoice}/manage/incoming/products', [\App\Http\Controllers\ProductsToIncomingInvoiceController::class, 'getAll'])->name('manage.incoming.products')->middleware(['invoice.status.packed', 'open.invoice']);
+    Route::post('/invoices/{invoice}/manage/incoming/products', [\App\Http\Controllers\ProductsToIncomingInvoiceController::class, 'store'])->name('manage.incoming.products.store')->middleware(['invoice.status.packed', 'open.invoice']);
+    Route::put('/invoices/{invoice}/manage/incoming/products/{product_id}', [\App\Http\Controllers\ProductsToIncomingInvoiceController::class, 'update'])->name('manage.incoming.products.update')->middleware(['invoice.status.packed', 'open.invoice']);
+    Route::delete('/invoices/{invoice}/manage/incoming/products/{product_id}', [\App\Http\Controllers\ProductsToIncomingInvoiceController::class, 'destroy'])->name('manage.incoming.products.destroy')->middleware(['invoice.status.packed', 'open.invoice']);
 });
 
 Route::middleware(['auth:web', 'access.stocks'])->group(function () {
@@ -97,7 +90,7 @@ Route::middleware(['auth:web', 'access.stocks'])->group(function () {
 
 
 Route::get('/create', function () {
-    dd(\App\Models\Product::where('provider_id', 2)->where('name', 'эд вуд')->first());
+    dd(\App\Models\ProductHasInvoices::where('invoice_id', 1)->where('product_id', 5)->first());
 });
 
 
